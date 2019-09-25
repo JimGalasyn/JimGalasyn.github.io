@@ -5,3 +5,4 @@ tagline: test
 ---
 
 Lorem ipsum
+[link to test](test)
