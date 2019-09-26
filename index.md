@@ -5,7 +5,7 @@ tagline: figuring out GitHub Pages
 description: Minimal GitHub Pages implementation
 ---
 
-Variable test: {{ page.food }}
+Variable test: {{ site.food }}
 
 - [Overview](pages/overview.html)
 - [Making an independent website](pages/independent_site.html)
