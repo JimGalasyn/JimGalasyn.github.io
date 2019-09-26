@@ -25,12 +25,36 @@ markdown: kramdown
 
 # Test custom variables
 food: Pizza
-cp: Confluent Platform
-ak: Apache Kafka
-crest: REST Proxy
-kafka-version: 1.1.0
-release: 5.3.1
+
+# Product-related string tokens
+ak-tm: Apache Kafka®
+ak: Kafka
+c3-short: Control Center
 c3: Confluent Control Center
+ccloud: Confluent Cloud
+ccloud-ent: Confluent Cloud Enterprise
+confluent-cli: Confluent CLI
+cp: Confluent Platform
+crest-long: Confluent REST Proxy
+crest: REST Proxy
+cs: Confluent Server
+kcat: kafkacat
+kconnect-long: Kafka Connect
+kconnect: Connect
+ksql-ui: preview KSQL web interface
+kstreams: Kafka Streams
+sr-ccloud: Confluent Cloud Schema Registry
+sr-long: Confluent Schema Registry
+sr: Schema Registry
+streaming: Event Streaming Platform
+zk-full: Apache ZooKeeper™
+zk: ZooKeeper
+
+# Build-related string tokens
+kafka_version: 2.3
+release: 5.3.1
+release_post_branch: 5.3.1-post
+version: 5.3
 
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
