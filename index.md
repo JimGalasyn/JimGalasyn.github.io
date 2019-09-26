@@ -11,7 +11,7 @@ Confluent tokens:
 {{ site.cp }}
 {{ site.ak }}
 {{ site.crest }}
-{{ site.kafka-version }}
+{{ site.kafka_version }}
 {{ site.release }}
 {{ site.c3 }}
 
