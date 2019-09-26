@@ -1,10 +1,11 @@
 ---
 layout: page
-title: JIm Galasyn's test site
-tagline: test site
+title: Jim Galasyn's test site
+tagline: figuring out GitHub Pages
 description: Minimal GitHub Pages implementation
 ---
 
+Variable test: {{ page.food }}
 
 - [Overview](pages/overview.html)
 - [Making an independent website](pages/independent_site.html)
@@ -14,5 +15,4 @@ description: Minimal GitHub Pages implementation
 - [Testing your site locally](pages/local_test.html)
 - [Resources](pages/resources.html)
 
-
-The source for this minimal tutorial is [on github](https://github.com/kbroman/simple_site).
+Adapted from [Karl Broman's simple_site tutorial](https://github.com/kbroman/simple_site).
