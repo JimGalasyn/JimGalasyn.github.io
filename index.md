@@ -7,6 +7,14 @@ description: Minimal GitHub Pages implementation
 
 Variable test: {{ site.food }}
 
+Confluent tokens:
+{{ site.cp }}
+{{ site.ak }}
+{{ site.crest }}
+{{ site.kafka-version }}
+{{ site.release }}
+{{ site.c3 }}
+
 - [Overview](pages/overview.html)
 - [Making an independent website](pages/independent_site.html)
 - [Making a personal site](pages/user_site.html)

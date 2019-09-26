@@ -25,6 +25,13 @@ markdown: kramdown
 
 # Test custom variables
 food: Pizza
+cp: Confluent Platform
+ak: Apache Kafka
+crest: REST Proxy
+kafka-version: 1.1.0
+release: 5.3.1
+c3: Confluent Control Center
+
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
