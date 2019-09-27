@@ -53,6 +53,7 @@ zk: ZooKeeper
 # Build-related string tokens
 kafka_version: 2.3
 kafka_release: 5.3.1-ccs
+ksqldb_version: 0.6.0
 release: 5.3.1
 release_post_branch: 5.3.1-post
 scala_version: 2.12
