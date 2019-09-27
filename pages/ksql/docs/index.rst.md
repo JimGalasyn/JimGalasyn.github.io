@@ -1,3 +1,10 @@
+---
+layout: page
+title: KSQL home page
+tagline: KSQL event streaming
+description: Intro to KSQL
+---
+
 KSQL {#ksql_home}
 ====
 
