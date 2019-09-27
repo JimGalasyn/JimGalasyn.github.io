@@ -1,3 +1,5 @@
+---
+---
 Check the Health of a KSQL Server {#check-ksql-server-health}
 =================================
 

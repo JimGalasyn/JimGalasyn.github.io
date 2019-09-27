@@ -1,3 +1,5 @@
+---
+---
 Create a KSQL Table {#create-a-table-with-ksql}
 ===================
 

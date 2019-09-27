@@ -1,3 +1,5 @@
+---
+---
 KSQL Custom Function Reference (UDF and UDAF) {#ksql-udfs}
 =============================================
 

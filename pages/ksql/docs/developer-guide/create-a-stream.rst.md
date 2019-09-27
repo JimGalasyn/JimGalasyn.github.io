@@ -1,3 +1,5 @@
+---
+---
 Create a KSQL Stream {#create-a-stream-with-ksql}
 ====================
 

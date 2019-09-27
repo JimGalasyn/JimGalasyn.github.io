@@ -1,3 +1,5 @@
+---
+---
 Join Event Streams with KSQL {#join-streams-and-tables}
 ============================
 

@@ -1,3 +1,5 @@
+---
+---
 Time and Windows in KSQL {#time-and-windows-in-ksql-queries}
 ========================
 

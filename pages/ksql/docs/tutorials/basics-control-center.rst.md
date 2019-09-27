@@ -1,3 +1,5 @@
+---
+---
 ::: {#ksql_quickstart-c3}
 Writing Streaming Queries Against {{ site.ak-tm }} Using KSQL and {{
 site.c3 }}

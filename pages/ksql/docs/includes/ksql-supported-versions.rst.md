@@ -1,3 +1,5 @@
+---
+---
 You can use KSQL with compatible {{ site.cp }} and {{ site.ak-tm }}
 versions.
 

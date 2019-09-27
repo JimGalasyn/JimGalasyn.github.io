@@ -1,3 +1,5 @@
+---
+---
 Configuring KSQL Server {#ksql-server-config}
 =======================
 

@@ -1,3 +1,5 @@
+---
+---
 KSQL REST API Reference {#ksql-rest-api}
 =======================
 

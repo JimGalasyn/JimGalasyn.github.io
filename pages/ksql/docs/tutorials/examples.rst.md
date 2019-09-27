@@ -1,3 +1,5 @@
+---
+---
 KSQL Examples {#ksql_examples}
 =============
 

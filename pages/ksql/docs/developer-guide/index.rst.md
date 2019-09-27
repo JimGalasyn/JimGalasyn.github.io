@@ -1,3 +1,5 @@
+---
+---
 KSQL Developer Guide {#ksql-dev-guide}
 ====================
 

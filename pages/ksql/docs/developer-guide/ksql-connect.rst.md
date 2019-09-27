@@ -1,3 +1,5 @@
+---
+---
 KSQL-Connect Integration {#ksql-connect}
 ========================
 

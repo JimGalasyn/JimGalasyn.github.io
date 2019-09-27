@@ -1,3 +1,5 @@
+---
+---
 KSQL Syntax Reference {#ksql_syntax_reference}
 =====================
 

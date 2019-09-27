@@ -1,3 +1,5 @@
+---
+---
 Aggregate Streaming Data With KSQL
 ==================================
 

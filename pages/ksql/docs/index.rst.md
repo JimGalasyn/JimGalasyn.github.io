@@ -1,8 +1,10 @@
 ---
 ---
+KSQL {#ksql_home}
+====
 
 What Is KSQL?
-=============
+-------------
 
 KSQL is the streaming SQL engine for {{ site.ak-tm }}. It provides an
 easy-to-use yet powerful interactive SQL interface for stream processing
@@ -13,7 +15,7 @@ data filtering, transformations, aggregations, joins, windowing, and
 sessionization.
 
 What Can I Do With KSQL?
-========================
+------------------------
 
 Streaming ETL
 
@@ -52,7 +54,7 @@ Customer 360-view
     continuously incorporated in real-time.
 
 What Are the Components?
-========================
+------------------------
 
 ![](img/ksql-architecture-and-components.png){.align-center
 width="13.33333in" height="7.5in"}
@@ -81,7 +83,7 @@ KSQL servers, clients, queries, and applications run outside of Kafka
 brokers, in separate JVM instances, or in separate clusters entirely.
 
 KSQL Resources
-==============
+--------------
 
 -   The [Stream Processing
     Cookbook](https://www.confluent.io/product/ksql/stream-processing-cookbook)
@@ -93,13 +95,13 @@ KSQL Resources
     KSQL?](https://www.youtube.com/embed/euz0isNG1SQ) on YouTube.
 
 Supported Versions and Interoperability
-=======================================
+---------------------------------------
 
 ::: {#ksql-supported-versions}
 :::
 
 KSQL Documentation
-==================
+------------------
 
 ::: {.toctree}
 quickstart installation/index concepts/index developer-guide/index

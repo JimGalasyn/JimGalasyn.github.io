@@ -1,3 +1,5 @@
+---
+---
 KSQL Serialization {#ksql_serialization}
 ==================
 

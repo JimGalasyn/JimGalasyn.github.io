@@ -1,3 +1,5 @@
+---
+---
 Clickstream Data Analysis Pipeline Using KSQL (Docker) {#ksql_clickstream-docker}
 ======================================================
 

@@ -1,3 +1,5 @@
+---
+---
 ::: {#ksql_quickstart-local}
 Writing Streaming Queries Against {{ site.ak-tm }} Using KSQL (Local)
 ============================================================

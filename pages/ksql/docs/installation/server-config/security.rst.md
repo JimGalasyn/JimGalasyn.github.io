@@ -1,3 +1,5 @@
+---
+---
 Configuring Security for KSQL {#ksql-security}
 =============================
 

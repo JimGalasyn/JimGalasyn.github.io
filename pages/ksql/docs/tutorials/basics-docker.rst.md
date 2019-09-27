@@ -1,3 +1,5 @@
+---
+---
 ::: {#ksql_quickstart-docker}
 Writing Streaming Queries Against {{ site.ak-tm }} Using KSQL (Docker)
 =============================================================

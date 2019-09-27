@@ -1,3 +1,5 @@
+---
+---
 Installing KSQL[]{#ksql_supported_versions} {#install_overview}
 ===========================================
 

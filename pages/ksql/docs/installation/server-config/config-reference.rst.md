@@ -1,3 +1,5 @@
+---
+---
 KSQL Configuration Parameter Reference {#ksql-param-reference}
 ======================================
 

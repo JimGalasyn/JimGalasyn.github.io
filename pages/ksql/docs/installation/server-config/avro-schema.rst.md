@@ -1,3 +1,5 @@
+---
+---
 ::: {#install_ksql-avro-schema}
 Configuring Avro and {{ site.sr }} for KSQL
 \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#

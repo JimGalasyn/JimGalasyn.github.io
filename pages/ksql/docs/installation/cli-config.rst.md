@@ -1,3 +1,5 @@
+---
+---
 Configuring KSQL CLI {#install_cli-config}
 ====================
 

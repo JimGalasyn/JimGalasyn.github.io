@@ -1,3 +1,5 @@
+---
+---
 ::: {#integrate-ksql-with-confluent-control-center}
 Integrate KSQL with {{ site.c3 }}
 \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
