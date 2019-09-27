@@ -1,3 +1,5 @@
+---
+---
 Troubleshoot KSQL issues {#troubleshoot-ksql}
 ========================
 

@@ -1,3 +1,5 @@
+---
+---
 KSQL Capacity Planning {#ksql_capacity_planning}
 ======================
 

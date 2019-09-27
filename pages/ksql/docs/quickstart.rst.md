@@ -1,3 +1,5 @@
+---
+---
 KSQL Quick Start {#ksql_quickstart}
 ================
 

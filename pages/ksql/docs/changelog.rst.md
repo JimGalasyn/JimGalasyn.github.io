@@ -1,3 +1,5 @@
+---
+---
 KSQL Changelog {#ksql_changelog}
 ==============
 
