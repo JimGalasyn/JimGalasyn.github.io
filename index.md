@@ -5,6 +5,8 @@ tagline: figuring out GitHub Pages
 description: Minimal GitHub Pages implementation
 ---
 
+[KSQL Index](pages/ksql/docs/index.html)
+
 Variable test: {{ site.food }}
 
 Confluent tokens:
