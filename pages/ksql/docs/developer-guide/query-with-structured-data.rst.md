@@ -26,15 +26,18 @@ To set up KSQL, follow the first three steps in
 [ksql\_quickstart-docker]{role="ref"}, or if you have git and Docker
 installed already, run the following commands:
 
-::: {.codewithvars}
-bash
+``` {.sourceCode .bash}
+# Step 1
+git clone https://github.com/confluentinc/ksql.git
+cd ksql
 
-\# Step 1 git clone <https://github.com/confluentinc/ksql.git> cd ksql
+# Step 2
+git checkout {{ site.release }}-post
 
-\# Step 2 git checkout {{ site.release }}-post
-
-\# Step 3 cd docs/tutorials/ docker-compose up -d
-:::
+# Step 3
+cd docs/tutorials/
+docker-compose up -d
+```
 
 After all of the Docker images are pulled, confirm that the KSQL and
 Kafka containers are running:
@@ -108,12 +111,11 @@ Create a Stream With Structured Data
 
 Start the KSQL CLI:
 
-::: {.codewithvars}
-bash
-
-docker run \--network tutorials\_default \--rm \--interactive \--tty
-confluentinc/cp-ksql-cli:{{ site.release }} <http://ksql-server:8088>
-:::
+``` {.sourceCode .bash}
+docker run --network tutorials_default --rm --interactive --tty \
+    confluentinc/cp-ksql-cli:{{ site.release }} \
+    http://ksql-server:8088
+```
 
 In the KSQL CLI, ensure that `raw-topic` is available:
 

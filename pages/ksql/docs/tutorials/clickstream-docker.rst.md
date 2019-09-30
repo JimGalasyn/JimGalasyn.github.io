@@ -9,11 +9,9 @@ the clickstream analysis tutorial from a Docker container.
 -   If you are using Linux as your host, for the Elasticsearch container
     to start successfully you must first run:
 
-::: {.codewithvars}
-bash
-
-sudo sysctl -w vm.max\_map\_count=262144
-:::
+``` {.sourceCode .bash}
+sudo sysctl -w vm.max_map_count=262144
+```
 
 Download and run the tutorial
 -----------------------------
@@ -32,11 +30,9 @@ minutes to download.
 
 2.  Switch to the correct {{ site.cp }} release branch:
 
-    ::: {.codewithvars}
-    bash
-
-    git checkout {{ site.release\_post\_branch }}
-    :::
+    ``` {.sourceCode .bash}
+    git checkout {{ site.release_post_branch }}
+    ```
 
 3.  Navigate to the correct directory and launch the tutorial in Docker.
     Depending on your network speed, this may take up to 5-10 minutes.
@@ -104,12 +100,12 @@ codes, and users.
 
 1.  View the status codes data
 
-    ::: {.codewithvars}
-    bash
-
-    docker-compose exec kafkacat kafkacat -b kafka:29092 -C -c 3 -K: -f
-    \'nKey : %ktValue: %s\' -t clickstream\_codes
-    :::
+    ``` {.sourceCode .bash}
+    docker-compose exec kafkacat \
+        kafkacat -b kafka:29092 -C -c 3 -K: \
+        -f '\nKey  : %k\tValue: %s' \
+        -t clickstream_codes
+    ```
 
     Your output should resemble:
 
@@ -121,12 +117,12 @@ codes, and users.
 
 2.  View the user data
 
-    ::: {.codewithvars}
-    bash
-
-    docker-compose exec kafkacat kafkacat -b kafka:29092 -C -c 3 -K: -f
-    \'nKey : %ktValue: %s\' -t clickstream\_users
-    :::
+    ``` {.sourceCode .bash}
+    docker-compose exec kafkacat \
+      kafkacat -b kafka:29092 -C -c 3 -K: \
+          -f '\nKey  : %k\tValue: %s' \
+          -t clickstream_users
+    ```
 
     Your output should resemble:
 
@@ -146,6 +142,29 @@ Load the Streaming Data to KSQL
     ```
 
     You should now be in the KSQL CLI.
+
+    ``` {.sourceCode .text}
+    ===========================================
+    =        _  __ _____  ____  _             =
+    =       | |/ // ____|/ __ \| |            =
+    =       | ' /| (___ | |  | | |            =
+    =       |  <  \___ \| |  | | |            =
+    =       | . \ ____) | |__| | |____        =
+    =       |_|\_\_____/ \___\_\______|       =
+    =                                         =
+    =  Streaming SQL Engine for Apache Kafka® =
+    ===========================================
+    ```
+
+    > Copyright 2018 Confluent Inc.
+    >
+    > CLI v{{ site.release }}, Server v{{ site.release }} located at
+    > <http://localhost:8088>
+    >
+    > Having trouble? Type \'help\' (case-insensitive) for a rundown of
+    > how things work!
+    >
+    > ksql\>
 
 2.  Load the
     [clickstream-schema.sql](https://github.com/confluentinc/examples/blob/master/clickstream/ksql/ksql-clickstream-demo/demo/clickstream-schema.sql)

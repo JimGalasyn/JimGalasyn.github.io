@@ -91,15 +91,14 @@ and the `KSQL_KSQL_QUERIES_FILE` setting. For more information, see
 Use the following command to run a headless, standalone KSQL Server
 instance in a container:
 
-::: {.codewithvars}
-bash
-
-docker run -d -v /path/on/host:/path/in/container/ -e
-KSQL\_BOOTSTRAP\_SERVERS=localhost:9092 -e
-KSQL\_KSQL\_SERVICE\_ID=ksql\_[standalone\_1]() -e
-KSQL\_KSQL\_QUERIES\_FILE=/path/in/container/queries.sql
-confluentinc/cp-ksql-server:{{ site.release }}
-:::
+``` {.sourceCode .bash}
+docker run -d \
+  -v /path/on/host:/path/in/container/ \
+  -e KSQL_BOOTSTRAP_SERVERS=localhost:9092 \
+  -e KSQL_KSQL_SERVICE_ID=ksql_standalone_1_ \
+  -e KSQL_KSQL_QUERIES_FILE=/path/in/container/queries.sql \
+  confluentinc/cp-ksql-server:{{ site.release }}
+```
 
 `KSQL_BOOTSTRAP_SERVERS`
 
@@ -127,18 +126,16 @@ interceptor classes, see
 Use the following command to run a headless, standalone KSQL Server with
 the specified interceptor classes in a container:
 
-::: {.codewithvars}
-bash
-
-docker run -d -v /path/on/host:/path/in/container/ -e
-KSQL\_BOOTSTRAP\_SERVERS=localhost:9092 -e
-KSQL\_KSQL\_SERVICE\_ID=ksql\_[standalone\_2]() -e
-KSQL\_PRODUCER\_INTERCEPTOR\_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor
--e
-KSQL\_CONSUMER\_INTERCEPTOR\_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor
--e KSQL\_KSQL\_QUERIES\_FILE=/path/in/container/queries.sql
-confluentinc/cp-ksql-server:{{ site.release }}
-:::
+``` {.sourceCode .bash}
+docker run -d \
+  -v /path/on/host:/path/in/container/ \
+  -e KSQL_BOOTSTRAP_SERVERS=localhost:9092 \
+  -e KSQL_KSQL_SERVICE_ID=ksql_standalone_2_ \
+  -e KSQL_PRODUCER_INTERCEPTOR_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor \
+  -e KSQL_CONSUMER_INTERCEPTOR_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor \
+  -e KSQL_KSQL_QUERIES_FILE=/path/in/container/queries.sql \
+  confluentinc/cp-ksql-server:{{ site.release }}
+```
 
 `KSQL_BOOTSTRAP_SERVERS`
 
@@ -169,15 +166,14 @@ Develop your KSQL applications by using the KSQL command-line interface
 
 Run a KSQL Server that enables manual interaction by using the KSQL CLI:
 
-::: {.codewithvars}
-bash
-
-docker run -d -p 127.0.0.1:8088:8088 -e
-KSQL\_BOOTSTRAP\_SERVERS=localhost:9092 -e
-KSQL\_LISTENERS=http://0.0.0.0:8088/ -e
-KSQL\_KSQL\_SERVICE\_ID=ksql\_[service\_2]()
-confluentinc/cp-ksql-server:{{ site.release }}
-:::
+``` {.sourceCode .bash}
+docker run -d \
+  -p 127.0.0.1:8088:8088 \
+  -e KSQL_BOOTSTRAP_SERVERS=localhost:9092 \
+  -e KSQL_LISTENERS=http://0.0.0.0:8088/ \
+  -e KSQL_KSQL_SERVICE_ID=ksql_service_2_ \
+  confluentinc/cp-ksql-server:{{ site.release }}
+```
 
 `KSQL_BOOTSTRAP_SERVERS`
 
@@ -202,18 +198,16 @@ connect to the KSQL server running in Docker.
 Run a KSQL Server with interceptors that enables manual interaction by
 using the KSQL CLI:
 
-::: {.codewithvars}
-bash
-
-docker run -d -p 127.0.0.1:8088:8088 -e
-KSQL\_BOOTSTRAP\_SERVERS=localhost:9092 -e
-KSQL\_LISTENERS=http://0.0.0.0:8088/ -e
-KSQL\_KSQL\_SERVICE\_ID=ksql\_[service\_3]() -e
-KSQL\_PRODUCER\_INTERCEPTOR\_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor
--e
-KSQL\_CONSUMER\_INTERCEPTOR\_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor
-confluentinc/cp-ksql-server:{{ site.release }}
-:::
+``` {.sourceCode .bash}
+docker run -d \
+  -p 127.0.0.1:8088:8088 \
+  -e KSQL_BOOTSTRAP_SERVERS=localhost:9092 \
+  -e KSQL_LISTENERS=http://0.0.0.0:8088/ \
+  -e KSQL_KSQL_SERVICE_ID=ksql_service_3_ \
+  -e KSQL_PRODUCER_INTERCEPTOR_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor \
+  -e KSQL_CONSUMER_INTERCEPTOR_CLASSES=io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor \
+  confluentinc/cp-ksql-server:{{ site.release }}
+```
 
 `KSQL_BOOTSTRAP_SERVERS`
 
@@ -254,19 +248,19 @@ the container environment how KSQL Server connects with a Kafka cluster.
 
 Run a KSQL Server that uses a secure connection to a Kafka cluster:
 
-::: {.codewithvars}
-bash
-
-docker run -d -p 127.0.0.1:8088:8088 -e
-KSQL\_BOOTSTRAP\_SERVERS=REMOVED\_SERVER1:9092,REMOVED\_SERVER2:9093,REMOVED\_SERVER3:9094
--e KSQL\_LISTENERS=http://0.0.0.0:8088/ -e
-KSQL\_KSQL\_SERVICE\_ID=default\_ -e KSQL\_KSQL\_SINK\_REPLICAS=3 -e
-KSQL\_KSQL\_STREAMS\_REPLICATION\_FACTOR=3 -e
-KSQL\_SECURITY\_PROTOCOL=SASL\_SSL -e KSQL\_SASL\_MECHANISM=PLAIN -e
-KSQL\_SASL\_JAAS\_CONFIG=\"org.apache.kafka.common.security.plain.PlainLoginModule
-required username=\"\<username\>\" password=\"\<strong-password\>\";\"
-confluentinc/cp-ksql-server:{{ site.release }}
-:::
+``` {.sourceCode .bash}
+docker run -d \
+  -p 127.0.0.1:8088:8088 \
+  -e KSQL_BOOTSTRAP_SERVERS=REMOVED_SERVER1:9092,REMOVED_SERVER2:9093,REMOVED_SERVER3:9094 \
+  -e KSQL_LISTENERS=http://0.0.0.0:8088/ \
+  -e KSQL_KSQL_SERVICE_ID=default_ \
+  -e KSQL_KSQL_SINK_REPLICAS=3 \
+  -e KSQL_KSQL_STREAMS_REPLICATION_FACTOR=3 \
+  -e KSQL_SECURITY_PROTOCOL=SASL_SSL \
+  -e KSQL_SASL_MECHANISM=PLAIN \
+  -e KSQL_SASL_JAAS_CONFIG="org.apache.kafka.common.security.plain.PlainLoginModule required username=\"<username>\" password=\"<strong-password>\";" \
+  confluentinc/cp-ksql-server:{{ site.release }}
+```
 
 `KSQL_BOOTSTRAP_SERVERS`
 
@@ -320,15 +314,13 @@ with `-D`. For example, to set the KSQL service identifier in the
 Run a KSQL Server with a configuration that\'s defined by Java
 properties:
 
-::: {.codewithvars}
-bash
-
-docker run -d -v /path/on/host:/path/in/container/ -e
-KSQL\_BOOTSTRAP\_SERVERS=localhost:9092 -e
-KSQL\_OPTS=\"-Dksql.service.id=ksql\_[service\_3]()
--Dksql.queries.file=/path/in/container/queries.sql\"
-confluentinc/cp-ksql-server:{{ site.release }}
-:::
+``` {.sourceCode .bash}
+docker run -d \
+  -v /path/on/host:/path/in/container/ \
+  -e KSQL_BOOTSTRAP_SERVERS=localhost:9092 \
+  -e KSQL_OPTS="-Dksql.service.id=ksql_service_3_  -Dksql.queries.file=/path/in/container/queries.sql" \
+  confluentinc/cp-ksql-server:{{ site.release }}
+```
 
 `KSQL_BOOTSTRAP_SERVERS`
 
@@ -392,18 +384,16 @@ connect to a KSQL Server.
 Run a KSQL CLI instance in a container and connect to a KSQL Server
 that\'s running in a different container.
 
-::: {.codewithvars}
-bash
+``` {.sourceCode .bash}
+# Run KSQL Server.
+docker run -d -p 10.0.0.11:8088:8088 \
+  -e KSQL_BOOTSTRAP_SERVERS=localhost:9092 \
+  -e KSQL_OPTS="-Dksql.service.id=ksql_service_3_  -Dlisteners=http://0.0.0.0:8088/" \  
+  confluentinc/cp-ksql-server:{{ site.release }}
 
-\# Run KSQL Server. docker run -d -p 10.0.0.11:8088:8088 -e
-KSQL\_BOOTSTRAP\_SERVERS=localhost:9092 -e
-KSQL\_OPTS=\"-Dksql.service.id=ksql\_[service\_3]()
--Dlisteners=http://0.0.0.0:8088/\" confluentinc/cp-ksql-server:{{
-site.release }}
-
-\# Connect the KSQL CLI to the server. docker run -it
-confluentinc/cp-ksql-cli <http://10.0.0.11:8088>
-:::
+# Connect the KSQL CLI to the server.
+docker run -it confluentinc/cp-ksql-cli http://10.0.0.11:8088 
+```
 
 `KSQL_BOOTSTRAP_SERVERS`
 
@@ -423,44 +413,39 @@ dockerized KSQL CLI.
 Set up a a KSQL CLI instance by using a configuration file, and run it
 in a container:
 
-::: {.codewithvars}
-bash
+``` {.sourceCode .bash}
+# Assume KSQL Server is running.
+# Ensure that the configuration file exists.
+ls /path/on/host/ksql-cli.properties
 
-\# Assume KSQL Server is running. \# Ensure that the configuration file
-exists. ls /path/on/host/ksql-cli.properties
-
-docker run -it -v /path/on/host/:/path/in/container
-confluentinc/cp-ksql-cli:{{ site.release }} <http://10.0.0.11:8088>
-\--config-file /path/in/container/ksql-cli.properties
-:::
+docker run -it \
+  -v /path/on/host/:/path/in/container  \
+  confluentinc/cp-ksql-cli:{{ site.release }} http://10.0.0.11:8088 \
+  --config-file /path/in/container/ksql-cli.properties
+```
 
 ### Connect KSQL CLI to a KSQL Server Running on Another Host (Cloud) {#ksql-cli-connect-to-hosted-server}
 
 Run a KSQL CLI instance in a container and connect to a remote KSQL
 Server host:
 
-::: {.codewithvars}
-bash
-
-docker run -it confluentinc/cp-ksql-cli:{{ site.release }}
-<http://ec2-blah.us-blah.compute.amazonaws.com:8080>
-:::
+``` {.sourceCode .bash}
+docker run -it confluentinc/cp-ksql-cli:{{ site.release }} \
+  http://ec2-blah.us-blah.compute.amazonaws.com:8080
+```
 
 Your output should resemble:
 
-::: {.codewithvars}
-text
+``` {.sourceCode .text}
+... 
+Copyright 2017-2018 Confluent Inc.
 
-\... Copyright 2017-2018 Confluent Inc.
+CLI v{{ site.release }}, Server v{{ site.release }} located at http://ec2-blah.us-blah.compute.amazonaws.com:8080
 
-CLI v{{ site.release }}, Server v{{ site.release }} located at
-<http://ec2-blah.us-blah.compute.amazonaws.com:8080>
+Having trouble? Type 'help' (case-insensitive) for a rundown of how things work!
 
-Having trouble? Type \'help\' (case-insensitive) for a rundown of how
-things work!
-
-ksql\>
-:::
+ksql>
+```
 
 Interact With KSQL Running in a Docker Container {#ksql-interact-with-containerized-ksql}
 ------------------------------------------------
@@ -536,14 +521,10 @@ overlay a change on an existing image.
 Discover the default command that the container runs when it launches,
 which is either `Entrypoint` or `Cmd`:
 
-::: {.codewithvars}
-bash
-
-docker inspect \--format=\'{{.Config.Entrypoint}}\'
-confluentinc/cp-ksql-server:{{ site.release }} docker inspect
-\--format=\'{{.Config.Cmd}}\' confluentinc/cp-ksql-server:{{
-site.release }}
-:::
+``` {.sourceCode .bash}
+docker inspect --format='{{.Config.Entrypoint}}' confluentinc/cp-ksql-server:{{ site.release }}
+docker inspect --format='{{.Config.Cmd}}' confluentinc/cp-ksql-server:{{ site.release }}
+```
 
 Your output should resemble:
 
@@ -559,19 +540,23 @@ the main process starts. Use the `command` option to override the
 default command. In the following example, the `command` option creates
 a directory and downloads a tar archive into it.
 
-::: {.codewithvars}
-yaml
-
+``` {.sourceCode .yaml}
 ksql-server:
-
-:   image: confluentinc/cp-ksql-server:{{ site.release }} depends\_on: -
-    kafka environment: KSQL\_BOOTSTRAP\_SERVERS:
-    \<bootstrap-server-ip\>:29092 KSQL\_LISTENERS: <http://0.0.0.0:8088>
-    command: - /bin/bash - -c - \| mkdir -p /data/maxmind cd
-    /data/maxmind curl
-    <https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz>
-    \| tar xz /etc/confluent/docker/run
-:::
+  image: confluentinc/cp-ksql-server:{{ site.release }}
+  depends_on:
+    - kafka
+  environment:
+    KSQL_BOOTSTRAP_SERVERS: <bootstrap-server-ip>:29092
+    KSQL_LISTENERS: http://0.0.0.0:8088
+  command: 
+    - /bin/bash
+    - -c 
+    - |
+      mkdir -p /data/maxmind
+      cd /data/maxmind
+      curl https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz | tar xz 
+      /etc/confluent/docker/run
+```
 
 After the `mkdir`, `cd`, `curl`, and `tar` commands run, the
 `/etc/confluent/docker/run` command starts the `cp-ksql-server` image
@@ -595,23 +580,28 @@ approach, compared with running KSQL Server headless with a queries
 file, is that you can still interact with KSQL, and you can pre-build
 the environment to a desired state.
 
-::: {.codewithvars}
-yaml
-
+``` {.sourceCode .yaml}
 ksql-cli:
-
-:   image: confluentinc/cp-ksql-cli:{{ site.release }} depends\_on: -
-    ksql-server volumes: - \$PWD/ksql-scripts/:/data/scripts/
-    entrypoint: - /bin/bash - -c - \| echo -e \"nn⏳ Waiting for KSQL to
-    be available before launching CLIn\" while \[ \$\$(curl -s -o
-    /dev/null -w %{http\_code} <http://>\<ksql-server-ip\>:8088/) -eq
-    000 \] do echo -e \$\$(date) \"KSQL Server HTTP state: \" \$\$(curl
-    -s -o /dev/null -w %{http\_code} <http://>\<ksql-server-ip\>:8088/)
-    \" (waiting for 200)\" sleep 5 done echo -e \"nn-\> Running KSQL
-    commandsn\" cat /data/scripts/my-ksql-script.sql \<(echo \'EXIT\')\|
-    ksql <http://>\<ksql-server-ip\>:8088 echo -e \"nn-\> Sleeping...n\"
-    sleep infinity
-:::
+  image: confluentinc/cp-ksql-cli:{{ site.release }}
+  depends_on:
+    - ksql-server
+  volumes:
+    - $PWD/ksql-scripts/:/data/scripts/
+  entrypoint: 
+    - /bin/bash
+    - -c
+    - |
+      echo -e "\n\n⏳ Waiting for KSQL to be available before launching CLI\n"
+      while [ $$(curl -s -o /dev/null -w %{http_code} http://<ksql-server-ip>:8088/) -eq 000 ]
+      do 
+        echo -e $$(date) "KSQL Server HTTP state: " $$(curl -s -o /dev/null -w %{http_code} http://<ksql-server-ip>:8088/) " (waiting for 200)"
+        sleep 5
+      done
+      echo -e "\n\n-> Running KSQL commands\n"
+      cat /data/scripts/my-ksql-script.sql <(echo 'EXIT')| ksql http://<ksql-server-ip>:8088
+      echo -e "\n\n-> Sleeping…\n"
+      sleep infinity
+```
 
 Next Steps
 ----------

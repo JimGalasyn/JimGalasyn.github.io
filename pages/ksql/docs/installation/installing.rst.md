@@ -18,8 +18,9 @@ Docker support
     Starting with {{ site.cp }} 4.1.2, Confluent maintains images at
     [Docker Hub](https://hub.docker.com/r/confluentinc/cp-ksql-server/).
     To start KSQL containers in configurations like \"KSQL Headless
-    Server\" and \"Interactive Server with Interceptors\", see
-    [Docker Configuration Parameters \<config\_reference\>]{role="ref"}.
+    Server\" and \"Interactive Server with Interceptors\", see [Docker
+    Configuration
+    Parameters](https://docs.confluent.io/current/installation/docker/config-reference.html).
 
 Watch the [screencast of Installing and Running
 KSQL](https://www.youtube.com/embed/icwHpPm-TCA) on YouTube.
@@ -27,14 +28,27 @@ KSQL](https://www.youtube.com/embed/icwHpPm-TCA) on YouTube.
 Supported Versions and Interoperability
 ---------------------------------------
 
+You can use KSQL with compatible {{ site.cp }} and {{ site.ak-tm }}
+versions.
+
++-----------------------+--------------------+
+| KSQL version          | {{ site.version }} |
++=======================+====================+
+| Apache Kafka version  | 0.11.0 and later   |
++-----------------------+--------------------+
+| {{ site.cp }} version | > 3.3.0 and later  |
++-----------------------+--------------------+
+
 Installation Instructions {#install_ksql-server}
 -------------------------
 
-Follow the instructions at [ce-quickstart]{role="ref"}.
+Follow the instructions at [Confluent Platform Quick Start
+(Local)](https://docs.confluent.io/current/quickstart/ce-quickstart.html).
 
-Also, you can install KSQL individually by using the
-[confluent-ksql package \<confluent-ksql-package\>]{role="ref"}. For
-more information, see [available\_packages]{role="ref"}.
+Also, you can install KSQL individually by using the [confluent-ksql
+package](https://docs.confluent.io/current/installation/available_packages.html#confluent-ksql).
+For more information, see [Confluent Platform
+Packages](https://docs.confluent.io/current/installation/available_packages.html).
 
 Scale Your KSQL Server Deployment
 ---------------------------------
@@ -140,7 +154,43 @@ the KSQL server.
 $ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql http://localhost:8088
 ```
 
+::: {.important}
+::: {.admonition-title}
+Important
+:::
+
+By default KSQL attempts to store its logs in a directory called `logs`
+that is relative to the location of the `ksql` executable. For example,
+if `ksql` is installed at `/usr/local/bin/ksql`, then it would attempt
+to store its logs in `/usr/local/logs`. If you are running `ksql` from
+the default {{ site.cp }} location, `<path-to-confluent>/bin`, you must
+override this default behavior by using the `LOG_DIR` variable.
+:::
+
 After KSQL is started, your terminal should resemble this.
+
+``` {.sourceCode .text}
+===========================================
+=        _  __ _____  ____  _             =
+=       | |/ // ____|/ __ \| |            =
+=       | ' /| (___ | |  | | |            =
+=       |  <  \___ \| |  | | |            =
+=       | . \ ____) | |__| | |____        =
+=       |_|\_\_____/ \___\_\______|       =
+=                                         =
+=  Streaming SQL Engine for Apache Kafka® =
+===========================================
+```
+
+> Copyright 2018 Confluent Inc.
+>
+> CLI v{{ site.release }}, Server v{{ site.release }} located at
+> <http://localhost:8088>
+>
+> Having trouble? Type \'help\' (case-insensitive) for a rundown of how
+> things work!
+>
+> ksql\>
 
 ::: {.tip}
 ::: {.admonition-title}
@@ -201,4 +251,5 @@ KSQL for {{ site.ccloud }}
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
 
 You can use KSQL with a Kafka cluster in {{ site.ccloud }}. For more
-information, see [install\_ksql-ccloud]{role="ref"}.
+information, see [Connecting KSQL to Confluent
+Cloud](https://docs.confluent.io/current/cloud/connect/ksql-cloud-config.html).

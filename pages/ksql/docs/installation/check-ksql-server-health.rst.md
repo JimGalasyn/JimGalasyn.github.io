@@ -19,13 +19,9 @@ ps -aux | grep ksql
 
 Your output should resemble:
 
-::: {.codewithvars}
-bash
-
-jim 2540 5.2 2.3 8923244 387388 tty2 Sl 07:48 0:33
-/usr/lib/jvm/java-8-oracle/bin/java -cp /home/jim/confluent-{{
-site.release }}/share/java/monitoring-interceptors/\* \...
-:::
+``` {.sourceCode .bash}
+jim       2540  5.2  2.3 8923244 387388 tty2   Sl   07:48   0:33 /usr/lib/jvm/java-8-oracle/bin/java -cp /home/jim/confluent-{{ site.release }}/share/java/monitoring-interceptors/* ...
+```
 
 If the process status of the JVM isn\'t `Sl` or `Ssl`, the KSQL server
 may be down.
@@ -58,23 +54,15 @@ curl -sX GET "http://localhost:8088/info"
 
 Your output should resemble:
 
-::: {.codewithvars}
-json
-
+``` {.sourceCode .json}
 {
-
-:   
-
-    \"KsqlServerInfo\":{
-
-    :   \"version\":\"{{ site.release }}\",
-        \"kafkaClusterId\":\"X5ZV2fjQR1u4zQDLlw62PQ\",
-        \"ksqlServiceId\":\"[default]()\"
-
+    "KsqlServerInfo":{
+        "version":"{{ site.release }}",
+        "kafkaClusterId":"X5ZV2fjQR1u4zQDLlw62PQ",
+        "ksqlServiceId":"default_"
     }
-
 }
-:::
+```
 
 ::: {.note}
 ::: {.admonition-title}

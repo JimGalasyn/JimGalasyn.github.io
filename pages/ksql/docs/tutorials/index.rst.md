@@ -16,6 +16,29 @@ streaming queries against messages in {{ site.ak-tm }}.
 
 ### Write Streaming Queries with the KSQL CLI
 
+``` {.sourceCode .text}
+===========================================
+=        _  __ _____  ____  _             =
+=       | |/ // ____|/ __ \| |            =
+=       | ' /| (___ | |  | | |            =
+=       |  <  \___ \| |  | | |            =
+=       | . \ ____) | |__| | |____        =
+=       |_|\_\_____/ \___\_\______|       =
+=                                         =
+=  Streaming SQL Engine for Apache Kafka® =
+===========================================
+```
+
+> Copyright 2018 Confluent Inc.
+>
+> CLI v{{ site.release }}, Server v{{ site.release }} located at
+> <http://localhost:8088>
+>
+> Having trouble? Type \'help\' (case-insensitive) for a rundown of how
+> things work!
+>
+> ksql\>
+
 Get started with the KSQL CLI:
 
 -   [ksql\_quickstart-docker]{role="ref"}
@@ -85,10 +108,10 @@ KSQL in a Kafka Streaming ETL
 -----------------------------
 
 To learn how to deploy a Kafka streaming ETL using KSQL for stream
-processing, you can run the
-[Confluent Platform demo\<cp-demo\>]{role="ref"}. All components in the
-{{ site.cp }} demo have encryption, authentication, and authorization
-configured end-to-end.
+processing, you can run the [Confluent Platform
+demo](https://docs.confluent.io/current/tutorials/cp-demo/docs/index.html).
+All components in the {{ site.cp }} demo have encryption,
+authentication, and authorization configured end-to-end.
 
 Level Up Your KSQL Videos
 -------------------------

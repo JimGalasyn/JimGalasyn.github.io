@@ -57,14 +57,16 @@ connectivity between KSQL and {{ site.c3-short }}.
     the hostnames and listener ports for the KSQL cluster specified by
     `<ksql-cluster-name>`. This setting specifies how {{ site.c3-short
     }} communicates with KSQL Server for regular HTTP requests. For more
-    information, see [controlcenter\_ksql\_settings]{role="ref"}.
+    information, see [Control Center Configuration
+    Reference](https://docs.confluent.io/current/control-center/installation/configuration.html#ksql-settings).
 -   If KSQL Server communicates over an internal DNS that is not
     externally resolvable or routeable, set the
     `confluent.controlcenter.ksql.<ksql-cluster-name>.advertised.url`
     property in the {{ site.c3-short }} configuration file. This setting
     specifies how the browser communicates with KSQL Server for
-    websocket requests. For more information, see
-    [controlcenter\_ksql\_settings]{role="ref"}.
+    websocket requests. For more information, see [Control Center
+    Configuration
+    Reference](https://docs.confluent.io/current/control-center/installation/configuration.html#ksql-settings).
 
 When KSQL Server and {{ site.c3 }} run on the same host, you can use the
 default configuration defined by {{ site.cp }} setup.
@@ -145,13 +147,10 @@ listed in the `confluent.controlcenter.ksql.<ksql-cluster-name>.url` and
 `confluent.controlcenter.ksql.<ksql-cluster-name>.advertised.url`
 configuration settings.
 
-::: {.codewithvars}
-bash
-
-curl <http://>\<hostname\>:8088/info
-{\"KsqlServerInfo\":{\"version\":\"{{ site.release
-}}\",\"kafkaClusterId\":\"\<ksql-cluster-name\>\",\"ksqlServiceId\":\"[default]()\"}}%
-:::
+``` {.sourceCode .bash}
+curl http://<hostname>:8088/info \
+{"KsqlServerInfo":{"version":"{{ site.release }}","kafkaClusterId":"<ksql-cluster-name>","ksqlServiceId":"default_"}}%
+```
 
 ::: {.note}
 ::: {.admonition-title}
@@ -200,5 +199,6 @@ connections. In the `ksql-server.properties` file, set
 Next Steps
 ----------
 
--   [install\_ksql-ccloud]{role="ref"}
+-   [Connecting KSQL to Confluent
+    Cloud](https://docs.confluent.io/current/cloud/connect/ksql-cloud-config.html)
 -   [ksql-security]{role="ref"}

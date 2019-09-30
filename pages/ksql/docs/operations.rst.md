@@ -10,8 +10,9 @@ Local Development and Testing with Confluent CLI
 ------------------------------------------------
 
 For development and testing purposes, you can use Confluent CLI to spin
-up services on a single host. For more information, see the
-[quickstart]{role="ref"}.
+up services on a single host. For more information, see the [Confluent
+Platform Quick
+Start](https://docs.confluent.io/current/quickstart/index.html).
 
 Installing and Configuring KSQL
 -------------------------------
@@ -83,8 +84,9 @@ num-idle-queries: 0.0
 messages-consumed-max: 103397.81191436431
 ```
 
-For more information about Kafka Streams metrics, see
-[streams\_monitoring]{role="ref"}.
+For more information about Kafka Streams metrics, see [Monitoring
+Streams
+Applications](https://docs.confluent.io/current/streams/monitoring.html).
 
 Capacity Planning
 -----------------

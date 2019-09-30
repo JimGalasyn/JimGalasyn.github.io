@@ -36,20 +36,18 @@ Learn More
         <iframe src="https://www.youtube.com/embed/illEpCOcCVg" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
     </div>
 
-::: {.codewithvars}
-text
-
-  --------------------------------------------
-  = \_ \_\_ \_\_\_\_\_ \_\_\_\_ \_ =
-  = \| / \_\_ \| \| =
-  = \| \' /\| (\_\_\_ \| \| \| \| \| =
-  = \| \< \_\_\_ \| \| \| \| \| =
-  = \| . \_\_\_\_) \| \| \|\_\_\_\_ =
-  = \_\_\_\_\_\_/ \_\_\_\_\_\_\_\_\_\_\| =
-  = =
-  = Streaming SQL Engine for Apache Kafka® =
-  --------------------------------------------
-:::
+``` {.sourceCode .text}
+===========================================
+=        _  __ _____  ____  _             =
+=       | |/ // ____|/ __ \| |            =
+=       | ' /| (___ | |  | | |            =
+=       |  <  \___ \| |  | | |            =
+=       | . \ ____) | |__| | |____        =
+=       |_|\_\_____/ \___\_\______|       =
+=                                         =
+=  Streaming SQL Engine for Apache Kafka® =
+===========================================
+```
 
 > Copyright 2018 Confluent Inc.
 >
@@ -105,6 +103,29 @@ $ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql
 ```
 
 After KSQL is started, your terminal should resemble this.
+
+``` {.sourceCode .text}
+===========================================
+=        _  __ _____  ____  _             =
+=       | |/ // ____|/ __ \| |            =
+=       | ' /| (___ | |  | | |            =
+=       |  <  \___ \| |  | | |            =
+=       | . \ ____) | |__| | |____        =
+=       |_|\_\_____/ \___\_\______|       =
+=                                         =
+=  Streaming SQL Engine for Apache Kafka® =
+===========================================
+```
+
+> Copyright 2018 Confluent Inc.
+>
+> CLI v{{ site.release }}, Server v{{ site.release }} located at
+> <http://localhost:8088>
+>
+> Having trouble? Type \'help\' (case-insensitive) for a rundown of how
+> things work!
+>
+> ksql\>
 
 Inspect Kafka Topics By Using SHOW and PRINT Statements
 =======================================================
@@ -354,12 +375,13 @@ the latest offset.
     > ==========================
 
 6.  Create a new persistent query that counts the pageviews for each
-    region and gender combination in a
-    [tumbling window \<windowing-tumbling\>]{role="ref"} of 30 seconds
-    when the count is greater than one. Results from this query are
-    written to the `PAGEVIEWS_REGIONS` Kafka topic in the Avro format.
-    KSQL will register the Avro schema with the configured {{ site.sr }}
-    when it writes the first message to the `PAGEVIEWS_REGIONS` topic.
+    region and gender combination in a [tumbling
+    window](https://docs.confluent.io/current/streams/developer-guide/dsl-api.html#tumbling-time-windows)
+    of 30 seconds when the count is greater than one. Results from this
+    query are written to the `PAGEVIEWS_REGIONS` Kafka topic in the Avro
+    format. KSQL will register the Avro schema with the configured {{
+    site.sr }} when it writes the first message to the
+    `PAGEVIEWS_REGIONS` topic.
 
     ``` {.sourceCode .sql}
     CREATE TABLE pageviews_regions
@@ -604,6 +626,21 @@ After both `CREATE STREAM` statements, your output should resemble:
 
 Query the data to confirm that it\'s present in the topics.
 
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
+
+Run the following to tell KSQL to read from the beginning of the topic:
+
+``` {.sourceCode .sql}
+SET 'auto.offset.reset' = 'earliest';
+```
+
+You can skip this if you have already run it within your current
+KSQL CLI session.
+:::
+
 For the `NEW_ORDERS` topic, run:
 
 ``` {.sourceCode .sql}
@@ -688,6 +725,21 @@ After both `CREATE TABLE` statements, your output should resemble:
 Check both tables that the message key (`ROWKEY`) matches the declared
 key (`WAREHOUSE_ID`) - the output should show that they are equal. If
 they are not, the join will not succeed or behave as expected.
+
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
+
+Run the following to tell KSQL to read from the beginning of the topic:
+
+``` {.sourceCode .sql}
+SET 'auto.offset.reset' = 'earliest';
+```
+
+You can skip this if you have already run it within your current
+KSQL CLI session.
+:::
 
 Inspect the WAREHOUSE\_LOCATION table:
 

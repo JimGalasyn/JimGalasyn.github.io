@@ -34,22 +34,17 @@ assign it in the KSQL Server configuration properties.
 Create the KSQL extensions directory,
 `<path-to-confluent>/etc/ksql/ext`:
 
-::: {.codewithvars}
-bash
-
+``` {.sourceCode .bash}
 mkdir confluent-{{ site.release }}/etc/ksql/ext
-:::
+```
 
 Edit the `ksql-server.properties` configuration file in
 `<path-to-confluent>/etc/ksql` to add the fully qualified path to the
 `ext` directory:
 
-::: {.codewithvars}
-text
-
-ksql.extension.dir=/home/my-home-dir/confluent-{{ site.release
-}}/etc/ksql/ext
-:::
+``` {.sourceCode .text}
+ksql.extension.dir=/home/my-home-dir/confluent-{{ site.release }}/etc/ksql/ext
+```
 
 ::: {.note}
 ::: {.admonition-title}
@@ -142,71 +137,91 @@ In the root directory for your custom UDF implementation, create the
 Project Object Model (POM) file for the Maven build, and name it
 `pom.xml`:
 
-::: {.codewithvars}
-xml
+``` {.sourceCode .xml}
+<?xml version="1.0" encoding="UTF-8"?>
 
-\<?xml version=\"1.0\" encoding=\"UTF-8\"?\>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-\<project xmlns=\"<http://maven.apache.org/POM/4.0.0>\"
+    <!-- Specify the package details for the custom UDF -->
+    <groupId>my.company.ksql.udfdemo</groupId>
+    <artifactId>ksql-udf-demo</artifactId>
+    <version>1.0</version>
 
-:   xmlns:xsi=\"<http://www.w3.org/2001/XMLSchema-instance>\"
-    xsi:schemaLocation=\"<http://maven.apache.org/POM/4.0.0>
-    <http://maven.apache.org/xsd/maven-4.0.0.xsd>\"\>
-    \<modelVersion\>4.0.0\</modelVersion\>
+    <!-- Specify the repository for Confluent dependencies -->
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>http://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
 
-    \<!\-- Specify the package details for the custom UDF \--\>
-    \<groupId\>my.company.ksql.udfdemo\</groupId\>
-    \<artifactId\>ksql-udf-demo\</artifactId\>
-    \<version\>1.0\</version\>
+    <!-- Specify build properties -->
+    <properties>
+        <exec.mainClass>my.company.ksql.udfdemo.thisisignored</exec.mainClass>
+        <java.version>1.8</java.version>
+        <kafka.version>{{ site.kafka_release }}</kafka.version>
+        <kafka.scala.version>{{ site.scala_version }}</kafka.scala.version>
+        <scala.version>${kafka.scala.version}.8</scala.version>
+        <confluent.version>{{ site.release }}</confluent.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-    \<!\-- Specify the repository for Confluent dependencies \--\>
-    \<repositories\> \<repository\> \<id\>confluent\</id\>
-    \<url\><http://packages.confluent.io/maven/>\</url\> \</repository\>
-    \</repositories\>
+    <!-- Specify the ksql-udf dependency -->
+    <dependencies>
+        <!-- KSQL dependency is needed to write your own UDF -->
+        <dependency>
+            <groupId>io.confluent.ksql</groupId>
+            <artifactId>ksql-udf</artifactId>
+            <version>${confluent.version}</version>
+        </dependency>
+    </dependencies>
 
-    \<!\-- Specify build properties \--\> \<properties\>
-    \<exec.mainClass\>my.company.ksql.udfdemo.thisisignored\</exec.mainClass\>
-    \<java.version\>1.8\</java.version\> \<kafka.version\>{{
-    site.kafka\_release }}\</kafka.version\> \<kafka.scala.version\>{{
-    site.scala\_version }}\</kafka.scala.version\>
-    \<scala.version\>\${kafka.scala.version}.8\</scala.version\>
-    \<confluent.version\>{{ site.release }}\</confluent.version\>
-    \<project.build.sourceEncoding\>UTF-8\</project.build.sourceEncoding\>
-    \</properties\>
+    <!-- Build boilerplate -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
 
-    \<!\-- Specify the ksql-udf dependency \--\> \<dependencies\> \<!\--
-    KSQL dependency is needed to write your own UDF \--\> \<dependency\>
-    \<groupId\>io.confluent.ksql\</groupId\>
-    \<artifactId\>ksql-udf\</artifactId\>
-    \<version\>\${confluent.version}\</version\> \</dependency\>
-    \</dependencies\>
-
-    \<!\-- Build boilerplate \--\> \<build\> \<plugins\> \<plugin\>
-    \<groupId\>org.apache.maven.plugins\</groupId\>
-    \<artifactId\>maven-compiler-plugin\</artifactId\>
-    \<version\>3.6.1\</version\> \<configuration\>
-    \<source\>\${java.version}\</source\>
-    \<target\>\${java.version}\</target\> \</configuration\> \</plugin\>
-
-    > \<!\-- Package all dependencies as one jar \--\> \<plugin\>
-    > \<groupId\>org.apache.maven.plugins\</groupId\>
-    > \<artifactId\>maven-assembly-plugin\</artifactId\>
-    > \<version\>2.5.2\</version\> \<configuration\> \<descriptorRefs\>
-    > \<descriptorRef\>jar-with-dependencies\</descriptorRef\>
-    > \</descriptorRefs\> \<archive\> \<manifest\>
-    > \<addClasspath\>true\</addClasspath\>
-    > \<mainClass\>\${exec.mainClass}\</mainClass\> \</manifest\>
-    > \</archive\> \</configuration\> \<executions\> \<execution\>
-    > \<id\>assemble-all\</id\> \<phase\>package\</phase\> \<goals\>
-    > \<goal\>single\</goal\> \</goals\> \</execution\> \</executions\>
-    > \</plugin\>
-
-    > \</plugins\>
-
-    \</build\>
-
-\</project\>
-:::
+            <!-- Package all dependencies as one jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${exec.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assemble-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
 
 ::: {.important}
 ::: {.admonition-title}
@@ -308,24 +323,26 @@ Inspect the details of the MULTIPLY function:
 
 Your output should resemble:
 
-::: {.codewithvars}
-text
+``` {.sourceCode .text}
+Name        : MULTIPLY
+Overview    : multiplies 2 numbers
+Type        : scalar
+Jar         : /home/my-home-dir/confluent-{{ site.release }}|/etc/ksql/ext/ksql-udf-demo-1.0-jar-with-dependencies.jar
+Variations  : 
 
-Name : MULTIPLY Overview : multiplies 2 numbers Type : scalar Jar :
-/home/my-home-dir/confluent-{{ site.release
-}}\|/etc/ksql/ext/ksql-udf-demo-1.0-jar-with-dependencies.jar Variations
-:
+    Variation   : MULTIPLY(BIGINT, BIGINT)
+    Returns     : BIGINT
+    Description : multiply two nullable BIGINTs. If either param is null, null is 
+                returned.
 
-> Variation : MULTIPLY(BIGINT, BIGINT) Returns : BIGINT Description :
-> multiply two nullable BIGINTs. If either param is null, null is
-> returned.
->
-> Variation : MULTIPLY(DOUBLE, DOUBLE) Returns : DOUBLE Description :
-> multiply two non-nullable DOUBLEs.
->
-> Variation : MULTIPLY(INT, INT) Returns : BIGINT Description : multiply
-> two non-nullable INTs.
-:::
+    Variation   : MULTIPLY(DOUBLE, DOUBLE)
+    Returns     : DOUBLE
+    Description : multiply two non-nullable DOUBLEs.
+
+    Variation   : MULTIPLY(INT, INT)
+    Returns     : BIGINT
+    Description : multiply two non-nullable INTs.
+```
 
 Use the MULTIPLY function in a query. If you follow the steps in
 [ksql\_quickstart-local]{role="ref"}, you can multiply the two BIGINT

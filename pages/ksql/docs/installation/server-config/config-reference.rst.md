@@ -406,7 +406,8 @@ a string of `key:value` pairs separated by commas. For example,
 :::
 
 You can access KSQL Server by using {{ site.c3 }}. For more information,
-see [controlcenter\_ksql\_settings]{role="ref"}.
+see [Control Center Configuration
+Reference](https://docs.confluent.io/current/control-center/installation/configuration.html#ksql-settings).
 
 ::: {#ksql-cloud-settings}
 {{ site.ccloud }} Settings \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--

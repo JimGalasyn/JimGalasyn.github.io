@@ -480,6 +480,18 @@ The WITH clause supports the following properties:
 For more information on timestamp formats, see
 [DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
 
+::: {.note}
+::: {.admonition-title}
+Note
+:::
+
+\- To use Avro, you must have {{ site.sr }} enabled and
+`ksql.schema.registry.url` must be set in the KSQL server configuration
+file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
+are not case sensitive in KSQL. This matches the KSQL column name
+behavior.
+:::
+
 Example:
 
 ``` {.sourceCode .sql}
@@ -617,6 +629,18 @@ The WITH clause supports the following properties:
 |              | literals, window size (a number) and window size unit |
 |              | (a time unit). For example: \'10 SECONDS\'.           |
 +--------------+-------------------------------------------------------+
+
+::: {.note}
+::: {.admonition-title}
+Note
+:::
+
+\- To use Avro, you must have {{ site.sr }} enabled and
+`ksql.schema.registry.url` must be set in the KSQL server configuration
+file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
+are not case sensitive in KSQL. This matches the KSQL column name
+behavior.
+:::
 
 Example:
 
@@ -772,6 +796,18 @@ The WITH clause for the result supports the following properties:
 Note
 :::
 
+\- To use Avro, you must have {{ site.sr }} enabled and
+`ksql.schema.registry.url` must be set in the KSQL server configuration
+file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
+are not case sensitive in KSQL. This matches the KSQL column name
+behavior.
+:::
+
+::: {.note}
+::: {.admonition-title}
+Note
+:::
+
 The `KEY` property is not supported -- use PARTITION BY instead.
 :::
 
@@ -907,6 +943,18 @@ The WITH clause supports the following properties:
 |             | or when the value schema has multiple fields, will     |
 |             | result in an error.                                    |
 +-------------+--------------------------------------------------------+
+
+::: {.note}
+::: {.admonition-title}
+Note
+:::
+
+\- To use Avro, you must have {{ site.sr }} enabled and
+`ksql.schema.registry.url` must be set in the KSQL server configuration
+file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
+are not case sensitive in KSQL. This matches the KSQL column name
+behavior.
+:::
 
 ### INSERT INTO
 

@@ -9,6 +9,21 @@ transformation, not only is every record that arrives on the source
 stream converted, but you can configure KSQL so that all previously
 existing records in the stream are converted.
 
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
+
+Run the following to tell KSQL to read from the beginning of the topic:
+
+``` {.sourceCode .sql}
+SET 'auto.offset.reset' = 'earliest';
+```
+
+You can skip this if you have already run it within your current
+KSQL CLI session.
+:::
+
 Transform a Stream By Using the WITH Clause
 -------------------------------------------
 

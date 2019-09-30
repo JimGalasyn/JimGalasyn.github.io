@@ -24,6 +24,49 @@ messages in {{ site.ak }}.
 -   Java: Minimum version 1.8. Install Oracle Java JRE or JDK \>= 1.8 on
     your local machine
 
+Create Topics and Produce Data
+==============================
+
+Create and produce data to the Kafka topics `pageviews` and `users`.
+These steps use the KSQL datagen that is included {{ site.cp }}.
+
+1.  Create the `pageviews` topic and produce data using the data
+    generator. The following example continuously generates data with a
+    value in DELIMITED format.
+
+    ``` {.sourceCode .bash}
+    $ <path-to-confluent>/bin/ksql-datagen quickstart=pageviews format=delimited topic=pageviews maxInterval=500
+    ```
+
+2.  Produce Kafka data to the `users` topic using the data generator.
+    The following example continuously generates data with a value in
+    JSON format.
+
+    ``` {.sourceCode .bash}
+    $ <path-to-confluent>/bin/ksql-datagen quickstart=users format=json topic=users maxInterval=100
+    ```
+
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
+
+You can also produce Kafka data using the `kafka-console-producer` CLI
+provided with {{ site.cp }}.
+:::
+
+Launch the KSQL CLI
+===================
+
+To launch the CLI, run the following command. It will route the CLI logs
+to the `./ksql_logs` directory, relative to your current directory. By
+default, the CLI will look for a KSQL Server running at
+`http://localhost:8088`.
+
+``` {.sourceCode .bash}
+$ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql
+```
+
 ::: {#ksql_quickstart-c3-inspect-topics}
 Inspect Topics By Using {{ site.c3-short }}
 \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
@@ -96,7 +139,7 @@ Inspect Topics By Using KSQL in {{ site.c3-short }}
     end the query.
 
 Create a Stream and Table
-=========================
+-------------------------
 
 To write streaming queries against the `pageviews` and `users` topics,
 register the the topics with KSQL as a stream and a table. You can use
@@ -108,8 +151,7 @@ using the following schema.
 
 ![](../img/ksql-quickstart-schemas.jpg){.align-center}
 
-Create a Stream in the KSQL Editor
-----------------------------------
+### Create a Stream in the KSQL Editor
 
 You can create a stream or table by using the CREATE STREAM and CREATE
 TABLE statements in KSQL Editor, just like you use them in the KSQL CLI.
@@ -176,8 +218,7 @@ stream or a table.
 5.  The query continues until you end it explicitly. Click **Stop** to
     end the query.
 
-Write Persistent Queries
-------------------------
+### Write Persistent Queries
 
 With the `pageviews` topic registered as a stream, and the `users` topic
 registered as a table, you can write streaming queries that run until
@@ -206,8 +247,7 @@ you end them with the TERMINATE statement.
 3.  Click **Explain** to see the schema and query properties for the
     persistent query.
 
-Monitor Persistent Queries
---------------------------
+### Monitor Persistent Queries
 
 You can monitor your persistent queries visually by using {{ site.c3 }}.
 
@@ -232,8 +272,7 @@ You can monitor your persistent queries visually by using {{ site.c3 }}.
 
     ![](../img/c3-ksql-consumer-lag.png){.align-center}
 
-Query Properties
-----------------
+### Query Properties
 
 You can assign properties in the KSQL Editor before you run your
 queries.
@@ -271,8 +310,7 @@ queries.
     The graph is at 100 percent, because all of the records were
     consumed when the `pageviews_female` stream started.
 
-View streams and tables
------------------------
+### View streams and tables
 
 You can see all of your persistent queries, streams, and tables in a
 single, unified view.
@@ -285,8 +323,7 @@ single, unified view.
 
     ![](../img/c3-ksql-streams-and-tables-pane.png){.align-center}
 
-Download selected records
--------------------------
+### Download selected records
 
 You can download records that you select in the query results window as
 a JSON file.
@@ -303,6 +340,6 @@ a JSON file.
     ![](../img/c3-ksql-download-records.png){.align-center}
 
 Next Steps
-==========
+----------
 
 -   [ksql\_clickstream-docker]{role="ref"}
