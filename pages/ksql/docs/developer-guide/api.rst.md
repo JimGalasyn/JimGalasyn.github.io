@@ -93,22 +93,7 @@ curl -sX GET "http://localhost:8088/info" | jq '.'
 
 Your output should resemble:
 
-::: {.codewithvars}
-bash
-
-{
-
-:   
-
-    \"KsqlServerInfo\": {
-
-    :   \"version\": \"{{ site.release }}\", \"kafkaClusterId\":
-        \"j3tOi6E\_RtO\_TMH3gBmK7A\", \"ksqlServiceId\": \"[default]()\"
-
-    }
-
-}
-:::
+`` `bash     {      "KsqlServerInfo": {        "version": "{{ site.release }}",        "kafkaClusterId": "j3tOi6E_RtO_TMH3gBmK7A",        "ksqlServiceId": "default_"      }    } ``\`
 
 Run a KSQL Statement
 --------------------
