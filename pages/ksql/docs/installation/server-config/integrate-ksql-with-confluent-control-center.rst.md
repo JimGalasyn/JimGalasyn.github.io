@@ -13,7 +13,7 @@ integrated with {{ site.c3-short }} by default, and you can configure {{
 site.c3-short }} to interact with other KSQL Server instances that run
 on separate hosts.
 
-![Screenshot of the KSQL Create Stream interface in Confluent Control Center.](../../../../images/ksql-interface-create-stream.png){.align-center
+![Screenshot of the KSQL Create Stream interface in Confluent Control Center.](../../img/ksql-interface-create-stream.png){.align-center
 width="600px"}
 
 Configuration Settings for KSQL and {{ site.c3-short }}
