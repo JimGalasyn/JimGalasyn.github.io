@@ -58,9 +58,9 @@ more appropriate choice. For example, implementing a finite state
 machine that is driven by streams of data is easier to achieve in a
 programming language such as Java or Scala than in SQL. In Kafka Streams
 you can also choose between the
-[DSL \<streams\_developer-guide\_dsl\>]{role="ref"} (a functional
-programming API) and the
-[Processor API \<streams\_developer-guide\_processor-api\>]{role="ref"}
+[DSL](https://docs.confluent.io/current/streams/developer-guide/dsl-api.html)
+(a functional programming API) and the [Processor
+API](https://docs.confluent.io/current/streams/developer-guide/processor-api.html)
 (an imperative programming API), and even combine the two.
 
 As with many technologies, each has its sweet-spot based on technical
@@ -132,8 +132,8 @@ command:
 sudo systemctl stop confluent-ksql
 ```
 
-For more information on shutting down {{ site.cp }}, see
-[installation-overview]{role="ref"}.
+For more information on shutting down {{ site.cp }}, see [Install and
+Upgrade](https://docs.confluent.io/current/installation/index.html).
 
 How do I configure the target Kafka cluster?
 --------------------------------------------
@@ -231,8 +231,9 @@ Will KSQL work with Confluent Cloud?
 ------------------------------------
 
 Yes. Running KSQL against an Apache Kafka cluster running in the cloud
-is pretty straight forward. For more information, see
-[install\_ksql-ccloud]{role="ref"}.
+is pretty straight forward. For more information, see [Connecting KSQL
+to Confluent
+Cloud](https://docs.confluent.io/current/cloud/connect/ksql-cloud-config.html).
 
 Will KSQL work with a Apache Kafka cluster secured using Kafka ACLs?
 --------------------------------------------------------------------

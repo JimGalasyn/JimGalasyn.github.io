@@ -21,7 +21,8 @@ There are two ways to deploy the KSQL-Connect integration:
     `ksql.connect.url` property in your KSQL server configuration file.
     The default value for this is `localhost:8083`.
 2.  **Embedded**: KSQL can double as a {{ site.kconnect }} server and
-    will run a [connect\_userguide\_distributed\_config]{role="ref"}
+    will run a [Distributed
+    Mode](https://docs.confluent.io/current/connect/userguide.html#distributed-mode)
     cluster co-located on the KSQL server instance. To do this, supply a
     connect properties configuration file to the server and specify this
     file in the `ksql.connect.worker.config` property.
@@ -50,11 +51,12 @@ types, KSQL currently supports a few connectors more natively by
 providing templates to ease creation and custom code to explore topics
 created by these connectors into KSQL:
 
--   [connect\_jdbc]{role="ref"}: since the JDBC connector does not
-    automatically populate the key for the Kafka messages that it
-    produces, KSQL supplies the ability to pass in
-    `"key"='<column_name>'` in the `WITH` clause to extract a column
-    from the value and make it the key.
+-   [Kafka Connect JDBC Connector (Source and
+    Sink)](https://docs.confluent.io/current/connect/kafka-connect-jdbc/index.html):
+    since the JDBC connector does not automatically populate the key for
+    the Kafka messages that it produces, KSQL supplies the ability to
+    pass in `"key"='<column_name>'` in the `WITH` clause to extract a
+    column from the value and make it the key.
 
 #### Syntax
 

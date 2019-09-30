@@ -11,16 +11,18 @@ messages in {{ site.ak }}.
 
 **Prerequisites:**
 
--   [Confluent Platform \<installation\>]{role="ref"} is installed and
-    running. This installation includes a Kafka broker, KSQL, {{
-    site.c3-short }}, {{ site.zk }}, {{ site.sr }}, {{ site.crest }},
-    and {{ site.kconnect }}.
+-   [Confluent
+    Platform](https://docs.confluent.io/current/installation/installing_cp/index.html)
+    is installed and running. This installation includes a Kafka broker,
+    KSQL, {{ site.c3-short }}, {{ site.zk }}, {{ site.sr }}, {{
+    site.crest }}, and {{ site.kconnect }}.
 -   If you installed {{ site.cp }} via TAR or ZIP, navigate into the
     installation directory. The paths and commands used throughout this
     tutorial assume that you are in this installation directory.
--   Consider [installing \<cli-install\>]{role="ref"} the {{
-    site.confluent-cli }} to start a local installation of {{ site.cp
-    }}.
+-   Consider
+    [installing](https://docs.confluent.io/current/cli/installing.html)
+    the {{ site.confluent-cli }} to start a local installation of {{
+    site.cp }}.
 -   Java: Minimum version 1.8. Install Oracle Java JRE or JDK \>= 1.8 on
     your local machine
 

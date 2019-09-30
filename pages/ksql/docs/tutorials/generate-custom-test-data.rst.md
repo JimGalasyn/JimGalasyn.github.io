@@ -14,10 +14,11 @@ Also, you can generate data from a few simple, predefined schemas.
 
 **Prerequisites:**
 
--   [Confluent Platform \<installation\>]{role="ref"} is installed and
-    running. This installation includes an {{ site.ak-tm }} broker,
-    KSQL, {{ site.c3-short }}, {{ site.zk }}, {{ site.sr }}, REST Proxy,
-    and Kafka Connect.
+-   [Confluent
+    Platform](https://docs.confluent.io/current/installation/installing_cp/index.html)
+    is installed and running. This installation includes an {{
+    site.ak-tm }} broker, KSQL, {{ site.c3-short }}, {{ site.zk }}, {{
+    site.sr }}, REST Proxy, and Kafka Connect.
 -   If you installed {{ site.cp }} via TAR or ZIP, navigate to the
     installation directory. The paths and commands used throughout this
     tutorial assume that you\'re in this installation directory.

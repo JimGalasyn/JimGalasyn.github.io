@@ -6,7 +6,9 @@ Implement a User-defined Function (UDF and UDAF) {#implement-a-udf}
 Prerequisites
 
 :   -   [Apache Maven](https://maven.apache.org/download.cgi)
-    -   {{ site.cp }} [installed \<installation\>]{role="ref"} locally
+    -   {{ site.cp }}
+        [installed](https://docs.confluent.io/current/installation/installing_cp/index.html)
+        locally
     -   Internet connectivity for downloading Confluent POM files
 
 Create a user-defined function (UDF) or a user-defined aggregation

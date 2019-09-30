@@ -54,7 +54,9 @@ Using Avro in KSQL
 Before using Avro in KSQL, make sure that {{ site.sr }} is up and
 running and that `ksql.schema.registry.url` is set correctly in the KSQL
 properties file (defaults to `http://localhost:8081`). {{ site.sr }} is
-[included by default \<quickstart\>]{role="ref"} with {{ site.cp }}.
+[included by
+default](https://docs.confluent.io/current/quickstart/index.html) with
+{{ site.cp }}.
 
 ::: {.important}
 ::: {.admonition-title}

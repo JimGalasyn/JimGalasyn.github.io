@@ -147,12 +147,13 @@ system on data streams.
 
 To get started with KSQL, try the [ksql\_tutorials]{role="ref"}.
 
-To get started with Kafka Streams, try the
-[streams\_quickstart]{role="ref"}.
+To get started with Kafka Streams, try the [Streams Quick
+Start](https://docs.confluent.io/current/streams/quickstart.html).
 
 Next Steps
 ----------
 
 -   [ksql\_quickstart-docker]{role="ref"}
 -   [ksql-dev-guide]{role="ref"}
--   [streams\_developer-guide]{role="ref"}
+-   [Streams Developer
+    Guide](https://docs.confluent.io/current/streams/developer-guide/index.html)

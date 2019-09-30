@@ -74,7 +74,8 @@ KSQL is built on Kafka Streams, a robust stream processing framework
 that is part of Apache Kafka. You can use KSQL and Kafka Streams
 together in your event streaming applications. For more information on
 their relationship, see [ksql-and-kafka-streams]{role="ref"}. For more
-information on Kafka Streams, see [streams\_architecture]{role="ref"}.
+information on Kafka Streams, see [Streams
+Architecture](https://docs.confluent.io/current/streams/architecture.html).
 
 Also, you can implement custom logic and aggregations in your KSQL
 applications by implementing User Defined Functions in Java. For more

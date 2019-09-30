@@ -8,15 +8,17 @@ instance of PostgresDB.
 
 **Prerequisites:**
 
--   [Confluent Platform \<installation\>]{role="ref"} is installed an
-    running. This installation includes a Kafka broker, KSQL, {{ site.zk
-    }}, {{ site.sr }} and {{ site.kconnect }}.
+-   [Confluent
+    Platform](https://docs.confluent.io/current/installation/installing_cp/index.html)
+    is installed an running. This installation includes a Kafka broker,
+    KSQL, {{ site.zk }}, {{ site.sr }} and {{ site.kconnect }}.
 -   If you installed {{ site.cp }} via TAR or ZIP, navigate into the
     installation directory. The paths and commands used throughout this
     tutorial assume that you are in this installation directory.
--   Consider [installing \<cli-install\>]{role="ref"} the {{
-    site.confluent-cli }} to start a local installation of {{ site.cp
-    }}.
+-   Consider
+    [installing](https://docs.confluent.io/current/cli/installing.html)
+    the {{ site.confluent-cli }} to start a local installation of {{
+    site.cp }}.
 -   Java: Minimum version 1.8. Install Oracle Java JRE or JDK \>= 1.8 on
     your local machine
 
@@ -119,5 +121,5 @@ ksql>SELECT * FROM JDBC_USERS EMIT CHANGES;
 Note that users are repeated multiple times. This is `bulk` mode is
 specified, which re-imports the entire database every time. Obviously,
 this isn\'t appropriate for production. For more information on
-changelog capture, see
-[jdbc-source-connector-incremental-query-modes]{role="ref"}.
+changelog capture, see [Incremental Query
+Modes](https://docs.confluent.io/current/connect/kafka-connect-jdbc/source-connector/index.html#incremental-query-modes).

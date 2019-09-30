@@ -120,8 +120,8 @@ docker run -d \
 incoming and outgoing records. Specify interceptor classes by assigning
 the `KSQL_PRODUCER_INTERCEPTOR_CLASSES` and
 `KSQL_CONSUMER_INTERCEPTOR_CLASSES` settings. For more info on
-interceptor classes, see
-[Confluent Monitoring Interceptors \<controlcenter\_clients\>]{role="ref"}.
+interceptor classes, see [Confluent Monitoring
+Interceptors](https://docs.confluent.io/current/control-center/installation/clients.html).
 
 Use the following command to run a headless, standalone KSQL Server with
 the specified interceptor classes in a container:
@@ -232,8 +232,8 @@ docker run -d \
 
 :   A list of fully qualified class names for consumer interceptors.
 
-For more info on interceptor classes, see
-[Confluent Monitoring Interceptors \<controlcenter\_clients\>]{role="ref"}.
+For more info on interceptor classes, see [Confluent Monitoring
+Interceptors](https://docs.confluent.io/current/control-center/installation/clients.html).
 
 In interactive mode, a CLI instance running outside of Docker can
 connect to the server running in Docker.

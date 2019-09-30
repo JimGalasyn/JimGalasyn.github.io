@@ -19,12 +19,12 @@ your KSQL deployment and answers these questions:
 Tip
 :::
 
-Because the underlying implementation of KSQL uses the
-[Kafka Streams API \<streams\_developer-guide\_dsl\>]{role="ref"} for
-query processing, the details covered in the Streams documentation apply
-to KSQL as well. The
-[Kafka Streams capacity planning guide \<streams\_sizing\>]{role="ref"}
-is another useful resource for KSQL capacity planning.
+Because the underlying implementation of KSQL uses the [Kafka Streams
+API](https://docs.confluent.io/current/streams/developer-guide/dsl-api.html)
+for query processing, the details covered in the Streams documentation
+apply to KSQL as well. The [Kafka Streams capacity planning
+guide](https://docs.confluent.io/current/streams/sizing.html) is another
+useful resource for KSQL capacity planning.
 :::
 
 Approach To Sizing
@@ -358,10 +358,10 @@ where servers collaboratively run only a predefined list of queries. The
 result is essentially an elastic, fault-tolerant, and distributed stream
 processing application that communicates to the outside world by reading
 from and writing to Kafka topics. Sizing, deploying, and managing in
-this scenario is similar to a
-[Kafka Streams application \<kafka\_streams\>]{role="ref"}. You should
-integrate KSQL deployments with your own CI/CD pipeline, for example, to
-version-control the .sql file.
+this scenario is similar to a [Kafka Streams
+application](https://docs.confluent.io/current/streams/index.html). You
+should integrate KSQL deployments with your own CI/CD pipeline, for
+example, to version-control the .sql file.
 
 Here are some guidelines for choosing between the configuration types:
 
@@ -419,10 +419,11 @@ will start to fall behind in processing the incoming data. Consumer lag
 is the Kafka terminology for describing how much a Kafka consumer
 including KSQL has fallen behind. It's important to monitor consumer lag
 on your topics and add resources if you observe that the lag is growing.
-[control\_center]{role="ref"} is the recommended tool for monitoring.
-You can also check out
-[Kafka documentation \<kafka\_monitoring\>]{role="ref"} for details on
-metrics exposed by Kafka that can be used to monitor lag.
+[Confluent Control
+Center](https://docs.confluent.io/current/control-center/index.html) is
+the recommended tool for monitoring. You can also check out [Kafka
+documentation](https://docs.confluent.io/current/kafka/monitoring.html)
+for details on metrics exposed by Kafka that can be used to monitor lag.
 
 #### Mixed Workloads
 

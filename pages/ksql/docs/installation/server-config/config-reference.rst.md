@@ -51,7 +51,9 @@ using the KSQL command line:
 SET 'auto.offset.reset'='earliest';
 ```
 
-For more information, see [kafka\_consumer]{role="ref"} and the
+For more information, see [Kafka
+Consumer](https://docs.confluent.io/current/clients/consumer.html) and
+the
 [Javadoc\|clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html\#AUTO\_OFFSET\_RESET\_CONFIG]{role="cp-javadoc"}.
 
 The corresponding environment variable in the [KSQL Server
@@ -70,8 +72,8 @@ command line:
 SET 'bootstrap.servers'='localhost:9095';
 ```
 
-For more information, see
-[Streams parameter reference \<streams\_developer-guide\_required-configs\>]{role="ref"}
+For more information, see [Streams parameter
+reference](https://docs.confluent.io/current/streams/developer-guide/config-streams.html#configuration-parameter-reference)
 and the
 [Javadoc\|clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html\#BOOTSTRAP\_SERVERS\_CONFIG]{role="cp-javadoc"}.
 
@@ -90,8 +92,8 @@ using the KSQL command line:
 SET 'commit.interval.ms'='5000';
 ```
 
-For more information, see the
-[Streams parameter reference \<streams\_developer-guide\_optional-configs\>]{role="ref"}
+For more information, see the [Streams parameter
+reference](https://docs.confluent.io/current/streams/developer-guide/config-streams.html#optional-configuration-parameters)
 and the
 [Javadoc\|streams/javadocs/org/apache/kafka/streams/StreamsConfig.html\#COMMIT\_INTERVAL\_MS\_CONFIG]{role="cp-javadoc"},
 
@@ -110,8 +112,8 @@ line:
 SET 'cache.max.bytes.buffering'='20000000';
 ```
 
-For more information, see the
-[Streams parameter reference \<streams\_developer-guide\_optional-configs\>]{role="ref"}
+For more information, see the [Streams parameter
+reference](https://docs.confluent.io/current/streams/developer-guide/config-streams.html#optional-configuration-parameters)
 and
 [Javadoc\|streams/javadocs/org/apache/kafka/streams/StreamsConfig.html\#CACHE\_MAX\_BYTES\_BUFFERING\_CONFIG]{role="cp-javadoc"}.
 
@@ -123,8 +125,8 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 
 This number of stream threads in an instance of the Kafka Streams
 application. The stream processing code runs in these threads. For more
-information about Kafka Streams threading model, see
-[streams\_architecture\_threads]{role="ref"}.
+information about Kafka Streams threading model, see [Threading
+Model](https://docs.confluent.io/current/streams/architecture.html#threading-model).
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -414,7 +416,8 @@ Reference](https://docs.confluent.io/current/control-center/installation/configu
 :::
 
 You can connect KSQL Server to {{ site.ccloud }}. For more information,
-see [install\_ksql-ccloud]{role="ref"}.
+see [Connecting KSQL to Confluent
+Cloud](https://docs.confluent.io/current/cloud/connect/ksql-cloud-config.html).
 
 KSQL Server Log Settings
 ------------------------
