@@ -3,6 +3,9 @@
 KSQL {#ksql_home}
 ====
 
+> warning "I am a warning"
+> The body of the warning goes here. Premonition allows you to write any `Markdown` inside the block.
+
 What Is KSQL?
 -------------
 
