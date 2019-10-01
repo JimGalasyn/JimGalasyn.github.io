@@ -25,3 +25,8 @@ KSQL Tutorials and Examples
         Learn how to use KSQL, ElasticSearch, and Grafana to analyze
         data feeds and build a real-time dashboard for reporting and
         alerting.
+
+    You can configure Java streams applications to deserialize and
+    ingest data in multiple ways, including {{ site.ak }} console
+    producers, JDBC source connectors, and Java client producers. For
+    full code examples,

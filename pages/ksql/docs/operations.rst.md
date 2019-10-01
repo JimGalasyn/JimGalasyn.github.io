@@ -14,6 +14,19 @@ up services on a single host. For more information, see the [Confluent
 Platform Quick
 Start](https://docs.confluent.io/current/quickstart/index.html).
 
+::: {.important}
+::: {.admonition-title}
+Important
+:::
+
+The [confluent local \<cli-command-reference\>]{role="ref"} commands are
+intended for a single-node development environment and are not suitable
+for a production environment. The data that are produced are transient
+and are intended to be temporary. For production-ready workflows, see
+[Install and
+Upgrade](https://docs.confluent.io/current/installation/index.html).
+:::
+
 Installing and Configuring KSQL
 -------------------------------
 
@@ -61,6 +74,13 @@ KSQL includes JMX (Java Management Extensions) metrics which give
 insights into what is happening inside your KSQL servers. These metrics
 include the number of messages, the total throughput, throughput
 distribution, error rate, and more.
+
+To enable JMX metrics, set `JMX_PORT` before starting the KSQL server:
+
+``` {.sourceCode .bash}
+export JMX_PORT=1099 && \
+<path-to-confluent>/bin/ksql-server-start <path-to-confluent>/etc/ksql/ksql-server.properties
+```
 
 The `ksql-print-metrics` command line utility collects these metrics and
 prints them to the console. You can invoke this utility from your

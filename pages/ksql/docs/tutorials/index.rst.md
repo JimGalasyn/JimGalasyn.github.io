@@ -104,6 +104,10 @@ KSQL Examples
 [These examples \<ksql\_examples\>]{role="ref"} provide common KSQL
 usage operations.
 
+You can configure Java streams applications to deserialize and ingest
+data in multiple ways, including {{ site.ak }} console producers, JDBC
+source connectors, and Java client producers. For full code examples,
+
 KSQL in a Kafka Streaming ETL
 -----------------------------
 

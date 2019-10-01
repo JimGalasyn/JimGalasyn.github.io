@@ -13,6 +13,16 @@ KSQL configuration parameters can be set for KSQL server and queries as
 well as for the underlying Kafka Streams and Kafka Clients (producer and
 consumer).
 
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
+
+These instructions assume you are installing {{ site.cp }} by using ZIP
+or TAR archives. For more information, see [On-Premises
+Deployments](https://docs.confluent.io/current/installation/installing_cp/index.html).
+:::
+
 Setting KSQL Server Parameters {#set-ksql-server-properties}
 ------------------------------
 
@@ -172,6 +182,13 @@ JAVA\_HOME
 
 JMX Metrics
 -----------
+
+To enable JMX metrics, set `JMX_PORT` before starting the KSQL server:
+
+``` {.sourceCode .bash}
+export JMX_PORT=1099 && \
+<path-to-confluent>/bin/ksql-server-start <path-to-confluent>/etc/ksql/ksql-server.properties
+```
 
 Run the `ksql-print-metrics` tool to see the available JMX metrics for
 KSQL.

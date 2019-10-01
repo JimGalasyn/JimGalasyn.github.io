@@ -30,7 +30,7 @@ For more information on the formats that KSQL supports, see
 KSQL provides some additional configuration that allows serialization to
 be controlled:
 
-### Single field (un)wrapping
+### Single field (un)wrapping {#ksql_single_field_wrapping}
 
 ::: {.note}
 ::: {.admonition-title}

@@ -262,7 +262,7 @@ The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 `KSQL_KSQL_FUNCTIONS_SUBSTRING_LEGACY_ARGS`.
 
-### ksql.persistence.wrap.single.values {#ksql_persistence_wrap_single_values}
+### ksql.persistence.wrap.single.values {#ksql-persistence-wrap-single-values}
 
 Sets the default value for the `WRAP_SINGLE_VALUE` property if one is
 not supplied explicitly in [CREATE TABLE \<create-table\>]{role="ref"},

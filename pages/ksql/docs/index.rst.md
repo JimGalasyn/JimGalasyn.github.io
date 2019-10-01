@@ -14,6 +14,15 @@ real-time. It supports a wide range of streaming operations, including
 data filtering, transformations, aggregations, joins, windowing, and
 sessionization.
 
+Learn More
+
+:   Watch the [screencast of the KSQL
+    demo](https://www.youtube.com/embed/illEpCOcCVg) on YouTube.
+
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe src="https://www.youtube.com/embed/illEpCOcCVg" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+    </div>
+
 What Can I Do With KSQL?
 ------------------------
 
@@ -98,6 +107,16 @@ Supported Versions and Interoperability
 ---------------------------------------
 
 ::: {#ksql-supported-versions}
+You can use KSQL with compatible {{ site.cp }} and {{ site.ak-tm }}
+versions.
+
++-----------------------+--------------------+
+| KSQL version          | {{ site.version }} |
++=======================+====================+
+| Apache Kafka version  | 0.11.0 and later   |
++-----------------------+--------------------+
+| {{ site.cp }} version | > 3.3.0 and later  |
++-----------------------+--------------------+
 :::
 
 KSQL Documentation

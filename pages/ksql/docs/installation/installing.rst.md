@@ -78,6 +78,16 @@ support automatic failover to another KSQL server.
 Follow these instructions to start KSQL server using the
 `ksql-server-start` script.
 
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
+
+These instructions assume you are installing {{ site.cp }} by using ZIP
+or TAR archives. For more information, see [On-Premises
+Deployments](https://docs.confluent.io/current/installation/installing_cp/index.html).
+:::
+
 1.  Specify your KSQL server configuration parameters. You can also set
     any property for the Kafka Streams API, the Kafka producer, or the
     Kafka consumer. The required parameters are `bootstrap.servers` and

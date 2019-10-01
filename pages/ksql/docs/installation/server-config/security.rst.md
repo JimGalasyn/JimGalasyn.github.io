@@ -31,6 +31,16 @@ configuration file specified.
 $ <path-to-confluent>/bin/ksql-server-start <path-to-confluent>/etc/ksql/ksql-server.properties
 ```
 
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
+
+These instructions assume you are installing {{ site.cp }} by using ZIP
+or TAR archives. For more information, see [On-Premises
+Deployments](https://docs.confluent.io/current/installation/installing_cp/index.html).
+:::
+
 Configuring KSQL for HTTPS {#config-ksql-for-https}
 --------------------------
 
