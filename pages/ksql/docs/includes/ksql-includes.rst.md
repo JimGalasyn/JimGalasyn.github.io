@@ -104,28 +104,7 @@ $ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql
 
 After KSQL is started, your terminal should resemble this.
 
-``` {.sourceCode .text}
-===========================================
-=        _  __ _____  ____  _             =
-=       | |/ // ____|/ __ \| |            =
-=       | ' /| (___ | |  | | |            =
-=       |  <  \___ \| |  | | |            =
-=       | . \ ____) | |__| | |____        =
-=       |_|\_\_____/ \___\_\______|       =
-=                                         =
-=  Streaming SQL Engine for Apache Kafka® =
-===========================================
-```
-
-> Copyright 2018 Confluent Inc.
->
-> CLI v{{ site.release }}, Server v{{ site.release }} located at
-> <http://localhost:8088>
->
-> Having trouble? Type \'help\' (case-insensitive) for a rundown of how
-> things work!
->
-> ksql\>
+INCLUDE AT LINE 102 ELIDED
 
 Inspect Kafka Topics By Using SHOW and PRINT Statements
 =======================================================
@@ -626,20 +605,7 @@ After both `CREATE STREAM` statements, your output should resemble:
 
 Query the data to confirm that it\'s present in the topics.
 
-::: {.tip}
-::: {.admonition-title}
-Tip
-:::
-
-Run the following to tell KSQL to read from the beginning of the topic:
-
-``` {.sourceCode .sql}
-SET 'auto.offset.reset' = 'earliest';
-```
-
-You can skip this if you have already run it within your current
-KSQL CLI session.
-:::
+INCLUDE AT LINE 634 ELIDED
 
 For the `NEW_ORDERS` topic, run:
 
@@ -726,20 +692,7 @@ Check both tables that the message key (`ROWKEY`) matches the declared
 key (`WAREHOUSE_ID`) - the output should show that they are equal. If
 they are not, the join will not succeed or behave as expected.
 
-::: {.tip}
-::: {.admonition-title}
-Tip
-:::
-
-Run the following to tell KSQL to read from the beginning of the topic:
-
-``` {.sourceCode .sql}
-SET 'auto.offset.reset' = 'earliest';
-```
-
-You can skip this if you have already run it within your current
-KSQL CLI session.
-:::
+INCLUDE AT LINE 741 ELIDED
 
 Inspect the WAREHOUSE\_LOCATION table:
 
