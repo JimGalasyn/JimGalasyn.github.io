@@ -3,13 +3,6 @@
 KSQL Serialization {#ksql_serialization}
 ==================
 
-::: {.contents}
-
-local
-
-:   
-:::
-
 Controlling serialization
 -------------------------
 
@@ -46,7 +39,7 @@ Controlling deserializing of single fields
 
 When KSQL deserializes a Kafka message into a row, the key is
 deserialized into the key field, and the message\'s value is
-deserialized into the value field(s).
+deserialized into the value fields.
 
 By default, KSQL expects any value with a single-field schema to have
 been serialized as a named field within a record. However, this is not
@@ -101,8 +94,8 @@ can change the system default. For more information, see
 Important
 :::
 
-KSQL treats
-`` null` keys and values as a special case. We recommend avoiding unwrapped single-field schemas if the field can have a ``null\`\`
+KSQL treats `null` keys and values as a special case. We recommend
+avoiding unwrapped single-field schemas if the field can have a `null`
 value.
 :::
 
@@ -123,8 +116,8 @@ Controlling serialization of single fields
 ==========================================
 
 When KSQL serializes a row into a Kafka message, the key field is
-serialized into the message\'s key, and any value field(s) are
-serialized into the message\'s value.
+serialized into the message\'s key, and any value fields are serialized
+into the message\'s value.
 
 By default, if the value has only a single field, KSQL serializes the
 single field as a named field within a record. However, this doesn\'t
@@ -176,8 +169,8 @@ can change the system default. For more information, see
 Important
 :::
 
-KSQL treats
-`` null` keys and values as a special case. We recommended avoiding unwrapped single-field schemas if the field can have a ``null\`\`
+KSQL treats `null` keys and values as a special case. We recommended
+avoiding unwrapped single-field schemas if the field can have a `null`
 value.
 :::
 
@@ -263,7 +256,7 @@ This data format supports all KSQL
 The `JSON` format supports JSON values.
 
 The JSON format supports all KSQL ref:data types \<data-types\>. As JSON
-doesn\'t itself support a map type, KSQL serializes `MAP`s as JSON
+doesn\'t itself support a map type, KSQL serializes `MAP` types as JSON
 objects. Because of this the JSON format can only support `MAP` objects
 that have `STRING` keys.
 
@@ -405,7 +398,7 @@ For more information, see [ksql\_single\_field\_wrapping]{role="ref"}.
 The format is case-insensitive when matching a KSQL field name with an
 Avro record\'s field name. The first case-insensitive match is used.
 
-### KAFKA
+### KAFKA {#kafka_format}
 
 The `KAFKA` format supports`INT`, `BIGINT`, `DOUBLE` and `STRING`
 primitives that have been serialized using Kafka\'s standard set of

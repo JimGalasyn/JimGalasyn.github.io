@@ -306,8 +306,8 @@ Avro record or as an anonymous value.
 
 This setting can be toggled using the SET command
 
-> ``` {.sourceCode .sql
-> SET 'ksql.persistence.wrap.single.values'='false';}
+> ``` {.sourceCode .sql}
+> SET 'ksql.persistence.wrap.single.values'='false';
 > ```
 
 For more information, refer to the

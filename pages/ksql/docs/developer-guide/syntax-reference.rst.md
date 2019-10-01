@@ -452,13 +452,14 @@ The WITH clause supports the following properties:
 |              |                                                       |
 |              | Note: null\` values have special meaning in KSQL.     |
 |              | Care should be taken when dealing with single-field   |
-|              | schemas where the value can be                        |
-|              | `` null`. For more information, see :ref:`ksql_single |
-|              | _field_wrapping`.  Note: Supplying this property for  |
-|              | formats that do not support wrapping, for example ``D |
-|              | ELIMITED\`\`,                                         |
-|              | or when the value schema has multiple fields, will    |
-|              | result in an error.                                   |
+|              | schemas where the value can be `null`. For more       |
+|              | information, see                                      |
+|              | [ksql\_single\_field\_wrapping]{role="ref"}.          |
+|              |                                                       |
+|              | Note: Supplying this property for formats that do not |
+|              | support wrapping, for example `DELIMITED`, or when    |
+|              | the value schema has multiple fields, will result in  |
+|              | an error.                                             |
 +--------------+-------------------------------------------------------+
 | WINDOW\_TYPE | By default, the topic is assumed to contain           |
 |              | non-windowed data. If the data is windowed, i.e., was |
@@ -605,13 +606,14 @@ The WITH clause supports the following properties:
 |              |                                                       |
 |              | Note: null\` values have special meaning in KSQL.     |
 |              | Care should be taken when dealing with single-field   |
-|              | schemas where the value can be                        |
-|              | `` null`. For more information, see :ref:`ksql_single |
-|              | _field_wrapping`.  Note: Supplying this property for  |
-|              | formats that do not support wrapping, for example ``D |
-|              | ELIMITED\`\`,                                         |
-|              | or when the value schema has multiple fields, will    |
-|              | result in an error.                                   |
+|              | schemas where the value can be `null`. For more       |
+|              | information, see                                      |
+|              | [ksql\_single\_field\_wrapping]{role="ref"}.          |
+|              |                                                       |
+|              | Note: Supplying this property for formats that do not |
+|              | support wrapping, for example `DELIMITED`, or when    |
+|              | the value schema has multiple fields, will result in  |
+|              | an error.                                             |
 +--------------+-------------------------------------------------------+
 | WINDOW\_TYPE | By default, the topic is assumed to contain           |
 |              | non-windowed data. If the data is windowed, i.e. was  |
@@ -782,13 +784,13 @@ The WITH clause for the result supports the following properties:
 |             |                                                        |
 |             | Note: null\` values have special meaning in KSQL. Care |
 |             | should be taken when dealing with single-field schemas |
-|             | where the value can be                                 |
-|             | `` null`. For more information, see :ref:`ksql_single_ |
-|             | field_wrapping`.  Note: Supplying this property for fo |
-|             | rmats that do not support wrapping, for example ``DELI |
-|             | MITED\`\`,                                             |
-|             | or when the value schema has multiple fields, will     |
-|             | result in an error.                                    |
+|             | where the value can be `null`. For more information,   |
+|             | see [ksql\_single\_field\_wrapping]{role="ref"}.       |
+|             |                                                        |
+|             | Note: Supplying this property for formats that do not  |
+|             | support wrapping, for example `DELIMITED`, or when the |
+|             | value schema has multiple fields, will result in an    |
+|             | error.                                                 |
 +-------------+--------------------------------------------------------+
 
 ::: {.note}
@@ -935,13 +937,13 @@ The WITH clause supports the following properties:
 |             |                                                        |
 |             | Note: null\` values have special meaning in KSQL. Care |
 |             | should be taken when dealing with single-field schemas |
-|             | where the value can be                                 |
-|             | `` null`. For more information, see :ref:`ksql_single_ |
-|             | field_wrapping`.  Note: Supplying this property for fo |
-|             | rmats that do not support wrapping, for example ``DELI |
-|             | MITED\`\`,                                             |
-|             | or when the value schema has multiple fields, will     |
-|             | result in an error.                                    |
+|             | where the value can be `null`. For more information,   |
+|             | see [ksql\_single\_field\_wrapping]{role="ref"}.       |
+|             |                                                        |
+|             | Note: Supplying this property for formats that do not  |
+|             | support wrapping, for example `DELIMITED`, or when the |
+|             | value schema has multiple fields, will result in an    |
+|             | error.                                                 |
 +-------------+--------------------------------------------------------+
 
 ::: {.note}

@@ -58,10 +58,9 @@ created by these connectors into KSQL:
     pass in `"key"='<column_name>'` in the `WITH` clause to extract a
     column from the value and make it the key.
 
-#### Syntax
+### Syntax
 
-CREATE CONNECTOR
-----------------
+#### CREATE CONNECTOR
 
 **Synopsis**
 
@@ -88,8 +87,7 @@ CREATE SOURCE CONNECTOR `jdbc-connector` WITH(
     "key"='username');
 ```
 
-DROP CONNECTOR
---------------
+#### DROP CONNECTOR
 
 **Synopsis**
 
@@ -102,8 +100,7 @@ DROP CONNECTOR connector_name;
 Drop a Connector and delete it from the {{ site.kconnect }} cluster. The
 topics associated with that cluster will not be deleted by this command.
 
-DESCRIBE CONNECTOR
-------------------
+#### DESCRIBE CONNECTOR
 
 **Synopsis**
 
@@ -144,8 +141,7 @@ Your output should resemble:
      jdbc-users
     ----------------
 
-SHOW CONNECTORS
----------------
+#### SHOW CONNECTORS
 
 **Synopsis**
 
@@ -163,7 +159,5 @@ Note
 :::
 
 This does not differentiate connectors created by KSQL with connectors
-that were created
+that were created independently using the {{ site.kconnect }} API.
 :::
-
-independently using the {{ site.kconnect }} API.

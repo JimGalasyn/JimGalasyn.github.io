@@ -53,46 +53,11 @@ column\> \[options \...\]
 
 ### Required Arguments
 
-+-----------------------+-----------------------+-----------------------+
-| Name                  | Default               | Description           |
-+=======================+=======================+=======================+
-| `schema=<avro schema  |                       | Path to an Avro       |
-| file>`                |                       | schema file. Requires |
-|                       |                       | the `format`,         |
-|                       |                       | `topic`, and `key`    |
-|                       |                       | options.              |
-+-----------------------+-----------------------+-----------------------+
-| `key-format=<key form | > Kafka               | format of generated   |
-| at>`                  |                       | record keys: one of   |
-|                       |                       | `avro`, `json`,       |
-|                       |                       | `delimited`, `kafka`. |
-|                       |                       | Case-insensitive.     |
-+-----------------------+-----------------------+-----------------------+
-| `value-format=<value  | > JSON f              | ormat of generated    |
-| format>`              |                       | record values: one of |
-| `topic=<kafka topic n |                       | `avro`, `json`,       |
-| ame>`                 |                       | `delimited`.          |
-| `key=<name of key col |                       | Case-insensitive.     |
-| umn>`                 |                       | Name of the topic     |
-| `quickstart=<quicksta |                       | that receives         |
-| rt preset>`           |                       | generated records.    |
-|                       |                       | Field to use as the   |
-|                       |                       | key for generated     |
-|                       |                       | records. Generate     |
-|                       |                       | records from a preset |
-|                       |                       | schema: `orders`,     |
-|                       |                       | `users`, or           |
-|                       |                       | `pageviews`.          |
-|                       |                       | Case-insensitive. If  |
-|                       |                       | `topic` isn\'t        |
-|                       |                       | specified, creates a  |
-|                       |                       | topic named           |
-|                       |                       | `<preset>_kafka_topic |
-|                       |                       | _json`,               |
-|                       |                       | for example,          |
-|                       |                       | `users_kafka_topic_js |
-|                       |                       | on`.                  |
-+-----------------------+-----------------------+-----------------------+
+  Name                                                                                                                   Default   Description
+  ---------------------------------------------------------------------------------------------------------------------- --------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  `schema=<avro schema file>`                                                                                                      Path to an Avro schema file. Requires the `format`, `topic`, and `key` options.
+  `key-format=<key format>`                                                                                              Kafka     format of generated record keys: one of `avro`, `json`, `delimited`, `kafka`. Case-insensitive.
+  `value-format=<value format>` `topic=<kafka topic name>` `key=<name of key column>` `quickstart=<quickstart preset>`   JSON      format of generated record values: one of `avro`, `json`, `delimited`. Case-insensitive. Name of the topic that receives generated records. Field to use as the key for generated records. Generate records from a preset schema: `orders`, `users`, or `pageviews`. Case-insensitive. If `topic` isn\'t specified, creates a topic named `<preset>_kafka_topic_json`, for example, `users_kafka_topic_json`.
 
 Use the following command to generate records from one of the predefined
 schemas:
