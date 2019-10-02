@@ -151,7 +151,7 @@ The DESCRIBE EXTENDED output includes the Query ID for the query
 populating the table. You can run EXPLAIN against the query to print the
 underlying streams topology:
 
-``` {.sourceCode .text}
+```
 EXPLAIN CTAS_PAGEVIEWS_BY_PAGE;
 ```
 
