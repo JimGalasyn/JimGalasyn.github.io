@@ -14,8 +14,8 @@ Prerequisites:
             **Docker** \> **Preferences** \> **Advanced**.
     -   [Git](https://git-scm.com/downloads).
     -   Internet connectivity.
-    -   Ensure you are on an
-        [Operating System\<operating-systems\>]{role="ref"} currently
-        supported by {{ site.cp }}.
+    -   Ensure you are on an [Operating
+        System](https://docs.confluent.io/current/installation/versions-interoperability.html)
+        currently supported by {{ site.cp }}.
     -   [wget](https://www.gnu.org/software/wget/) to get the connector
         configuration file.
