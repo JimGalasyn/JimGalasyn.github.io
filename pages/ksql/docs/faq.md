@@ -235,8 +235,8 @@ Will KSQL work with a {{ site.ak }} cluster secured using Kafka ACLs?
 
 Yes. For more information, see [config-security-ksql-acl]{role="ref"}.
 
-Will KSQL work with a HTTPS {{ site.sr-long }}?
------------------------------------------------
+Will KSQL work with an HTTPS {{ site.sr }}?
+-------------------------------------------
 
 Yes. KSQL can be configured to communicate with {{ site.sr-long }} over HTTPS.
 For more information, see [config-security-ksql-sr]{role="ref"}.
@@ -313,9 +313,8 @@ a KSQL server that's running on `localhost` and collects JMX
 metrics from the server process. Metrics include the number of
 messages, the total throughput, the throughput distribution, and
 the error rate.
-- Run SHOW STREAMS or SHOW TABLES, then run DESCRIBE EXTENDED
-<stream|table>.
-- Run SHOW QUERIES, then run EXPLAIN <query>.
+- Run SHOW STREAMS or SHOW TABLES, then run `DESCRIBE EXTENDED <stream|table>`.
+- Run SHOW QUERIES, then run `EXPLAIN <query>`.
 
 The KSQL REST API supports a "server info" request (for example,
 `http://<ksql-server-url>/info`), which returns info such as the KSQL
