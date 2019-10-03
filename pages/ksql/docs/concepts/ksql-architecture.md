@@ -135,7 +135,7 @@ add more KSQL Server instances without restarting your applications.
 Note
 :::
 
-All servers that run in a cluster must use the same deployment mode.
+>All servers that run in a cluster must use the same deployment mode.
 :::
 
 ### Interactive Deployment
@@ -192,7 +192,7 @@ In headless mode you can:
 Note
 :::
 
-Headless mode deployments don't have a command topic.
+>Headless mode deployments don't have a command topic.
 :::
 
 #### Config Topic {#ksql-architecture-config-topic}
