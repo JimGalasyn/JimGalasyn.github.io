@@ -36,6 +36,8 @@ ccloud-ent: Confluent Cloud Enterprise
 community: This is a community component of Confluent Platform.
 confluent-cli: Confluent CLI
 cp: Confluent Platform
+crep-full: Confluent Replicator
+crep: Replicator
 crest-long: Confluent REST Proxy
 crest: REST Proxy
 cs: Confluent Server
