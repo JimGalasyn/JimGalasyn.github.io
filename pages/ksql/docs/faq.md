@@ -1,4 +1,8 @@
 ---
+layout: page
+title: KSQL Frequently Asked Questions
+tagline: FAQ for KSQL
+description: Common issues and gotchas when you use KSQL
 ---
 Frequently Asked Questions {#ksql_faq}
 ==========================
@@ -15,23 +19,23 @@ technology.
 What are the technical requirements of KSQL?
 --------------------------------------------
 
-KSQL only requires:
+KSQL requires only:
 
 1.  A Java runtime environment
-2.  Access to an Apache Kafka cluster for reading and writing data in
+2.  Access to a {{ site.ak }} cluster for reading and writing data in
     real-time. The cluster can be on-premises or in the cloud. KSQL
-    works with clusters running vanilla Apache Kafka as well as with
-    clusters running the Kafka versions included in Confluent Platform.
+    works with clusters running vanilla {{ site.ak }} as well as with
+    clusters running the Kafka versions included in {{ site.cp }}.
 
-We recommend the use of [Confluent
+We recommend using [Confluent
 Platform](https://www.confluent.io/product/confluent-platform/) or
-[Confluent Cloud](https://www.confluent.io/confluent-cloud/) for running
-Apache Kafka.
+[Confluent Cloud](https://www.confluent.io/confluent-cloud/) to run
+{{ site.ak }}.
 
 Is KSQL owned by the Apache Software Foundation?
 ------------------------------------------------
 
-No, KSQL is owned and maintained by [Confluent
+No. {{ site.community }} KSQL is owned and maintained by [Confluent
 Inc.](https://www.confluent.io/) as part of its [Confluent
 Platform](https://www.confluent.io/product/confluent-platform/) product.
 However, KSQL is licensed under the Confluent Community License.
@@ -39,8 +43,8 @@ However, KSQL is licensed under the Confluent Community License.
 How does KSQL compare to Apache Kafka's Streams API?
 ----------------------------------------------------
 
-KSQL is complementary to the Kafka Streams API, and indeed executes
-queries through Kafka Streams applications. They share some similarities
+KSQL is complementary to the {{ site.kstreams }} API, and indeed executes
+queries through {{ site.kstreams }} applications. They share some similarities
 such as having very flexible deployment models so you can integrate them
 easily into your existing technical and organizational processes and
 tooling, regardless of whether you have opted for containers, VMs,
@@ -53,10 +57,10 @@ respond to real-time, continuous business requests, to spot anomalies,
 and more. KSQL is a great fit when your processing logic can be
 naturally expressed through SQL.
 
-For full-fledged stream processing applications Kafka Streams remains a
-more appropriate choice. For example, implementing a finite state
-machine that is driven by streams of data is easier to achieve in a
-programming language such as Java or Scala than in SQL. In Kafka Streams
+For full-fledged stream processing applications {{ site.kstreams }} remains
+a more appropriate choice. For example, implementing a finite state
+machine that's driven by streams of data is easier to achieve in a
+programming language like Java or Scala than in SQL. In {{ site.kstreams }},
 you can also choose between the
 [DSL](https://docs.confluent.io/current/streams/developer-guide/dsl-api.html)
 (a functional programming API) and the [Processor
@@ -66,11 +70,11 @@ API](https://docs.confluent.io/current/streams/developer-guide/processor-api.htm
 As with many technologies, each has its sweet-spot based on technical
 requirements, mission-criticality, and user skillset.
 
-Does KSQL work with vanilla Apache Kafka clusters, or does it require the Kafka version included in Confluent Platform?
------------------------------------------------------------------------------------------------------------------------
+Does KSQL work with vanilla {{ site.ak }} clusters, or does it require the Kafka version included in Confluent Platform?
+------------------------------------------------------------------------------------------------------------------------
 
-KSQL works with both vanilla Apache Kafka clusters as well as with the
-Kafka versions included in Confluent Platform.
+KSQL works with both vanilla {{ site.ak }} clusters as well as with the
+Kafka versions included in {{ site.cp }}.
 
 Does KSQL support Kafka's exactly-once processing semantics?
 ------------------------------------------------------------
@@ -78,27 +82,27 @@ Does KSQL support Kafka's exactly-once processing semantics?
 Yes, KSQL supports exactly-once processing, which means it will compute
 correct results even in the face of failures such as machine crashes.
 
-Can I use KSQL with my favorite data format (e.g. JSON, Avro)?
---------------------------------------------------------------
+Can I use KSQL with my favorite data format, like JSON and Avro?
+----------------------------------------------------------------
 
-KSQL currently supports formats:
+KSQL currently supports the following formats:
 
--   DELIMITED (e.g. comma-separated value)
+-   DELIMITED (for example, comma-separated values)
 -   JSON
--   Avro message values are supported. Avro keys are not yet supported.
+-   Avro message values. Avro keys are not yet supported.
     Requires {{ site.sr }} and `ksql.schema.registry.url` in the KSQL
     server configuration file. For more information, see
-    [install\_ksql-avro-schema]{role="ref"}.
--   KAFKA (for example, a `BIGINT` that\'s serialized using Kafka\'s
+    [install_ksql-avro-schema]{role="ref"}.
+-   KAFKA (for example, a `BIGINT` that's serialized using Kafka's
     standard `LongSerializer`).
 
-See [ksql\_formats]{role="ref"} for more details.
+See [ksql_formats]{role="ref"} for more details.
 
-Is KSQL fully compliant to ANSI SQL?
-------------------------------------
+Is KSQL fully compliant with ANSI SQL?
+--------------------------------------
 
 KSQL is a dialect inspired by ANSI SQL. It has some differences because
-it is geared at processing streaming data. For example, ANSI SQL has no
+it's geared at processing streaming data. For example, ANSI SQL has no
 notion of "windowing" for use cases such as performing aggregations on
 data grouped into 5-minute windows, which is a commonly required
 functionality in the streaming world.
@@ -108,27 +112,27 @@ How do I shut down a KSQL environment?
 
 Exit KSQL CLI:
 
-``` {.sourceCode .bash}
+```bash
 ksql> exit
 ```
 
-If you\'re running with Confluent CLI, use the `confluent stop` command:
+If you're running with Confluent CLI, use the `confluent stop` command:
 
-``` {.sourceCode .bash}
+```bash
 confluent stop KSQL
 ```
 
-If you\'re running KSQL in Docker containers, stop the `cp-ksql-server`
+If you're running KSQL in Docker containers, stop the `cp-ksql-server`
 container:
 
-``` {.sourceCode .bash}
+```bash
 docker stop <cp-ksql-server-container-name>
 ```
 
-If you\'re running KSQL as a system service, use the `systemctl stop`
+If you're running KSQL as a system service, use the `systemctl stop`
 command:
 
-``` {.sourceCode .bash}
+```bash
 sudo systemctl stop confluent-ksql
 ```
 
@@ -139,7 +143,7 @@ How do I configure the target Kafka cluster?
 --------------------------------------------
 
 Define `bootstrap.servers` in the
-[KSQL server configuration \<ksql-server-config\>]{role="ref"}.
+[KSQL server configuration](<ksql-server-config>){role="ref"}.
 
 How do I add KSQL servers to an existing KSQL cluster? {#add-ksql-servers}
 ------------------------------------------------------
@@ -162,32 +166,23 @@ You can configure your servers to run a set of predefined queries by
 using `ksql.queries.file` or the `--queries-file` command line flag. For
 more information, see [ksql-server-config]{role="ref"}.
 
-+-----------------------------------------------------------------------+
-| How do I use Avro data and integrate with {{ site.sr-long }}?         |
-+=======================================================================+
-|                                                                       |
-+-----------------------------------------------------------------------+
-| Configure the `ksql.schema.registry.url` property in the KSQL server  |
-| configuration to point to {{ site.sr }}                               |
-+-----------------------------------------------------------------------+
-| (see [install\_ksql-avro-schema]{role="ref"}).                        |
-+-----------------------------------------------------------------------+
-| ::: {.important}                                                      |
-| ::: {.admonition-title}                                               |
-| Important                                                             |
-| :::                                                                   |
-| :::                                                                   |
-+-----------------------------------------------------------------------+
-| > -   To use Avro data with KSQL you must have {{ site.sr }}          |
-| >     installed. This is included by default with {{ site.cp }}.      |
-+-----------------------------------------------------------------------+
-| > -   Avro message values are supported. Avro keys are not yet        |
-| >     supported.                                                      |
-+-----------------------------------------------------------------------+
-| =========================                                             |
-+-----------------------------------------------------------------------+
-| How can I scale out KSQL?                                             |
-+-----------------------------------------------------------------------+
+How do I use Avro data and integrate with {{ site.sr-long }}?
+-------------------------------------------------------------
+Configure the `ksql.schema.registry.url` property in the KSQL server
+configuration to point to {{ site.sr }} (see [install\_ksql-avro-schema]{role="ref"}).
+
+::: {.important}
+::: {.admonition-title}
+Important
+:::
+
+> -   To use Avro data with KSQL you must have {{ site.sr }}
+>     installed. This is included by default with {{ site.cp }}.
+> -   Avro message values are supported. Avro keys are not yet
+>     supported.
+
+How can I scale out KSQL?
+-------------------------
 
 The maximum parallelism depends on the number of partitions.
 
@@ -204,7 +199,7 @@ The maximum parallelism depends on the number of partitions.
 Tip
 :::
 
-Idle servers will consume a small amount of resource. For example, if
+>Idle servers will consume a small amount of resource. For example, if
 you have 10 KSQL servers and run a query against a two-partition input
 topic, only two servers perform the actual work, but the other eight
 will run an \"idle\" query.
@@ -222,32 +217,34 @@ Can KSQL connect to an Apache Kafka cluster over SSL and authenticate using SASL
 ---------------------------------------------------------------------------------
 
 Yes. Internally, KSQL uses standard Kafka consumers and producers. The
-procedure to securely connect KSQL to Kafka is the same as connecting
+procedure to connect KSQL securely to Kafka is the same as connecting
 any app to Kafka.
 
 For more information, see [config-security-ssl-sasl]{role="ref"}.
 
-Will KSQL work with Confluent Cloud?
-------------------------------------
+Will KSQL work with {{ site.ccloud }}?
+--------------------------------------
 
-Yes. Running KSQL against an Apache Kafka cluster running in the cloud
-is pretty straight forward. For more information, see [Connecting KSQL
+Yes. Running KSQL against a {{ site.ak }} cluster running in the cloud
+is pretty straightforward. For more information, see [Connecting KSQL
 to Confluent
 Cloud](https://docs.confluent.io/current/cloud/connect/ksql-cloud-config.html).
 
-Will KSQL work with a Apache Kafka cluster secured using Kafka ACLs?
---------------------------------------------------------------------
+Will KSQL work with a {{ site.ak }} cluster secured using Kafka ACLs?
+---------------------------------------------------------------------
 
 Yes. For more information, see [config-security-ksql-acl]{role="ref"}.
 
-  Will KSQL work with a HTTPS {{ site.sr-long }}?
-  ----------------------------------------------------------------------------------------------------------
-  Yes. KSQL can be configured to communicate with {{ site.sr-long }} over HTTPS. For more information, see
-  [config-security-ksql-sr]{role="ref"}.
-  ================================================
-  Where are KSQL-related data and metadata stored?
+Will KSQL work with a HTTPS {{ site.sr-long }}?
+-----------------------------------------------
 
-In interactive mode, KSQL stores metatada in and builds metadata ifrom
+Yes. KSQL can be configured to communicate with {{ site.sr-long }} over HTTPS.
+For more information, see [config-security-ksql-sr]{role="ref"}.
+
+Where are KSQL-related data and metadata stored?
+------------------------------------------------
+
+In interactive mode, KSQL stores metadata in and builds metadata from
 the KSQL command topic. To secure the metadata, you must secure the
 command topic.
 
@@ -258,7 +255,7 @@ persistent queries based on CREATE STREAM AS SELECT (CSAS) and CREATE
 TABLE AS SELECT (CTAS).
 
 Currently, data manipulation language (DML) statements, like UPDATE and
-DELETE aren\'t available.
+DELETE aren't available.
 
 In headless mode, KSQL stores metadata in the config topic. The config
 topic stores the KSQL properties provided to KSQL when the application
@@ -268,11 +265,11 @@ queries are built compatibly on every restart of the server.
 Which KSQL queries read or write data to Kafka?
 -----------------------------------------------
 
-SHOW STREAMS and EXPLAIN \<query\> statements run against the KSQL
-server that the KSQL client is connected to. They don\'t communicate
+SHOW STREAMS and EXPLAIN <query> statements run against the KSQL
+server that the KSQL client is connected to. They don't communicate
 directly with Kafka.
 
-CREATE STREAM WITH \<topic\> and CREATE TABLE WITH \<topic\> write
+CREATE STREAM WITH <topic> and CREATE TABLE WITH <topic> write
 metadata to the KSQL command topic.
 
 Persistent queries based on CREATE STREAM AS SELECT and CREATE TABLE AS
@@ -291,42 +288,42 @@ How do I check the health of a KSQL server?
 Use the `ps` command to check whether the KSQL server process is
 running, for example:
 
-``` {.sourceCode .bash}
+```bash
 ps -aux | grep ksql
 ```
 
 Your output should resemble:
 
-``` {.sourceCode .bash}
-jim       2540  5.2  2.3 8923244 387388 tty2   Sl   07:48   0:33 /usr/lib/jvm/java-8-oracle/bin/java -cp /home/jim/confluent-5.0.0/share/java/monitoring-interceptors/* ...
+```
+jim       2540  5.2  2.3 8923244 387388 tty2   Sl   07:48   0:33 /usr/lib/jvm/java-8-oracle/bin/java -cp /home/jim/confluent-{{ site.release }}/share/java/monitoring-interceptors/* ...
 ```
 
-If the process status of the JVM isn\'t `Sl` or `Ssl`, the KSQL server
+If the process status of the JVM isn't `Sl` or `Ssl`, the KSQL server
 may be down.
 
-If you\'re running KSQL server in a Docker container, run the
+If you're running KSQL server in a Docker container, run the
 `docker ps` or `docker-compose ps` command, and check that the status of
 the `ksql-server` container is `Up`. Check the health of the process in
 the container by running `docker logs <ksql-server-container-id>`.
 
 Check runtime stats for the KSQL server that you\'re connected to.
 
-:   -   Run `ksql-print-metrics` on a server host. The tool connects to
-        a KSQL server that\'s running on `localhost` and collects JMX
-        metrics from the server process. Metrics include the number of
-        messages, the total throughput, the throughput distribution, and
-        the error rate.
-    -   Run SHOW STREAMS or SHOW TABLES, then run DESCRIBE EXTENDED
-        \<stream\|table\>.
-    -   Run SHOW QUERIES, then run EXPLAIN \<query\>.
+- Run `ksql-print-metrics` on a server host. The tool connects to
+a KSQL server that's running on `localhost` and collects JMX
+metrics from the server process. Metrics include the number of
+messages, the total throughput, the throughput distribution, and
+the error rate.
+- Run SHOW STREAMS or SHOW TABLES, then run DESCRIBE EXTENDED
+<stream|table>.
+- Run SHOW QUERIES, then run EXPLAIN <query>.
 
-The KSQL REST API supports a \"server info\" request (for example,
+The KSQL REST API supports a "server info" request (for example,
 `http://<ksql-server-url>/info`), which returns info such as the KSQL
 version. For more info, see [ksql-rest-api]{role="ref"}.
 
 What if automatic topic creation is turned off?
 -----------------------------------------------
 
-If automatic topic creation is disabled, KSQL and Kafka Streams
-applications continue to work. KSQL and Kafka Streams applications use
+If automatic topic creation is disabled, KSQL and {{ site.kstreams }}
+applications continue to work. KSQL and {{ site.kstreams }} applications use
 the Admin Client, so topics are still created.
