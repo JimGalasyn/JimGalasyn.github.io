@@ -1,23 +1,27 @@
 ---
+layout: page
+title: KSQL Architecture
+tagline: Internals of KSQL
+description: Quick tour under the hood of the KSQL engine
 ---
+
 KSQL Architecture
 =================
 
-You can use KSQL to build event streaming applications from {{
-site.ak-tm }} topics by using only SQL statements and queries. KSQL is
-built on Kafka Streams, so a KSQL application communicates with a Kafka
-cluster like any other Kafka Streams application.
+You can use KSQL to build event streaming applications from {{ site.ak-tm }}
+topics by using only SQL statements and queries. KSQL is built on
+{{ site.kstreams }}, so a KSQL application communicates with a Kafka
+cluster like any other {{ site.kstreams }} application.
 
 KSQL Components
 ---------------
 
 KSQL has these main components:
 
--   KSQL engine -- processes KSQL statements and queries
--   REST interface -- enables client access to the engine
--   KSQL CLI -- console that provides a command-line interface (CLI) to
-    the engine
--   KSQL UI -- enables developing KSQL applications in {{ site.c3 }}
+- KSQL engine -- processes KSQL statements and queries
+- REST interface -- enables client access to the engine
+- KSQL CLI -- console that provides a command-line interface (CLI)to the engine
+- KSQL UI -- enables developing KSQL applications in {{ site.c3 }} and {{ site.ccloud }} 
 
 KSQL Server comprises the KSQL engine and the REST API. KSQL Server
 instances communicate with the Kafka cluster, and you can add more of
@@ -25,40 +29,26 @@ them as necessary without restarting your applications.
 
 ![Diagram showing architecture of KSQL](../img/ksql-architecture-and-components.png){.align-center}
 
-KSQL Engine
-
-:   The KSQL engine executes KSQL statements and queries. You define
-    your application logic by writing KSQL statements, and the engine
-    builds and runs the application on available KSQL servers. Each KSQL
-    server instance runs a KSQL engine. Under the hood, the engine
-    parses your KSQL statements and builds corresponding Kafka Streams
-    topologies.
-
-    The KSQL engine is implemented in the
-    [KsqlEngine.java](https://github.com/confluentinc/ksql/blob/master/ksql-engine/src/main/java/io/confluent/ksql/KsqlEngine.java)
-    class.
-
-KSQL CLI
-
-:   The KSQL CLI provides a console with a command-line interface for
-    the KSQL engine. Use the KSQL CLI to interact with KSQL Server
-    instances and develop your streaming applications. The KSQL CLI is
-    designed to be familiar to users of MySQL, Postgres, and similar
-    applications.
-
-    The KSQL CLI is implemented in the
-    [io.confluent.ksql.cli](https://github.com/confluentinc/ksql/tree/master/ksql-cli/src/main/java/io/confluent/ksql/cli)
-    package.
-
-REST Interface
-
-:   The REST server interface enables communicating with the KSQL engine
-    from the CLI, {{ site.c3 }}, or from any other REST client. For more
-    information, see [ksql-rest-api]{role="ref"}.
-
-    The KSQL REST server is implemented in the
-    [KsqlRestApplication.java](https://github.com/confluentinc/ksql/blob/master/ksql-rest-app/src/main/java/io/confluent/ksql/rest/server/KsqlRestApplication.java)
-    class.
+- KSQL Engine: The KSQL engine executes KSQL statements and queries. You
+define your application logic by writing KSQL statements, and the engine
+builds and runs the application on available KSQL servers. Each KSQL
+server instance runs a KSQL engine. Under the hood, the engine
+parses your KSQL statements and builds corresponding Kafka Streams
+topologies. The KSQL engine is implemented in the
+[KsqlEngine.java](https://github.com/confluentinc/ksql/blob/master/ksql-engine/src/main/java/io/confluent/ksql/KsqlEngine.java)
+class.
+- KSQL CLI: The KSQL CLI provides a console with a command-line interface for
+the KSQL engine. Use the KSQL CLI to interact with KSQL Server
+instances and develop your streaming applications. The KSQL CLI is
+designed to be familiar to users of MySQL, Postgres, and similar
+applications. The KSQL CLI is implemented in the
+[io.confluent.ksql.cli](https://github.com/confluentinc/ksql/tree/master/ksql-cli/src/main/java/io/confluent/ksql/cli)
+package.
+- REST Interface: The REST server interface enables communicating with the KSQL engine
+from the CLI, {{ site.c3 }}, or from any other REST client. For more
+information, see [ksql-rest-api]{role="ref"}. The KSQL REST server is implemented in the
+[KsqlRestApplication.java](https://github.com/confluentinc/ksql/blob/master/ksql-rest-app/src/main/java/io/confluent/ksql/rest/server/KsqlRestApplication.java)
+class.
 
 When you deploy your KSQL application, it runs on KSQL Server instances
 that are independent of one another, are fault-tolerant, and can scale
@@ -70,11 +60,11 @@ elastically with load. For more information, see
 KSQL and Kafka Streams
 ----------------------
 
-KSQL is built on Kafka Streams, a robust stream processing framework
-that is part of Apache Kafka. You can use KSQL and Kafka Streams
+KSQL is built on {{ site.kstreams }}, a robust stream processing framework
+that is part of Apache Kafka. You can use KSQL and {{ site.kstreams }}
 together in your event streaming applications. For more information on
 their relationship, see [ksql-and-kafka-streams]{role="ref"}. For more
-information on Kafka Streams, see [Streams
+information on {{ site.kstreams }}, see [Streams
 Architecture](https://docs.confluent.io/current/streams/architecture.html).
 
 Also, you can implement custom logic and aggregations in your KSQL
@@ -91,42 +81,42 @@ Language (DML).
 These categories are similar in syntax, data types, and expressions, but
 they have different functions in KSQL Server.
 
-Data Definition Language (DDL) Statements
+### Data Definition Language (DDL) Statements
 
-:   Imperative verbs that define metadata on the KSQL server by adding,
-    changing, or deleting streams and tables. Data Definition Language
-    statements modify metadata only and don\'t operate on data. You can
-    use these statements with declarative DML statements.
+Imperative verbs that define metadata on the KSQL server by adding,
+changing, or deleting streams and tables. Data Definition Language
+statements modify metadata only and don\'t operate on data. You can
+use these statements with declarative DML statements.
 
-    The DDL statements include:
+The DDL statements include:
 
-    -   CREATE STREAM
-    -   CREATE TABLE
-    -   DROP STREAM
-    -   DROP TABLE
-    -   CREATE STREAM AS SELECT (CSAS)
-    -   CREATE TABLE AS SELECT (CTAS)
+-   CREATE STREAM
+-   CREATE TABLE
+-   DROP STREAM
+-   DROP TABLE
+-   CREATE STREAM AS SELECT (CSAS)
+-   CREATE TABLE AS SELECT (CTAS)
 
-Data Manipulation Language (DML) Statements
+### Data Manipulation Language (DML) Statements
 
-:   Declarative verbs that read and modify data in KSQL streams and
-    tables. Data Manipulation Language statements modify data only and
-    don\'t change metadata. The KSQL engine compiles DML statements into
-    Kafka Streams applications, which run on a Kafka cluster like any
-    other Kafka Streams application.
+Declarative verbs that read and modify data in KSQL streams and
+tables. Data Manipulation Language statements modify data only and
+don\'t change metadata. The KSQL engine compiles DML statements into
+Kafka Streams applications, which run on a Kafka cluster like any
+other Kafka Streams application.
 
-    The DML statements include:
+The DML statements include:
 
-    -   SELECT
-    -   INSERT INTO
-    -   CREATE STREAM AS SELECT (CSAS)
-    -   CREATE TABLE AS SELECT (CTAS)
+-   SELECT
+-   INSERT INTO
+-   CREATE STREAM AS SELECT (CSAS)
+-   CREATE TABLE AS SELECT (CTAS)
 
 The CSAS and CTAS statements occupy both categories, because they
 perform both a metadata change, like adding a stream, and they
 manipulate data, by creating a derivative of existing records.
 
-For more information, see [ksql\_syntax\_reference]{role="ref"}.
+For more information, see [ksql_syntax_reference]{role="ref"}.
 
 KSQL Deployment Modes
 ---------------------
@@ -181,7 +171,7 @@ this makes the topic name easier to read.
 
 Use headless mode to deploy your KSQL application to a production
 environment. When you deploy a KSQL server in headless mode, the REST
-interface isn\'t available, so you assign workloads to KSQL servers by
+interface isn't available, so you assign workloads to KSQL servers by
 using a SQL file. The SQL file contains the KSQL statements and queries
 that define your application. Headless mode is ideal for streaming ETL
 application deployments.
@@ -202,7 +192,7 @@ In headless mode you can:
 Note
 :::
 
-Headless mode deployments don\'t have a command topic.
+Headless mode deployments don't have a command topic.
 :::
 
 #### Config Topic {#ksql-architecture-config-topic}
@@ -219,56 +209,30 @@ where `<service id>` is the value in the `ksql.service.id` property.
 The following table shows which KSQL operations are supported in
 headless and interactive deployments.
 
-  -----------------------------------------------------------------------
-  KSQL Operation                          Interactive    Headless KSQL
-                                          KSQL           
-  --------------------------------------- -------------- ----------------
-  Describe a stream or table, including   Supported      Not Supported
-  runtime stats (DESCRIBE, DESCRIBE                      
-  EXTENDED)                                              
-
-  Explain a query, including runtime      Supported      Not Supported
-  stats (EXPLAIN)                                        
-
-  CREATE a stream or table                Supported      Supported
-
-  DROP a stream or table                  Supported      Not Supported
-
-  List existing streams and tables (SHOW  Supported      Not Supported
-  STREAMS, SHOW TABLES)                                  
-
-  List running queries (SHOW QUERIES)     Supported      Not Supported
-
-  Run a script (RUN SCRIPT)               Supported      Not Supported
-
-  Set query properties (SET)              Supported      Supported
-
-  Show contents of a Kafka topic (PRINT)  Supported      Not Supported
-
-  Show contents of a stream or table      Supported      Not Supported
-  (SELECT)                                               
-
-  Show properties of a query (SHOW        Supported      Not Supported
-  PROPERTIES)                                            
-
-  Show results of a query (SELECT)        Supported      Not Supported
-
-  TERMINATE a query                       Supported      Not Supported
-
-  Start and stop a KSQL Server instance   Not with KSQL  Not with KSQL
-                                          API            API
-
-  Cleanup and delete internal data        Supported      Not with KSQL
-  (internal topics) of a KSQL cluster or  (KSQL REST     API
-  application                             API)           
-  -----------------------------------------------------------------------
+| KSQL Operation                                                                      | Interactive KSQL          | Headless KSQL     |
+|-------------------------------------------------------------------------------------|---------------------------|-------------------|
+| Describe a stream or table, including runtime stats (DESCRIBE, DESCRIBE EXTENDED)   | Supported                 | Not Supported     |
+| Explain a query, including runtime stats (EXPLAIN)                                  | Supported                 | Not Supported     |
+| CREATE a stream or table                                                            | Supported                 | Supported         |
+| DROP a stream or table                                                              | Supported                 | Not Supported     |
+| List existing streams and tables (SHOW STREAMS, SHOW TABLES)                        | Supported                 | Not Supported     |
+| List running queries (SHOW QUERIES)                                                 | Supported                 | Not Supported     |
+| Run a script (RUN SCRIPT)                                                           | Supported                 | Not Supported     |
+| Set query properties (SET)                                                          | Supported                 | Supported         |
+| Show contents of a Kafka topic (PRINT)                                              | Supported                 | Not Supported     |
+| Show contents of a stream or table (SELECT)                                         | Supported                 | Not Supported     |
+| Show properties of a query (SHOW PROPERTIES)                                        | Supported                 | Not Supported     |
+| Show results of a query (SELECT)                                                    | Supported                 | Not Supported     |
+| TERMINATE a query                                                                   | Supported                 | Not Supported     |
+| Start and stop a KSQL Server instance                                               | Not with KSQL API         | Not with KSQL API |
+| Cleanup and delete internal data (internal topics) of a KSQL cluster or application | Supported (KSQL REST API) | Not with KSQL API |
 
 ::: {.note}
 ::: {.admonition-title}
 Note
 :::
 
-You can perform operations listed as \"Not with KSQL API\" manually.
+>You can perform operations listed as "Not with KSQL API" manually.
 Also, you can use deployment tools, like Kubernetes or Ansible, and you
 can use the Kafka tools, like `kafka-delete-records`.
 :::
@@ -283,9 +247,9 @@ more information, see [ksql-service-id]{role="ref"}.
 
 ![Diagram showing how to join KSQL engines to the same service pool](../img/ksql-dedicating-resources.png){.align-center}
 
-To scale out, just add more KSQL server instances. There\'s no master
+To scale out, just add more KSQL server instances. There's no master
 node or coordination among them required. For more information, see
-[ksql\_capacity\_planning]{role="ref"}.
+[ksql_capacity_planning]{role="ref"}.
 
 KSQL Query Lifecycle
 --------------------
@@ -295,21 +259,21 @@ and queries. Each statement and query has a lifecycle with the following
 steps:
 
 1.  You
-    [register a KSQL stream or table \<ksql-query-lifecycle-register-stream\>]{role="ref"}
+    [register a KSQL stream or table](ksql-query-lifecycle-register-stream){role="ref"}
     from an existing Kafka topic with a DDL statement, like
     `CREATE STREAM <my-stream> WITH <topic-name>`.
 2.  You
-    [express your app \<ksql-query-lifecycle-express-app\>]{role="ref"}
+    [express your app](ksql-query-lifecycle-express-app){role="ref"}
     by using a KSQL statement, like
     `CREATE TABLE AS SELECT FROM <my-stream>`.
 3.  KSQL
-    [parses your statement \<ksql-query-lifecycle-parse-statement\>]{role="ref"}
+    [parses your statement](ksql-query-lifecycle-parse-statement){role="ref"}
     into an abstract syntax tree (AST).
 4.  KSQL uses the AST and
-    [creates the logical plan \<ksql-query-lifecycle-logical-plan\>]{role="ref"}
+    [creates the logical plan](ksql-query-lifecycle-logical-plan){role="ref"}
     for your statement.
 5.  KSQL uses the logical plan and
-    [creates the physical plan \<ksql-query-lifecycle-physical-plan\>]{role="ref"}
+    [creates the physical plan](ksql-query-lifecycle-physical-plan){role="ref"}
     for your statement.
 6.  KSQL generates and runs the Kafka Streams application.
 7.  You manage the application as a STREAM or TABLE with its
@@ -321,10 +285,10 @@ steps:
 
 Register a stream or table by using the DDL statements, CREATE STREAM
 and CREATE TABLE. For example, the following KSQL statement creates a
-stream named `authorization_attempts` that\'s backed by a topic named
+stream named `authorization_attempts` that's backed by a topic named
 `authorizations`.
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM authorization_attempts
   (card_number VARCHAR, attemptTime BIGINT, ...)
   WITH (kafka_topic='authorizations', value_format=‘JSON’); 
@@ -347,15 +311,10 @@ entry to the metastore.
 For example, the metastore entry for the previous CREATE STREAM
 statement might resemble:
 
-  --------------------------------------------------------------------------------
-  Source Name               Structured Data Source
-  ------------------------- ------------------------------------------------------
-  AUTHORIZATION\_ATTEMPTS   \[DataSourceType: STREAM\], \[Schema:(card\_number
-                            VARCHAR, attemptTime BIGINT, attemptRegion VARCHAR,
-                            \...)\], \[Key: null\], \[KsqlTopic: AUTHORIZATIONS\],
-                            \...
-
-  --------------------------------------------------------------------------------
+|      Source Name       |                                                                 Structured Data Source                                                                  |     |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| AUTHORIZATION_ATTEMPTS | [DataSourceType: STREAM], [Schema:(card_number VARCHAR, attemptTime BIGINT, attemptRegion VARCHAR, ...)], [Key: null], [KsqlTopic: AUTHORIZATIONS], ... |     |
+|                        |                                                                                                                                                         |     |
 
 The KSQL metastore is implemented in the
 [io.confluent.ksql.metastore](https://github.com/confluentinc/ksql/tree/master/ksql-metastore/src/main/java/io/confluent/ksql/metastore)
@@ -363,11 +322,11 @@ package.
 
 ### Express Your Application as a KSQL Statement {#ksql-query-lifecycle-express-app}
 
-Now that you have a stream, express your application\'s business logic
+Now that you have a stream, express your application's business logic
 by using a KSQL statement. The following DML statement creates a
 `possible_fraud` table from the `authorization_attempts` stream:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE possible_fraud AS
   SELECT card_number, count(*)
   FROM authorization_attempts
@@ -377,14 +336,14 @@ CREATE TABLE possible_fraud AS
   HAVING count(*) > 3; 
 ```
 
-The KSQL engine translates the DML statement into a Kafka Streams
+The KSQL engine translates the DML statement into a {{ site.kstreams }}
 application. The application reads the source topic continuously, and
 whenever the `count(*) > 3` condition is met, it writes records to the
 `possible_fraud` table.
 
 ### KSQL Parses Your Statement {#ksql-query-lifecycle-parse-statement}
 
-To express your DML statement as a Kafka Streams application, the KSQL
+To express your DML statement as a {{ site.kstreams }} application, the KSQL
 engine starts by parsing the statement. The parser creates an abstract
 syntax tree (AST). The KSQL engine uses the AST to plan the query.
 
@@ -449,6 +408,6 @@ corresponding Kafka Streams API calls:
 ![Diagram showing how the KSQL engine creates a physical plan for a KSQL statement](../img/ksql-statement-physical-plan.gif){.align-center}
 
 If the DML statement is CREATE STREAM AS SELECT or CREATE TABLE AS
-SELECT, the result from the generated Kafka Streams application is a
+SELECT, the result from the generated {{ site.kstreams }} application is a
 persistent query that writes continuously to its output topic until the
 query is terminated.
