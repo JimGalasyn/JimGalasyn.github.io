@@ -1,30 +1,33 @@
 ---
+layout: page
+title: KSQL Operations
+tagline: Administer KSQL clusters
+description: Describes KSQL cluster administration
 ---
+
 KSQL Operations {#ksql_operations}
 ===============
 
 Watch the [screencast of Taking KSQL to
 Production](https://www.youtube.com/embed/f3wV8W_zjwE) on YouTube.
 
-Local Development and Testing with Confluent CLI
-------------------------------------------------
+Local Development and Testing with {{ site.confluent-cli }}
+-----------------------------------------------------------
 
-For development and testing purposes, you can use Confluent CLI to spin
-up services on a single host. For more information, see the [Confluent
-Platform Quick
-Start](https://docs.confluent.io/current/quickstart/index.html).
+For development and testing purposes, you can use {{ site.confluent-cli }}
+to spin up services on a single host. For more information, see the [Confluent
+Platform Quick Start](https://docs.confluent.io/current/quickstart/index.html).
 
 ::: {.important}
 ::: {.admonition-title}
 Important
 :::
 
-The [confluent local \<cli-command-reference\>]{role="ref"} commands are
+>The [confluent local](cli-command-reference){role="ref"} commands are
 intended for a single-node development environment and are not suitable
 for a production environment. The data that are produced are transient
 and are intended to be temporary. For production-ready workflows, see
-[Install and
-Upgrade](https://docs.confluent.io/current/installation/index.html).
+[Install and Upgrade](https://docs.confluent.io/current/installation/index.html).
 :::
 
 Installing and Configuring KSQL
@@ -34,7 +37,7 @@ You have a number of options when you set up KSQL Server. For more
 information on installing and configuring KSQL, see the following
 topics.
 
--   [install\_ksql]{role="ref"}
+-   [install_ksql]{role="ref"}
 -   [ksql-server-config]{role="ref"}
 -   [ksql-param-reference]{role="ref"}
 
@@ -43,22 +46,17 @@ Starting and Stopping KSQL Clusters
 
 KSQL provides start and stop scripts.
 
-ksql-server-start
-
-:   This script starts the KSQL server. It requires a server
-    configuration file as an argument and is located in the `/bin`
-    directory of your {{ site.cp }} installation. For more information,
-    see [start\_ksql-server]{role="ref"}.
-
-ksql-server-stop
-
-:   This script stops the KSQL server. It is located in the `/bin`
-    directory of your {{ site.cp }} installation.
+- ksql-server-start: This script starts the KSQL server. It requires a server
+configuration file as an argument and is located in the `/bin`
+directory of your {{ site.cp }} installation. For more information,
+see [start_ksql-server]{role="ref"}.
+- ksql-server-stop: This script stops the KSQL server. It is located in the
+`/bin` directory of your {{ site.cp }} installation.
 
 Healthchecks
 ------------
 
--   The KSQL REST API supports a \"server info\" request at
+-   The KSQL REST API supports a "server info" request at
     `http://<server>:8088/info`.
 -   Check runtime stats for the KSQL server that you are connected to
     via `DESCRIBE EXTENDED <stream or table>` and
@@ -77,7 +75,7 @@ distribution, error rate, and more.
 
 To enable JMX metrics, set `JMX_PORT` before starting the KSQL server:
 
-``` {.sourceCode .bash}
+```bash
 export JMX_PORT=1099 && \
 <path-to-confluent>/bin/ksql-server-start <path-to-confluent>/etc/ksql/ksql-server.properties
 ```
@@ -86,13 +84,13 @@ The `ksql-print-metrics` command line utility collects these metrics and
 prints them to the console. You can invoke this utility from your
 terminal:
 
-``` {.sourceCode .bash}
-$ <path-to-confluent>/bin/ksql-print-metrics
+```bash
+<path-to-confluent>/bin/ksql-print-metrics
 ```
 
 Your output should resemble:
 
-``` {.sourceCode .bash}
+```
 messages-consumed-avg: 96416.96196183885
 messages-consumed-min: 88900.3329377909
 error-rate: 0.0
@@ -104,14 +102,14 @@ num-idle-queries: 0.0
 messages-consumed-max: 103397.81191436431
 ```
 
-For more information about Kafka Streams metrics, see [Monitoring
+For more information about {{ site.kstreams }} metrics, see [Monitoring
 Streams
 Applications](https://docs.confluent.io/current/streams/monitoring.html).
 
 Capacity Planning
 -----------------
 
-The [Capacity Planning guide \<ksql\_capacity\_planning\>]{role="ref"}
+The [Capacity Planning guide](<ksql_capacity_planning>){role="ref"}
 describes how to size your KSQL clusters.
 
 Troubleshooting
@@ -122,7 +120,7 @@ Troubleshooting
 Queries in KSQL, including non-persistent queries such as
 `SELECT * FROM myTable`, are continuous streaming queries. Streaming
 queries will not stop unless explicitly terminated. To terminate a
-non-persistent query in the KSQL CLI you must type `Ctrl + C`.
+non-persistent query in the KSQL CLI you must type Ctrl+C.
 
 ### No results from `SELECT * FROM` table or stream?
 
@@ -131,26 +129,26 @@ newly arriving data instead, and no new input records are being
 received. To fix, do one of the following:
 
 -   Run this command: `SET 'auto.offset.reset' = 'earliest';`. For more
-    information, see [install\_cli-config]{role="ref"} and
+    information, see [install_cli-config]{role="ref"} and
     [ksql-server-config]{role="ref"}.
 -   Write new records to the input topics.
 
 ### Can't create a stream from the output of windowed aggregate?
 
-KSQL doesn\'t support structured keys, so you can\'t create a stream
+KSQL doesn't support structured keys, so you can't create a stream
 from a windowed aggregate.
 
 ### KSQL doesn't clean up its internal topics?
 
 Make sure that your {{ site.ak-tm }} cluster is configured with
 `delete.topic.enable=true`. For more information, see
-[deleteTopics\|clients/javadocs/org/apache/kafka/clients/admin/AdminClient.html]{role="cp-javadoc"}.
+[deleteTopics|clients/javadocs/org/apache/kafka/clients/admin/AdminClient.html]{role="cp-javadoc"}.
 
 ### KSQL CLI doesn't connect to KSQL server?
 
 The following warning may occur when you start the KSQL CLI.
 
-``` {.sourceCode .bash}
+```
 **************** WARNING ******************
 Remote server address may not be valid:
 Error issuing GET to KSQL server
@@ -163,24 +161,24 @@ Caused by: Connection reset
 Also, you may see a similar error when you create a KSQL query by using
 the CLI.
 
-``` {.sourceCode .bash}
+```
 Error issuing POST to KSQL server
 Caused by: java.net.SocketException: Connection reset
 Caused by: Connection reset
 ```
 
-In both cases, the CLI can\'t connect to the KSQL server, which may be
+In both cases, the CLI can't connect to the KSQL server, which may be
 caused by one of the following conditions.
 
--   KSQL CLI isn\'t connected to the correct KSQL server port.
--   KSQL server isn\'t running.
+-   KSQL CLI isn't connected to the correct KSQL server port.
+-   KSQL server isn't running.
 -   KSQL server is running but listening on a different port.
 
 #### Check the port that KSQL CLI is using
 
 Ensure that the KSQL CLI is configured with the correct KSQL server
 port. By default, the server listens on port `8088`. For more info, see
-[Starting the KSQL CLI \<install\_ksql-cli\>]{role="ref"}.
+[Starting the KSQL CLI](install_ksql-cli){role="ref"}.
 
 #### Check the KSQL server configuration
 
@@ -188,48 +186,50 @@ In the KSQL server configuration file, check that the list of listeners
 has the host address and port configured correctly. Look for the
 `listeners` setting:
 
-``` {.sourceCode .bash}
+```
 listeners=http://0.0.0.0:8088
 ```
 
 Or if you are running over IPv6:
 
-    listeners=http://[::]:8088
+```
+listeners=http://[::]:8088
+```
 
 For more info, see
-[Starting KSQL Server \<start\_ksql-server\>]{role="ref"}.
+[Starting KSQL Server](<start_ksql-server>){role="ref"}.
 
 #### Check for a port conflict
 
 There may be another process running on the port that the KSQL server
-listens on. Use the following command to check the process that\'s
+listens on. Use the following command to check the process that's
 running on the port assigned to the KSQL server. This example checks the
 default port, which is `8088`.
 
-``` {.sourceCode .bash}
+```bash
 netstat -anv | egrep -w .*8088.*LISTEN
 ```
 
 Your output should resemble:
 
-``` {.sourceCode .bash}
+```
 tcp4  0 0  *.8088       *.*    LISTEN      131072 131072    46314      0
 ```
 
 In this example, `46314` is the PID of the process that\'s listening on
 port `8088`. Run the following command to get info on the process.
 
-``` {.sourceCode .bash}
+```bash
 ps -wwwp <pid>
 ```
 
 Your output should resemble:
 
-``` {.sourceCode .bash}
+```
 io.confluent.ksql.rest.server.KsqlServerMain ./config/ksql-server.properties
 ```
 
-If the `KsqlServerMain` process isn\'t shown, a different process has
+If the `KsqlServerMain` process isn't shown, a different process has
 taken the port that `KsqlServerMain` would normally use. Check the
 assigned listeners in the KSQL server configuration, and restart the
 KSQL CLI with the correct port.
@@ -237,7 +237,7 @@ KSQL CLI with the correct port.
 ### Replicated topic with Avro schema causes errors?
 
 Confluent Replicator renames topics during replication, and if there are
-associated Avro schemas, they aren\'t automatically matched with the
+associated Avro schemas, they aren't automatically matched with the
 renamed topics.
 
 In the KSQL CLI, the `PRINT` statement for a replicated topic works,
@@ -245,7 +245,7 @@ which shows that the Avro schema ID exists in {{ site.sr }}, and KSQL
 can deserialize the Avro message. But `CREATE STREAM` fails with a
 deserialization error:
 
-``` {.sourceCode .bash}
+```sql
 CREATE STREAM pageviews_original (viewtime bigint, userid varchar, pageid varchar) WITH (kafka_topic='pageviews.replica', value_format='AVRO');
 
 [2018-06-21 19:12:08,135] WARN task [1_6] Skipping record due to deserialization error. topic=[pageviews.replica] partition=[6] offset=[1663] (org.apache.kafka.streams.processor.internals.RecordDeserializer:86)
@@ -258,7 +258,7 @@ org.apache.kafka.connect.errors.DataException: pageviews.replica
 The solution is to register schemas manually against the replicated
 subject name for the topic:
 
-``` {.sourceCode .bash}
+```bash
 # Original topic name = pageviews
 # Replicated topic name = pageviews.replica
 curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data "{\"schema\": $(curl -s http://localhost:8081/subjects/pageviews-value/versions/latest | jq '.schema')}" http://localhost:8081/subjects/pageviews.replica-value/versions
@@ -266,12 +266,12 @@ curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data "{
 
 ### Check KSQL server logs
 
-If you\'re still having trouble, check the KSQL server logs for errors.
+If you're still having trouble, check the KSQL server logs for errors.
 
-``` {.sourceCode .bash}
+```bash
 confluent log ksql-server
 ```
 
 Look for logs in the default directory at `/usr/local/logs` or in the
 `LOG_DIR` that you assign when you start the KSQL CLI. For more info,
-see [Starting the KSQL CLI \<install\_ksql-cli\>]{role="ref"}.
+see [Starting the KSQL CLI](<install_ksql-cli>){role="ref"}.
