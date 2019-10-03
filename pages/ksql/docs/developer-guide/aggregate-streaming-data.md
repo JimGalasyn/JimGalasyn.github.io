@@ -1,11 +1,15 @@
 ---
+layout: page
+title: Aggregate Streaming Data With KSQL
+tagline: Build stateful aggregates on streaming data
+description: Learn aggregation functions in KSQL statements 
 ---
 Aggregate Streaming Data With KSQL
 ==================================
 
 KSQL supports several aggregate functions, like COUNT and SUM. You can
 use these to build stateful aggregates on streaming data. For the full
-list, see [ksql\_aggregate\_functions]{role="ref"}.
+list, see [ksql_aggregate_functions]{role="ref"}.
 
 Here are some examples that show how to aggregate data from an inbound
 stream of pageview records, named `pageviews`.
@@ -25,7 +29,7 @@ time you start the query until you terminate it. The query uses the
 CREATE TABLE AS SELECT statement, because the result of the query is a
 KSQL table.
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE pageviews_per_region AS
   SELECT regionid,
          COUNT(*)
@@ -38,7 +42,7 @@ CREATE TABLE pageviews_per_region AS
 An important difference between tables and streams is that a record with
 a non-null key and a null value has a special semantic meaning: in a
 table, this kind of record is a *tombstone*, which tells KSQL to "DELETE
-this key from the table". For a stream, null is a value like any other,
+this key from the table". For a stream, `null` is a value like any other,
 with no special meaning.
 
 Aggregate Over Windows
@@ -48,7 +52,7 @@ KSQL supports aggregation using tumbling, hopping, and session windows.
 
 In a windowed aggregation, the first seen message is written into the
 table for a particular key as a null. Downstream applications reading
-the data will see nulls, and if an application can\'t handle null
+the data will see nulls, and if an application can't handle null
 values, it may need a separate stream that filters these null records
 with a WHERE clause.
 
@@ -56,7 +60,7 @@ with a WHERE clause.
 
 This query computes the pageview count per region per minute:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE pageviews_per_region_per_minute AS
   SELECT regionid,
          COUNT(*)
@@ -65,10 +69,10 @@ CREATE TABLE pageviews_per_region_per_minute AS
   GROUP BY regionid;
 ```
 
-To count the pageviews for "Region\_6" by female users every 30 seconds,
+To count the pageviews for "Region_6" by female users every 30 seconds,
 you can change the previous query to the following:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE pageviews_per_region_per_30secs AS
   SELECT regionid,
          COUNT(*)
@@ -88,7 +92,7 @@ UCASE and LCASE functions are used to convert the values of `gender` and
 them correctly. KSQL also supports the LIKE operator for prefix, suffix,
 and substring matching.
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE pageviews_per_region_per_30secs10secs AS
   SELECT regionid,
          COUNT(*)
@@ -104,7 +108,7 @@ The following query counts the number of pageviews per region for
 session windows, with a session inactivity gap of 60 seconds. This query
 *sessionizes* the input data and performs the counting step per region.
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE pageviews_per_region_per_session AS
   SELECT regionid,
          COUNT(*)
