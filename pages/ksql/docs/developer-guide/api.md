@@ -60,7 +60,7 @@ curl -X "POST" "http://localhost:8088/ksql" \
 Here's an example request that retrieves streaming data from
 `TEST_STREAM`:
 
-``` {.sourceCode .bash}
+```bash
 curl -X "POST" "http://localhost:8088/query" \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
      -d $'{
