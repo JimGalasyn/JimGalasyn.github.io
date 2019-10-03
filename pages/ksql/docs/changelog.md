@@ -1,4 +1,8 @@
 ---
+layout: page
+title: KSQL Changelog
+tagline: Detailed changelog for KSQL
+description: Lists changes to the KSQL codebase
 ---
 KSQL Changelog {#ksql_changelog}
 ==============
@@ -14,26 +18,26 @@ KSQL 5.4.0 includes new features, including:
     for example `STRING` or `BIGINT`. Previously KSQL required all Avro
     values to be Avro records, and all JSON values to be JSON objects.
     For more information, refer to
-    [ksql\_single\_field\_wrapping]{role="ref"}.
+    [ksql_single_field_wrapping]{role="ref"}.
 -   KSQL now allows users to control how results containing only a
     single value field are serialized to Kafka. Users can now choose to
     serialize the single value as a named field within an outer Avro
     record or JSON object, depending on the format in use, or as an
     anonymous value. For more information, refer to
-    [ksql\_single\_field\_wrapping]{role="ref"}.
+    [ksql_single_field_wrapping]{role="ref"}.
 -   A new config `ksql.metrics.tags.custom` for adding custom tags to
     emitted JMX metrics. See [ksql-metrics-tags-custom]{role="ref"} for
     usage.
 -   New `UNIX_TIMESTAMP()` and `UNIX_DATE()` functions.
 -   A new `KAFKA` format that supports `INT`, `BIGINT`, `DOUBLE` and
     `STRING` fields that have been serialized using the standard Kafka
-    serializers, e.g.
+    serializers, for example,
     `org.apache.kafka.common.serialization.LongSerializer`.
 
-    The format only supports single values, i.e. only single field,
+    The format supports only single values, i.e. only single field,
     being primarily intended for use as a key format.
 
-KSQL 5.4.0 includes the following misc. changes:
+KSQL 5.4.0 includes the following miscellaneous changes:
 
 -   Require either the value for a `@UdfParameter` or for the UDF JAR to
     be compiled with the Java8 `-parameters` compilation option. The UDF
@@ -47,19 +51,19 @@ KSQL 5.3.0 includes new features, including:
 -   Drop the requirement that `CREATE TABLE` statements must have a
     `KEY` set in their `WITH` clause. This is now an optional
     optimization to avoid unnecessary repartition steps. See [Github
-    issue \#2745](https://github.com/confluentinc/ksql/pull/2745) for
+    issue #2745](https://github.com/confluentinc/ksql/pull/2745) for
     more info.
 -   Improved handling of `KEY` fields. The `KEY` field is an optional
-    copy of the Kafka record\'s key held within the record\'s value.
+    copy of the Kafka record's key held within the record's value.
     Users can supply the name of the field that holds the copy of the
     key within the `WITH` clause. The improved handling may eliminate
-    unnecessary repartition steps in certain queries. Please note that
-    preexisting persistent queries, e.g. those created via
+    unnecessary repartition steps in certain queries. Note that
+    preexisting persistent queries, like those created by using
     `CREATE TABLE AS SELECT ...` or `CREATE STREAM AS SELECT ...` or
     `INSERT INTO ...`, will continue to have the unnecessary repartition
     step. This is required to avoid the potential for data loss should
     this step be dropped. See [Github issue
-    \#2636](https://github.com/confluentinc/ksql/pull/2636) for more
+    #2636](https://github.com/confluentinc/ksql/pull/2636) for more
     info.
 -   `INSERT INTO ... VALUES` is now supported, with standard SQL syntax
     to insert rows to existing KSQL streams/tables. To disable this
@@ -80,7 +84,7 @@ KSQL 5.3.0 includes new features, including:
     the config topic.
 -   A new KSQL testing tool was added. The tool is a command line
     utility that enables testing KSQL statements without requiring any
-    infrastructure, like Apache Kafka and KSQL clusters.
+    infrastructure, like {{ site.ak }} and KSQL clusters.
 
 KSQL 5.3.0 includes bug fixes, including:
 
@@ -93,19 +97,19 @@ KSQL 5.3.0 includes bug fixes, including:
     would result in serialization issues in the presence of `null`
     values.
 
-    This is a forward compatible change in Avro, i.e. after upgrading,
-    KSQL will be able to read old values using the new schema. However,
+    This is a forward-compatible change in Avro, so after upgrading,
+    KSQL is able to read old values using the new schema. However,
     it is important to ensure downstream consumers of the data are using
-    the updated schema before upgrading KSQL, as otherwise
+    the updated schema before upgrading KSQL, otherwise
     deserialization may fail. The updated schema is best obtained from
     running the query in another KSQL cluster, running version 5.3.
 
     See [Github issue
-    \#2769](https://github.com/confluentinc/ksql/pull/2769) for more
+    #2769](https://github.com/confluentinc/ksql/pull/2769) for more
     info.
 
 -   Fixed issues with using `AS` keyword when aliasing sources. See
-    [\#2732](https://github.com/confluentinc/ksql/issues/2732) for more
+    [#2732](https://github.com/confluentinc/ksql/issues/2732) for more
     info.
 
 Version 5.2.0
@@ -113,28 +117,28 @@ Version 5.2.0
 
 KSQL 5.2 includes new features, including:
 
--   Support for [HTTPS \<config-ksql-for-https\>]{role="ref"}.
+-   Support for [HTTPS](config-ksql-for-https){role="ref"}.
 -   Support for CASE expression: KSQL now supports CASE conditional
     expression in Searched form where KSQL evaluates each condition from
     left to right. It returns the result for the first condition that
-    evaluates to true. If no condition evaluates to true, the result for
-    the ELSE clause will be returned. If there is no ELSE clause, null
+    evaluates to `true`. If no condition evaluates to `true`, the result for
+    the ELSE clause will be returned. If there is no ELSE clause, `null`
     is returned.
 -   A new family of UDFs for improved handling of URIs (e.g. extracting
     information/decoding information), see
-    [UDF table \<functions\>]{role="ref"} for all URL functions
+    [UDF table](functions){role="ref"} for all URL functions
 -   `LIMIT` keyword support for `PRINT`
-    ([\#1316](https://github.com/confluentinc/ksql/issues/1316))
--   Support for read-after-write consistency: new commands don\'t
+    ([#1316](https://github.com/confluentinc/ksql/issues/1316))
+-   Support for read-after-write consistency: new commands don't
     execute until previous commands have finished executing. This
     feature is enabled by default in the CLI
-    ([\#2280](https://github.com/confluentinc/ksql/pull/2280)) and can
+    ([#2280](https://github.com/confluentinc/ksql/pull/2280)) and can
     be implemented by the user for the REST API
-    ([coordinate\_multiple\_requests]{role="ref"}).
+    ([coordinate_multiple_requests]{role="ref"}).
 -   A log of record processing events to help users debug their KSQL
     queries. The log can be configured to log to Kafka to be consumed as
     a KSQL stream. See
-    [KSQL processing log \<ksql\_processing\_log\>]{role="ref"} for more
+    [KSQL processing log](ksql_processing_log){role="ref"} for more
     details.
 -   Aggregation functionality has been extended. KSQL now supports:
     -   `GROUP BY` more than just simple columns, including fields
@@ -146,12 +150,12 @@ KSQL 5.2 includes new features, including:
 -   Automatic compatibility management for queries in headless mode
     across versions. Starting with 5.2, KSQL will automatically take
     care of ensuring query compatibility when upgrading. This means you
-    won\'t need to worry about setting properties correctly during
+    won't need to worry about setting properties correctly during
     upgrade, as has been required for previous upgrades. Refer to the
-    [architecture documentation \<ksql-architecture-config-topic\>]{role="ref"}
+    [architecture documentation](ksql-architecture-config-topic){role="ref"}
     for details. Note that it is still up to the user to set properties
     correctly before upgrading to 5.2. The
-    [upgrade doc \<upgrading-ksql\>]{role="ref"} has details about the
+    [upgrade doc](upgrading-ksql){role="ref"} has details about the
     properties required to safely upgrade to 5.2.
 
 KSQL 5.2 includes bug fixes, including:
@@ -162,7 +166,7 @@ KSQL 5.2 includes bug fixes, including:
     later statements that were dependent the execution of prior
     statements may have failed. In version 5.2 and later, this is no
     longer an issue.
--   Improved support for non-interactive, \"headless\" mode deployments.
+-   Improved support for non-interactive, "headless" mode deployments.
     Prior to version 5.2 KSQL parsed the full script before attempting
     to execute any statements. The full parse would often fail when
     later statements relied on the execution of earlier statements. In
@@ -172,7 +176,7 @@ KSQL 5.2 deprecates some features, including:
 
 -   The use of the `RUN SCRIPT` statement via the REST API is now
     deprecated and will be removed in the next major release. ([Github
-    issue 2179](https://github.com/confluentinc/ksql/issues/2179)). The
+    issue #2179](https://github.com/confluentinc/ksql/issues/2179)). The
     feature circumnavigates certain correctness checks and is
     unnecessary, given the script content can be supplied in the main
     body of the request. If you are using the `RUN SCRIPT` functionality
@@ -191,7 +195,7 @@ KSQL 5.1 includes new features, including:
 -   `WindowStart()` and `WindowEnd()` UDFs
 -   `StringToDate()` and `DateToString()` UDFs
 
-### Detailed Changlog
+### Detailed Changelog
 
 -   [PR-2265](https://github.com/confluentinc/ksql/pull/2265) - MINOR:
     Fix bug encountered when restoring RUN SCRIPT
