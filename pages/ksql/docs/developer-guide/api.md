@@ -1,5 +1,10 @@
 ---
+layout: page
+title: KSQL REST API Reference
+tagline: Run queries over REST
+description: Learn how to communicate with KSQL by using HTTP
 ---
+
 KSQL REST API Reference {#ksql-rest-api}
 =======================
 
