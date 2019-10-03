@@ -1,5 +1,10 @@
 ---
+layout: page
+title: Time and Windows in KSQL
+tagline: Event streams and KSQL time boundaries 
+description: Learn how to work with time windows in KSQL statements 
 ---
+
 Time and Windows in KSQL {#time-and-windows-in-ksql-queries}
 ========================
 
@@ -11,7 +16,7 @@ time axis.
 
 This is the default timestamp that KSQL uses for processing the record.
 The timestamp is set either by the producer application or by the {{
-site.ak-tm }} broker, depending on the topic\'s configuration. Records
+site.ak-tm }} broker, depending on the topic's configuration. Records
 may be out-of-order within the stream.
 
 Timestamps are used by time-dependent operations, like aggregations and
@@ -21,83 +26,77 @@ Time Semantics
 --------------
 
 Timestamps have different meanings, depending on the implementation. A
-record\'s timestamp can refer to the time when the event occurred, or
+record's timestamp can refer to the time when the event occurred, or
 when the record was ingested into Kafka, or when the record was
 processed. These times are *event-time*, *ingestion-time*, and
 *processing-time*.
 
-Event-time
+- Event-time
+  
+  The time when a record is created by the data source. Achieving
+  event-time semantics requires embedding timestamps in records when
+  an event occurs and the record is produced.
 
-:   The time when a record is created by the data source. Achieving
-    event-time semantics requires embedding timestamps in records when
-    an event occurs and the record is produced.
+  For example, if the record is a geo-location change reported by a GPS sensor
+  in a car, the associated event-time is the time when the GPS sensor captured
+  the location change.
 
-    For example, if the record is a geo-location change reported by a
-    GPS sensor in a car, the associated event-time is the time when the
-    GPS sensor captured the location change.
+- Ingestion-time
 
-Ingestion-time
+  The time when a record is stored in a topic partition by a Kafka
+  broker. Ingestion-time is similar to event-time, as a timestamp is
+  embedded in the record, but the ingestion timestamp is generated
+  when the Kafka broker appends the record to the target topic.
 
-:   The time when a record is stored in a topic partition by a Kafka
-    broker. Ingestion-time is similar to event-time, as a timestamp is
-    embedded in the record, but the ingestion timestamp is generated
-    when the Kafka broker appends the record to the target topic.
+  Ingestion-time can approximate event-time if the time difference
+  between the creation of the record and its ingestion into Kafka is
+  small.
 
-    Ingestion-time can approximate event-time if the time difference
-    between the creation of the record and its ingestion into Kafka is
-    small.
+  For use cases where event-time semantics aren\'t possible,
+  ingestion-time may be an alternative. Consider using ingestion-time
+  when data producers don\'t embed timestamps in records, as in older
+  versions of Kafka's Java producer client, or when the producer
+  can\'t assign timestamps directly, like when it doesn\'t have access
+  to a local clock.
 
-    For use cases where event-time semantics aren\'t possible,
-    ingestion-time may be an alternative. Consider using ingestion-time
-    when data producers don\'t embed timestamps in records, as in older
-    versions of Kafka's Java producer client, or when the producer
-    can\'t assign timestamps directly, like when it doesn\'t have access
-    to a local clock.
+- Processing-time
 
-Processing-time
+  The time when the record is consumed by a stream processing
+  application. The processing-time can occur immediately after
+  ingestion-time, or it may be delayed by milliseconds, hours, or
+  days.
 
-:   The time when the record is consumed by a stream processing
-    application. The processing-time can occur immediately after
-    ingestion-time, or it may be delayed by milliseconds, hours, or
-    days.
+  For example, imagine an analytics application that reads and
+  processes the geo-location data reported from car sensors, and
+  presents it to a fleet-management dashboard. In this case,
+  processing-time in the analytics application might be many minutes
+  or hours after the event-time, as cars can move out of mobile
+  reception for periods of time and have to buffer records locally.
 
-    For example, imagine an analytics application that reads and
-    processes the geo-location data reported from car sensors, and
-    presents it to a fleet-management dashboard. In this case,
-    processing-time in the analytics application might be many minutes
-    or hours after the event-time, as cars can move out of mobile
-    reception for periods of time and have to buffer records locally.
-
-Don\'t mix streams or tables that have different time semantics.
+Don't mix streams or tables that have different time semantics.
 
 ### Timestamp Assignment
 
-A record\'s timestamp is set either by the record\'s producer or by the
-Kafka broker, depending on the topic\'s timestamp configuration. The
-topic\'s
+A record's timestamp is set either by the record's producer or by the
+Kafka broker, depending on the topic's timestamp configuration. The
+topic's
 [message.timestamp.type](https://docs.confluent.io/current/installation/configuration/topic-configs.html#message-timestamp-type)
 setting can be either `CreateTime` or `LogAppendTime`.
 
-CreateTime
+- CreateTime: The broker uses the the record's timestamp as set by the producer. This setting enforces event-time semantics.
+- LogAppendTime: The broker overwrites the record's timestamp with the broker's
+local time when it appends the record to the topic's log. This
+setting enforces ingestion-time semantics. If `LogAppendTime` is
+configured, the producer has no control over the timestamp.
 
-:   The broker uses the the record\'s timestamp as set by the producer.
-    This setting enforces event-time semantics.
-
-LogAppendTime
-
-:   The broker overwrites the record\'s timestamp with the broker\'s
-    local time when it appends the record to the topic\'s log. This
-    setting enforces ingestion-time semantics. If `LogAppendTime` is
-    configured, the producer has no control over the timestamp.
-
-KSQL doesn\'t support processing-time operations directly, but you can
+KSQL doesn't support processing-time operations directly, but you can
 implement user-defined functions (UDFs) that access the current time.
 For more information, see [ksql-udfs]{role="ref"}.
 
 By default, when KSQL imports a topic to create a stream, it uses the
-record\'s timestamp, but you can add the WITH(TIMESTAMP=\'some-field\')
-clause to use a different field from the record\'s value as the
-timestamp. The optional TIMESTAMP\_FORMAT property indicates how KSQL
+record's timestamp, but you can add the WITH(TIMESTAMP='some-field')
+clause to use a different field from the record's value as the
+timestamp. The optional TIMESTAMP_FORMAT property indicates how KSQL
 should parse the field. The field you specify can be an event-time or an
 ingestion-time. This approach implements *payload-time* semantics.
 
@@ -106,11 +105,11 @@ ingestion-time. This approach implements *payload-time* semantics.
 Important
 :::
 
-If you use the WITH(TIMESTAMP=\...) clause, this timestamp must be
+>If you use the WITH(TIMESTAMP=...) clause, this timestamp must be
 expressible as a Unix epoch time in milliseconds, which is the number of
 milliseconds that have elapsed since 1 January 1970 at midnight UTC/GMT.
 Also, you can specify the timestamp as a string when you provide a
-TIMESTAMP\_FORMAT. For more information, see
+TIMESTAMP_FORMAT. For more information, see
 [ksql-timestamp-formats]{role="ref"}.
 
 When working with time you should also make sure that additional aspects
@@ -141,7 +140,7 @@ A producer application can set the timestamp on its records to any
 value, but usually, it choses a sensible event-time or the current
 wall-clock time.
 
-If the topic\'s
+If the topic's
 [message.timestamp.type](https://docs.confluent.io/current/installation/configuration/topic-configs.html#message-timestamp-type)
 configuration is set to `CreateTime`, the following holds for the
 producer:
@@ -149,7 +148,7 @@ producer:
 -   When a producer record is created, it contains no timestamp, by
     default.
 -   The producer can set the timestamp on the record explicitly.
--   If the timestamp isn\'t set when the producer application calls the
+-   If the timestamp isn't set when the producer application calls the
     `producer.send()` method, the current wall-clock time is set
     automatically.
 
@@ -158,7 +157,7 @@ In all three cases, the time semantics are considered to be event-time.
 ### Timestamp Extractors
 
 When KSQL imports a topic to create a stream, it gets the timestamp from
-the topic\'s messages by using a *timestamp extractor* class. Timestamp
+the topic's messages by using a *timestamp extractor* class. Timestamp
 extractors implement the
 [TimestampExtractor](https://docs.confluent.io/current/streams/javadocs/org/apache/kafka/streams/processor/TimestampExtractor.html)
 interface.
@@ -192,7 +191,7 @@ queries by using the WINDOWSTART() and WINDOWEND() functions.
 Important
 :::
 
-KSQL is based on the Unix epoch time in the UTC timezone, and this can
+>KSQL is based on the Unix epoch time in the UTC timezone, and this can
 affect time windows. For example, if you define a 24-hour tumbling time
 window, it will be in the UTC timezone, which may not be appropriate if
 you want to have daily windows in your timezone.
@@ -207,7 +206,7 @@ KSQL tracks windows per record key.
 Note
 :::
 
-A related operation is *grouping*, which groups all records that have
+>A related operation is *grouping*, which groups all records that have
 the same key to ensure that records are properly partitioned, or
 "keyed", for subsequent operations. When you use the GROUP BY clause in
 a query, windowing enables you to further sub-group the records of a
@@ -224,21 +223,15 @@ associated with the correct window.
 
 There are three ways to define time windows in KSQL: hopping windows,
 tumbling windows, and session windows. Hopping and tumbling windows are
-time windows, because they\'re defined by fixed durations they you
+time windows, because they're defined by fixed durations they you
 specify. Session windows are dynamically sized based on incoming data
 and defined by periods of activity separated by gaps of inactivity.
 
-  --------------------------------------------------------------------------------------------
-  Window type                            Behavior        Description
-  -------------------------------------- --------------- -------------------------------------
-  [ksql\_hopping\_window]{role="ref"}    Time-based      Fixed-duration, overlapping windows
-
-  [ksql\_tumbling\_window]{role="ref"}   Time-based      Fixed-duration, non-overlapping,
-                                                         gap-less windows
-
-  [ksql\_session\_window]{role="ref"}    Session-based   Dynamically-sized, non-overlapping,
-                                                         data-driven windows
-  --------------------------------------------------------------------------------------------
+| Window type                         | Behavior      | Description                                             |
+|-------------------------------------|---------------|---------------------------------------------------------|
+| [ksql_tumbling_window]{role="ref"} | Time-based    | Fixed-duration, non-overlapping, gap-less windows       |
+| [ksql_hopping_window]{role="ref"}  | Time-based    | Fixed-duration, overlapping windows                     |
+| [ksql_session_window]{role="ref"}  | Session-based | Dynamically-sized, non-overlapping, data-driven windows |
 
 ![Diagram showing three types of time windows in KSQL streams: tumbling, hopping, and session](../img/ksql-window-aggregation.png)
 
@@ -262,14 +255,14 @@ For example, if you want to count the pageviews for only `Region_6` by
 female users for a hopping window of 30 seconds that advances by 10
 seconds, you might run a query like this:
 
-``` {.sourceCode .sql}
+```sql
 SELECT regionid, COUNT(*) FROM pageviews
   WINDOW HOPPING (SIZE 30 SECONDS, ADVANCE BY 10 SECONDS)
   WHERE UCASE(gender)='FEMALE' AND LCASE (regionid) LIKE '%_6'
   GROUP BY regionid;
 ```
 
-The hopping window\'s start time is inclusive, but the end time is
+The hopping window's start time is inclusive, but the end time is
 exclusive. This is important for non-overlapping windows, in which each
 record must be contained in exactly one window.
 
@@ -292,23 +285,23 @@ For example, if you want to compute the the five highest-value orders
 per zip code per hour in an `orders` stream, you might run a query like
 this:
 
-``` {.sourceCode .sql}
+```sql
 SELECT orderzip_code, TOPK(order_total, 5) FROM orders
   WINDOW TUMBLING (SIZE 1 HOUR) GROUP BY order_zipcode;
 ```
 
-Here\'s another example: to detect potential credit card fraud in an
+Here's another example: to detect potential credit card fraud in an
 `authorization_attempts` stream, you might run a query for the number of
-authorization attempts on a particular card that\'s greater than three,
+authorization attempts on a particular card that's greater than three,
 during a time interval of five seconds.
 
-``` {.sourceCode .sql}
+```sql
 SELECT card_number, count(*) FROM authorization_attempts
   WINDOW TUMBLING (SIZE 5 SECONDS)
   GROUP BY card_number HAVING COUNT(*) > 3;
 ```
 
-The tumbling window\'s start time is inclusive, but the end time is
+The tumbling window's start time is inclusive, but the end time is
 exclusive. This is important for non-overlapping windows, in which each
 record must be contained in exactly one window.
 
@@ -318,7 +311,7 @@ A session window aggregates records into a session, which represents a
 period of activity separated by a specified gap of inactivity, or
 "idleness". Any records with timestamps that occur within the inactivity
 gap of existing sessions are merged into the existing sessions. If a
-record\'s timestamp occurs outside of the session gap, a new session is
+record's timestamp occurs outside of the session gap, a new session is
 created.
 
 A new session window starts if the last record that arrived is further
@@ -341,10 +334,10 @@ like customer-conversion funnel and event flows.
 
 For example, to count the number of pageviews per region for session
 windows with a session inactivity gap of 60 seconds, you might run the
-following query, which \"sessionizes\" the input data and performs the
+following query, which *sessionizes* the input data and performs the
 counting/aggregation step per region:
 
-``` {.sourceCode .sql}
+```sql
 SELECT regionid, COUNT(*) FROM pageviews
   WINDOW SESSION (60 SECONDS)
   GROUP BY regionid;
@@ -353,17 +346,17 @@ SELECT regionid, COUNT(*) FROM pageviews
 The start and end times for a session window are both inclusive, in
 contrast to time windows.
 
-A session window contains at least one record. It\'s not possible for a
+A session window contains at least one record. It's not possible for a
 session window to have zero records.
 
-If a session window contains exactly one record, the record\'s ROWTIME
-timestamp is identical to the window\'s own start and end times. Access
+If a session window contains exactly one record, the record's ROWTIME
+timestamp is identical to the window's own start and end times. Access
 these by using the WINDOWSTART() and WINDOWEND() functions.
 
 If a session window contains two or more records, then the
-earliest/oldest record\'s ROWTIME timestamp is identical to the
-window\'s start time, and the latest/newest record\'s ROWTIME timestamp
-is identical to the window\'s end time.
+earliest/oldest record's ROWTIME timestamp is identical to the
+window's start time, and the latest/newest record's ROWTIME timestamp
+is identical to the window's end time.
 
 ### Windowed Joins
 
@@ -372,7 +365,7 @@ KSQL supports using windows in JOIN queries by using the WITHIN clause.
 For example, to find orders that have shipped within the last hour from
 an `orders` stream and a `shipments` stream, you might run a query like:
 
-``` {.sourceCode .sql}
+```sql
 SELECT o.order_id, o.total_amount, o.customer_name, s.shipment_id, s.warehouse
   FROM new_orders o
   INNER JOIN shipments s
