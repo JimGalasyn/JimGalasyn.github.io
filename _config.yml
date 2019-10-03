@@ -33,7 +33,7 @@ c3-short: Control Center
 c3: Confluent Control Center
 ccloud: Confluent Cloud
 ccloud-ent: Confluent Cloud Enterprise
-community: This is a community component of {{ site.cp }}.
+community: This is a community component of Confluent Platform.
 confluent-cli: Confluent CLI
 cp: Confluent Platform
 crest-long: Confluent REST Proxy
