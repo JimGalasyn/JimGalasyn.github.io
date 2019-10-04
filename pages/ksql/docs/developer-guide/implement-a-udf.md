@@ -1,26 +1,32 @@
 ---
+layout: page
+title: Implement a User-defined Function (UDF and UDAF)
+tagline: Create functions for custom processing
+description: Learn how to create user-defined functions for event streams processing
 ---
+
 Implement a User-defined Function (UDF and UDAF) {#implement-a-udf}
 ================================================
 
 Prerequisites
+-------------
 
-:   -   [Apache Maven](https://maven.apache.org/download.cgi)
-    -   {{ site.cp }}
-        [installed](https://docs.confluent.io/current/installation/installing_cp/index.html)
-        locally
-    -   Internet connectivity for downloading Confluent POM files
+-   [Apache Maven](https://maven.apache.org/download.cgi)
+-   {{ site.cp }}
+    [installed](https://docs.confluent.io/current/installation/installing_cp/index.html)
+    locally
+-   Internet connectivity for downloading Confluent POM files
 
 Create a user-defined function (UDF) or a user-defined aggregation
 function (UDAF) by following these steps:
 
-1.  [Create the KSQL extensions directory \<create-ksql-ext-dir\>]{role="ref"}
+1.  [Create the KSQL extensions directory](create-ksql-ext-dir){role="ref"}
     that contains your UDF and UDAF packages.
-2.  [Create Java source and project files \<create-source-and-project-files\>]{role="ref"}
+2.  [Create Java source and project files](create-source-and-project-files){role="ref"}
     for your implementation.
-3.  [Build the package \<build-udf-package\>]{role="ref"} for your UDF
+3.  [Build the package](<build-udf-package>){role="ref"} for your UDF
     or UDAF.
-4.  [Use your custom function \<use-udf-in-ksql-query\>]{role="ref"} in
+4.  [Use your custom function](use-udf-in-ksql-query){role="ref"} in
     a KSQL query or statement.
 
 For more information on custom functions, see [ksql-udfs]{role="ref"}.
@@ -30,13 +36,13 @@ Create the KSQL Extensions Directory {#create-ksql-ext-dir}
 
 When you create a custom user-defined function (UDF), you implement it
 in Java and deploy it as a JAR to the KSQL extensions directory. By
-default, this directory doesn\'t exist, so you need to create it and
+default, this directory doesn't exist, so you need to create it and
 assign it in the KSQL Server configuration properties.
 
 Create the KSQL extensions directory,
 `<path-to-confluent>/etc/ksql/ext`:
 
-``` {.sourceCode .bash}
+```bash
 mkdir confluent-{{ site.release }}/etc/ksql/ext
 ```
 
@@ -44,7 +50,7 @@ Edit the `ksql-server.properties` configuration file in
 `<path-to-confluent>/etc/ksql` to add the fully qualified path to the
 `ext` directory:
 
-``` {.sourceCode .text}
+```
 ksql.extension.dir=/home/my-home-dir/confluent-{{ site.release }}/etc/ksql/ext
 ```
 
@@ -53,9 +59,9 @@ ksql.extension.dir=/home/my-home-dir/confluent-{{ site.release }}/etc/ksql/ext
 Note
 :::
 
-Use the fully qualified path or the relative path from
+>Use the fully qualified path or the relative path from
 `<path-to-confluent>/bin`, which is `../etc/ksql/ext`. KSQL Server
-won\'t load extensions if the path begins with `~`.
+won't load extensions if the path begins with `~`.
 :::
 
 Create the Source and Project Files {#create-source-and-project-files}
@@ -64,20 +70,20 @@ Create the Source and Project Files {#create-source-and-project-files}
 The following steps shows how to implement your UDF in a Java class and
 build it by defining a Maven POM file.
 
-1.  [Create a root directory \<create-root-source-dir\>]{role="ref"} for
-    your UDF\'s source code and project files.
-2.  [Create the source code directory \<create-source-code-dir\>]{role="ref"},
+1.  [Create a root directory](create-root-source-dir){role="ref"} for
+    your UDF's source code and project files.
+2.  [Create the source code directory](create-source-code-dir){role="ref"},
     which has a path that corresponds with the package name.
-3.  [Create the Java source code file \<create-java-source-code-file\>]{role="ref"}
+3.  [Create the Java source code file](create-java-source-code-file){role="ref"}
     in the source code directory.
-4.  [Create a Project Object Model (POM) file \<create-pom-file\>]{role="ref"}
+4.  [Create a Project Object Model (POM) file](create-pom-file){role="ref"}
     that defines how Maven builds the source code.
 
 ### Create a Project Root Directory {#create-root-source-dir}
 
 Create the directory that holds your UDF or UDAF project:
 
-``` {.sourceCode .bash}
+```bash
 mkdir ksql-udf-demo && cd ksql-udf-demo
 ```
 
@@ -86,7 +92,7 @@ mkdir ksql-udf-demo && cd ksql-udf-demo
 From the root directory for your UDF, create the source code directory.
 In this example, the package name is `my.company.ksql.udfdemo`.
 
-``` {.sourceCode .bash}
+```bash
 mkdir -p src/main/java/my/company/ksql/udfdemo
 ```
 
@@ -99,7 +105,7 @@ available functions. For more information, see [ksql-udfs]{role="ref"}.
 
 Copy the following code into a new file, named `Multiply.java`:
 
-``` {.sourceCode .java}
+```java
 package my.company.ksql.udfdemo;
 
 import io.confluent.ksql.function.udf.Udf;
@@ -139,7 +145,7 @@ In the root directory for your custom UDF implementation, create the
 Project Object Model (POM) file for the Maven build, and name it
 `pom.xml`:
 
-``` {.sourceCode .xml}
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -230,7 +236,7 @@ Project Object Model (POM) file for the Maven build, and name it
 Important
 :::
 
-For production environments, we strongly recommend that you write
+>For production environments, we strongly recommend that you write
 comprehensive tests to cover your custom functions.
 :::
 
@@ -242,22 +248,24 @@ KSQL extensions directory.
 
 In the root folder for your UDF, run Maven to build the package:
 
-``` {.sourceCode .bash}
+```bash
 mvn clean package
 ```
 
 After a great deal of build info, your output should resemble:
 
-    ...
-    [INFO] --- maven-assembly-plugin:2.5.2:single (assemble-all) @ ksql-udf-demo ---
-    [INFO] Building jar: /home/my-home-dir/ksql-udf-demo/target/ksql-udf-demo-1.0-jar-with-dependencies.jar
-    [INFO] ------------------------------------------------------------------------
-    [INFO] BUILD SUCCESS
-    [INFO] ------------------------------------------------------------------------
-    [INFO] Total time: 17.511 s
-    [INFO] Finished at: 2018-12-17T22:07:08Z
-    [INFO] Final Memory: 26M/280M
-    [INFO] ------------------------------------------------------------------------
+```
+...
+[INFO] --- maven-assembly-plugin:2.5.2:single (assemble-all) @ ksql-udf-demo ---
+[INFO] Building jar: /home/my-home-dir/ksql-udf-demo/target/ksql-udf-demo-1.0-jar-with-dependencies.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 17.511 s
+[INFO] Finished at: 2018-12-17T22:07:08Z
+[INFO] Final Memory: 26M/280M
+[INFO] ------------------------------------------------------------------------
+```
 
 The Maven build creates a directory named `target` and saves the build
 output there. Copy the JAR file,
@@ -268,7 +276,7 @@ if your {{ site.cp }} installation is at
 copy the JAR to
 [/home/my-home-dir/confluent-{{ site.release }}/etc/ksql/ext]{role="litwithvars"}.
 
-``` {.sourceCode .bash}
+```bash
 cp target/ksql-udf-demo-1.0-jar-with-dependencies.jar <path-to-confluent>/etc/ksql/ext
 ```
 
@@ -286,46 +294,55 @@ you use the other KSQL functions.
 Note
 :::
 
-KSQL loads UDFs and UDAFs only on startup, so when you make changes to
+>KSQL loads UDFs and UDAFs only on startup, so when you make changes to
 your UDF code and re-deploy the JAR, you must restart KSQL Server to get
 the latest version of your UDF.
 :::
 
 Start {{ site.cp }} and KSQL Server:
 
-``` {.sourceCode .bash}
+```bash
 <path-to-confluent>/bin/confluent start ksql-server
 ```
 
 Start the KSQL CLI:
 
-``` {.sourceCode .bash}
+```bash
 LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql
 ```
 
 In the KSQL CLI, list the available functions to ensure that KSQL Server
 loaded the MULTIPLY user-defined function:
 
-    LIST FUNCTIONS;
+```sql
+LIST FUNCTIONS;
+```
 
 Your output should resemble:
 
-    Function Name     | Type
-
-> \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- ABS \| SCALAR
->
-> :   ARRAYCONTAINS \| SCALAR \... \| MULTIPLY \| SCALAR \... \|
->     SUBSTRING \| SCALAR SUM \| AGGREGATE \... \|
->
-> ------------------------------------------------------------------------
+```
+ Function Name     | Type
+-------------------------------
+ ABS               | SCALAR
+ ARRAYCONTAINS     | SCALAR
+ ...               |
+ MULTIPLY          | SCALAR
+ ...               |
+ SUBSTRING         | SCALAR    
+ SUM               | AGGREGATE 
+ ...               |
+-------------------------------
+```
 
 Inspect the details of the MULTIPLY function:
 
-    DESCRIBE FUNCTION MULTIPLY;
+```sql
+DESCRIBE FUNCTION MULTIPLY;
+```
 
 Your output should resemble:
 
-``` {.sourceCode .text}
+```
 Name        : MULTIPLY
 Overview    : multiplies 2 numbers
 Type        : scalar
@@ -347,13 +364,16 @@ Variations  :
 ```
 
 Use the MULTIPLY function in a query. If you follow the steps in
-[ksql\_quickstart-local]{role="ref"}, you can multiply the two BIGINT
+[ksql_quickstart-local]{role="ref"}, you can multiply the two BIGINT
 fields in the `pageviews_original` stream:
 
-    SELECT MULTIPLY(rowtime, viewtime) FROM pageviews_original;
+```sql
+SELECT MULTIPLY(rowtime, viewtime) FROM pageviews_original;
+```
 
 Your output should resemble:
 
+```
     2027398056717155428
     2028560009956135428
     2029465468198408945
@@ -362,6 +382,7 @@ Your output should resemble:
     2032147849613387385
     2032926605508340785
     ^CQuery terminated
+```
 
 Press Ctrl+C to terminate the query.
 
