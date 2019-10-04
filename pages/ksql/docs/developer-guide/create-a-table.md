@@ -1,4 +1,8 @@
 ---
+layout: page
+title: Create a KSQL Table
+tagline: Create a Table from a Kafka topic
+description: Learn how to use the CREATE TABLE statement on a Kafka topic
 ---
 Create a KSQL Table {#create-a-table-with-ksql}
 ===================
