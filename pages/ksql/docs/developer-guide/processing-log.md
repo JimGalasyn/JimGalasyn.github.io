@@ -81,9 +81,9 @@ For example, if you want to set the log level to DEBUG for a query named
 properties file:
 
 ```
-    log4j.logger.processing=ERROR, stdout
-    log4j.logger.processing.CSAS_PAGEVIEWS_UPPER_0=DEBUG
-    log4j.additivity.processing=false
+log4j.logger.processing=ERROR, stdout
+log4j.logger.processing.CSAS_PAGEVIEWS_UPPER_0=DEBUG
+log4j.additivity.processing=false
 ```
 
 Restart the KSQL server for the configuration change to take effect.
@@ -256,7 +256,7 @@ Field   | Type
 
 You can query the stream just like you would any other KSQL stream.
 
-You can also create the stream yourself by issuing the following DDL:
+You can also create the stream yourself by issuing the following DDL statement:
 
 ```sql
 ksql> CREATE STREAM PROCESSING_LOG_STREAM (
