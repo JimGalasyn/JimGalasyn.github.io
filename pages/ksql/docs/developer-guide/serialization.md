@@ -1,5 +1,10 @@
 ---
+layout: page
+title: KSQL Serialization
+tagline:  Serialize and deserialize data with KSQL
+description: Learn how to control serialization and deserialization in KSQL queries
 ---
+
 KSQL Serialization {#ksql_serialization}
 ==================
 
@@ -13,12 +18,12 @@ The primary mechanism is by choosing the serialization format when you
 create a stream or table and specify the `VALUE_FORMAT` in the `WITH`
 clause.
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE ORDERS (F0 INT, F1 STRING) WITH (VALUE_FORMAT='JSON', ...);
 ```
 
 For more information on the formats that KSQL supports, see
-[ksql\_formats]{role="ref"}.
+[ksql_formats]{role="ref"}.
 
 KSQL provides some additional configuration that allows serialization to
 be controlled:
@@ -30,7 +35,7 @@ be controlled:
 Note
 :::
 
-The `DELIMITED` and `KAFKA` formats do not support single field
+>The `DELIMITED` and `KAFKA` formats don't support single-field
 unwrapping.
 :::
 
@@ -38,7 +43,7 @@ Controlling deserializing of single fields
 ==========================================
 
 When KSQL deserializes a Kafka message into a row, the key is
-deserialized into the key field, and the message\'s value is
+deserialized into the key field, and the message's value is
 deserialized into the value fields.
 
 By default, KSQL expects any value with a single-field schema to have
@@ -49,7 +54,7 @@ serialized as an anonymous value.
 For example, a value with multiple fields might look like the following
 in JSON:
 
-``` {.sourceCode .json}
+```json
 {
    "id": 134,
    "name": "John"
@@ -59,34 +64,34 @@ in JSON:
 If the value only had the `id` field, KSQL would still expect the value
 to be serialized as a named field, for example:
 
-``` {.sourceCode .json}
+```json
 {
    "id": 134
 }
 ```
 
 If your data contains only a single field, and that field is not wrapped
-within a JSON object, or an Avro record if using the `AVRO` format, then
+within a JSON object, or an Avro record is using the `AVRO` format, then
 you can use the `WRAP_SINGLE_VALUE` property in the `WITH` clause of
-your [CREATE TABLE \<create-table\>]{role="ref"} or
-[CREATE STREAM \<create-stream\>]{role="ref"} statements. Setting the
-property to `false` tells KSQL that the value is not wrapped, so the
+your [CREATE TABLE](create-table>){role="ref"} or
+[CREATE STREAM](create-stream){role="ref"} statements. Setting the
+property to `false` tells KSQL that the value isn't wrapped, so the
 example above would be a JSON number:
 
-``` {.sourceCode .json}
+```json
 134
 ```
 
 For example, the following creates a table where the values in the
 underlying topic have been serialized as an anonymous JSON number:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE TRADES (ID INT) WITH (WRAP_SINGLE_VALUE=false, ...);
 ```
 
-If a statement doesn\'t set the value wrapping explicitly, KSQL uses the
-system default, defined by `ksql.persistence.wrap.single.values`. You
-can change the system default. For more information, see
+If a statement doesn't set the value wrapping explicitly, KSQL uses the
+system default, which is defined by `ksql.persistence.wrap.single.values`.
+You can change the system default. For more information, see
 [ksql-persistence-wrap-single-values]{role="ref"}.
 
 ::: {.important}
@@ -94,19 +99,19 @@ can change the system default. For more information, see
 Important
 :::
 
-KSQL treats `null` keys and values as a special case. We recommend
+>KSQL treats `null` keys and values as a special case. We recommend
 avoiding unwrapped single-field schemas if the field can have a `null`
 value.
 :::
 
-A `null` value in a table\'s topic is treated as a tombstone, which
-indicates that a row has been removed. If a table\'s source topic has an
-unwrapped single-field key schema and the value is `null`, it\'s treated
+A `null` value in a table's topic is treated as a tombstone, which
+indicates that a row has been removed. If a table's source topic has an
+unwrapped single-field key schema and the value is `null`, it's treated
 as a tombstone, resulting in any previous value for the key being
 removed from the table.
 
-A `null` key or value in a stream\'s topic is ignored when the stream is
-part of a join. A `null` value in a table\'s topic is treated as a
+A `null` key or value in a stream's topic is ignored when the stream is
+part of a join. A `null` value in a table's topic is treated as a
 tombstone, and a `null` key is ignored when the table is part of a join.
 
 When you have an unwrapped single-field schema, ensure that any `null`
@@ -116,17 +121,17 @@ Controlling serialization of single fields
 ==========================================
 
 When KSQL serializes a row into a Kafka message, the key field is
-serialized into the message\'s key, and any value fields are serialized
-into the message\'s value.
+serialized into the message's key, and any value fields are serialized
+into the message's value.
 
 By default, if the value has only a single field, KSQL serializes the
-single field as a named field within a record. However, this doesn\'t
+single field as a named field within a record. However, this doesn't
 always match the requirements of downstream consumers, so KSQL allows
 the value to be serialized as an anonymous value.
 
 For example, consider the statements:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM x (f0 INT, f1 STRING) WITH (VALUE_FORMAT='JSON', ...);
 CREATE STREAM y AS SELECT f0 FROM x;
 ```
@@ -138,7 +143,7 @@ By default, when KSQL writes out the result to Kafka, it persists the
 single field as a named field within a JSON object, or an Avro record if
 using the `AVRO` format:
 
-``` {.sourceCode .json}
+```json
 {
    "F0": 10
 }
@@ -147,19 +152,18 @@ using the `AVRO` format:
 If you require the value to be serialized as an anonymous value, for
 example:
 
-``` {.sourceCode .json}
+```json
 10
 ```
 
 Then you can use the `WRAP_SINGLE_VALUE` property in your statement.
-
 For example,
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM y WITH(WRAP_SINGLE_VALUE=false) AS SELECT f0 FROM x;
 ```
 
-If a statement doesn\'t set the value wrapping explicitly, KSQL uses the
+If a statement doesn't set the value wrapping explicitly, KSQL uses the
 system default, defined by `ksql.persistence.wrap.single.values`. You
 can change the system default. For more information, see
 [ksql-persistence-wrap-single-values]{role="ref"}.
@@ -169,19 +173,21 @@ can change the system default. For more information, see
 Important
 :::
 
-KSQL treats `null` keys and values as a special case. We recommended
+>KSQL treats `null` keys and values as a special case. We recommended
 avoiding unwrapped single-field schemas if the field can have a `null`
 value.
 :::
 
-A `null` value in a table\'s topic is treated as a tombstone, which
-indicates that a row has been removed. If a table\'s source topic has an
-unwrapped single-field key schema and the value is `null`, it\'s treated
+TODO: Is the next para redundant?
+
+A `null` value in a table's topic is treated as a tombstone, which
+indicates that a row has been removed. If a table's source topic has an
+unwrapped single-field key schema and the value is `null`, it's treated
 as a tombstone, resulting in any previous value for the key being
 removed from the table.
 
-A `null` key or value in a stream\'s topic is ignored when the stream is
-part of a join. A `null` value in a table\'s topic is treated as a
+A `null` key or value in a stream's topic is ignored when the stream is
+part of a join. A `null` value in a table's topic is treated as a
 tombstone, and a `null` key is ignored when the table is part of a join.
 
 When you have an unwrapped single-field schema, ensure that any `null`
@@ -190,7 +196,7 @@ key or value has the desired result.
 Single-field serialization examples
 ===================================
 
-``` {.sourceCode .sql}
+```sql
 -- Assuming system configuration is at the default:
 --  ksql.persistence.wrap.single.values=true
 
@@ -224,12 +230,12 @@ Formats {#ksql_formats}
 KSQL currently supports three serialization formats:
 
 -   `DELIMITED` supports comma separated values. See
-    [delimited\_format]{role="ref"} below.
--   `JSON` supports JSON values. See [json\_format]{role="ref"} below.
+    [delimited_format]{role="ref"} below.
+-   `JSON` supports JSON values. See [json_format]{role="ref"} below.
 -   `AVRO` supports AVRO serialized values. See
-    [avro\_format]{role="ref"} below.
+    [avro_format]{role="ref"} below.
 -   `KAFKA` supports primitives serialized using the standard Kafka
-    serializers. See [kafka\_format]{role="ref"} below.
+    serializers. See [kafka_format]{role="ref"} below.
 
 ### DELIMITED {#delimited_format}
 
@@ -240,7 +246,7 @@ split into columns.
 
 For example, given a KSQL statement such as:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM x (ID BIGINT, NAME STRING, AGE INT) WITH (VALUE_FORMAT='DELIMITED', ...);
 ```
 
@@ -248,16 +254,16 @@ KSQL splits a value of `120, bob, 49` into the three fields with `ID` of
 `120`, `NAME` of `bob` and `AGE` of `49`.
 
 This data format supports all KSQL
-[data types \<data-types\>]{role="ref"} except `ARRAY`, `MAP` and
+[data types](data-types){role="ref"} except `ARRAY`, `MAP` and
 `STRUCT`.
 
 ### JSON {#json_format}
 
 The `JSON` format supports JSON values.
 
-The JSON format supports all KSQL ref:data types \<data-types\>. As JSON
-doesn\'t itself support a map type, KSQL serializes `MAP` types as JSON
-objects. Because of this the JSON format can only support `MAP` objects
+The JSON format supports all KSQL [data types](data-types){role="ref"}.
+As JSON doesn't itself support a map type, KSQL serializes `MAP` types as
+JSON objects. Because of this the JSON format can only support `MAP` objects
 that have `STRING` keys.
 
 The serialized object should be a Kafka-serialized string containing a
@@ -270,13 +276,13 @@ Values that are JSON objects are probably the most common.
 
 For example, given a KSQL statement such as:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM x (ID BIGINT, NAME STRING, AGE INT) WITH (VALUE_FORMAT='JSON', ...);
 ```
 
 And a JSON value of:
 
-``` {.sourceCode .json}
+```sql
 {
   "id": 120,
   "name": "bob",
@@ -284,7 +290,7 @@ And a JSON value of:
 }
 ```
 
-KSQL deserializes the JSON object\'s fields into the corresponding
+KSQL deserializes the JSON object's fields into the corresponding
 fields of the stream.
 
 #### Top-level primitives, arrays and maps
@@ -295,13 +301,13 @@ arrays and maps.
 For example, given a KSQL statement with only a single field in the
 value schema and the `WRAP_SINGLE_VALUE` property set to `false`:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM x (ID BIGINT) WITH (VALUE_FORMAT='JSON', WRAP_SINGLE_VALUE=false, ...);
 ```
 
 And a JSON value of:
 
-``` {.sourceCode .json}
+```json
 10
 ```
 
@@ -311,27 +317,27 @@ When serializing data with a single field, KSQL can serialize the field
 as an anonymous value if the `WRAP_SINGLE_VALUE` is set to `false`, for
 example:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM y WITH (WRAP_SINGLE_VALUE=false) AS SELECT id FROM x;
 ```
 
-For more information, see [ksql\_single\_field\_wrapping]{role="ref"}.
+For more information, see [ksql_single_field_wrapping]{role="ref"}.
 
 #### Field Name Case Sensitivity
 
 The format is case-insensitive when matching a KSQL field name with a
-JSON document\'s property name. The first case-insensitive match is
+JSON document's property name. The first case-insensitive match is
 used.
 
 ### Avro {#avro_format}
 
 The `AVRO` format supports Avro binary serialization of all KSQL
-ref:data types \<data-types\>, including records and top-level
+[data types](data-types){role="ref"}, including records and top-level
 primitives, arrays, and maps.
 
 The format requires KSQL to be configured to store and retrieve the Avro
 schemas from the {{ site.sr-long }}. For more information, see
-[install\_ksql-avro-schema]{role="ref"}.
+[install_ksql-avro-schema]{role="ref"}.
 
 #### Avro Records
 
@@ -339,13 +345,13 @@ Avro records can be deserialized into matching KSQL schemas.
 
 For example, given a KSQL statement such as:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM x (ID BIGINT, NAME STRING, AGE INT) WITH (VALUE_FORMAT='JSON', ...);
 ```
 
 And an Avro record serialized with the schema:
 
-``` {.sourceCode .json}
+```sql
 {
   "type": "record",
   "namespace": "com.acme",
@@ -358,7 +364,7 @@ And an Avro record serialized with the schema:
 }
 ```
 
-KSQL deserializes the Avro record\'s fields into the corresponding
+KSQL deserializes the Avro record's fields into the corresponding
 fields of the stream.
 
 #### Top-level primitives, arrays and maps
@@ -369,13 +375,13 @@ arrays and maps.
 For example, given a KSQL statement with only a single field in the
 value schema and the `WRAP_SINGLE_VALUE` property set to `false`:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM x (ID BIGINT) WITH (VALUE_FORMAT='AVRO', WRAP_SINGLE_VALUE=false, ...);
 ```
 
 And an Avro value serialized with the schema:
 
-``` {.sourceCode .json}
+```json
 {
   "type": "long"
 }
@@ -387,29 +393,29 @@ When serializing data with a single field, KSQL can serialize the field
 as an anonymous value if the `WRAP_SINGLE_VALUE` is set to `false`, for
 example:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM y WITH (WRAP_SINGLE_VALUE=false) AS SELECT id FROM x;
 ```
 
-For more information, see [ksql\_single\_field\_wrapping]{role="ref"}.
+For more information, see [ksql_single_field_wrapping]{role="ref"}.
 
 #### Field Name Case Sensitivity
 
 The format is case-insensitive when matching a KSQL field name with an
-Avro record\'s field name. The first case-insensitive match is used.
+Avro record's field name. The first case-insensitive match is used.
 
 ### KAFKA {#kafka_format}
 
 The `KAFKA` format supports`INT`, `BIGINT`, `DOUBLE` and `STRING`
-primitives that have been serialized using Kafka\'s standard set of
+primitives that have been serialized using Kafka's standard set of
 serializers.
 
 The format is designed primarily to support primitive message keys. It
-can be used as a value format, though certain operations aren\'t
+can be used as a value format, though certain operations aren't
 supported when this is the case.
 
 Unlike some other formats, the `KAFKA` format does not perform any type
-coercion, so it\'s important to correctly match the field type to the
+coercion, so it's important to correctly match the field type to the
 underlying serialized form to avoid deserialization errors.
 
 The table below details the SQL types the format supports, including
@@ -418,36 +424,20 @@ Connect Converter classes you would need to use to write the key to
 Kafka, read the key from Kafka, or use to configure Apache Connect to
 work with the `KAFKA` format, respectively.
 
-  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  KSQL      Kafka Type Kafka Serializer                                            Kafka Deserializer                                            Connect Converter
-  Field                                                                                                                                          
-  Type                                                                                                                                           
-  --------- ---------- ----------------------------------------------------------- ------------------------------------------------------------- -----------------------------------------------------
-  INT /     A 32-bit   `org.apache.kafka.common.serialization.IntegerSerializer`   `org.apache.kafka.common.serialization.IntegerDeserializer`   `org.apache.kafka.connect.storage.IntegerConverter`
-  INTEGER   signed                                                                                                                               
-            integer                                                                                                                              
+| KSQL Field Type  | Kafka Type                     | Kafka Serializer                                          | Kafka Deserializer                                          | Connect Converter                                   |
+|------------------|--------------------------------|-----------------------------------------------------------|-------------------------------------------------------------|-----------------------------------------------------|
+| INT / INTEGER    | A 32-bit signed integer        | `org.apache.kafka.common.serialization.IntegerSerializer` | `org.apache.kafka.common.serialization.IntegerDeserializer` | `org.apache.kafka.connect.storage.IntegerConverter` |
+| BIGINT           | A 64-bit signed integer        | `org.apache.kafka.common.serialization.LongSerializer`    | `org.apache.kafka.common.serialization.LongDeserializer`    | `org.apache.kafka.connect.storage.LongConverter`    |
+| DOUBLE           | A 64-bit floating point number | `org.apache.kafka.common.serialization.DoubleSerializer`  | `org.apache.kafka.common.serialization.DoubleDeserializer`  | `org.apache.kafka.connect.storage.DoubleConverter`  |
+| STRING / VARCHAR | A UTF-8 encoded text string    | `org.apache.kafka.common.serialization.StringSerializer`  | `org.apache.kafka.common.serialization.StringDeserializer`  | `org.apache.kafka.connect.storage.StringConverter`  |
 
-  BIGINT    A 64-bit   `org.apache.kafka.common.serialization.LongSerializer`      `org.apache.kafka.common.serialization.LongDeserializer`      `org.apache.kafka.connect.storage.LongConverter`
-            signed                                                                                                                               
-            integer                                                                                                                              
-
-  DOUBLE    A 64-bit   `org.apache.kafka.common.serialization.DoubleSerializer`    `org.apache.kafka.common.serialization.DoubleDeserializer`    `org.apache.kafka.connect.storage.DoubleConverter`
-            floating                                                                                                                             
-            point                                                                                                                                
-            number                                                                                                                               
-
-  STRING /  A UTF-8    `org.apache.kafka.common.serialization.StringSerializer`    `org.apache.kafka.common.serialization.StringDeserializer`    `org.apache.kafka.connect.storage.StringConverter`
-  VARCHAR   encoded                                                                                                                              
-            text                                                                                                                                 
-            string                                                                                                                               
-  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Because the format supports only primitive types, you can only use it
 when the schema contains a single field.
 
 For example, if your Kafka messages have a `long` key, you can make them
-available to KSQL a statement similar to:
+available to KSQL by using a statement like:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM USERS (ROWKEY BIGINT KEY, NAME STRING) WITH (KEY_FORMAT='KAFKA', VALUE_FORMAT='JSON', ...);
 ```
