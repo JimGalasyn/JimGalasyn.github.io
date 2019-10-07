@@ -1,5 +1,10 @@
 ---
+layout: page
+title: KSQL Custom Function Reference (UDF and UDAF)
+tagline: Convert streaming data from one format to another
+description: Learn how to create streaming transformations 
 ---
+
 KSQL Custom Function Reference (UDF and UDAF) {#ksql-udfs}
 =============================================
 
@@ -13,19 +18,19 @@ applies a pre-trained machine learning model to a stream.
 
 KSQL supports these kinds of functions:
 
-Stateless scalar function (UDF)
+TODO: what style to use here? 
 
+Stateless scalar function (UDF)
 :   A scalar function that takes one input row and returns one output
     value. No state is retained between function calls. When you
-    implement a custom scalar function, it\'s called a *User-Defined
+    implement a custom scalar function, it's called a *User-Defined
     Function (UDF)*.
 
 Stateful aggregate function (UDAF)
-
 :   An aggregate function that takes *N* input rows and returns one
     output value. During the function call, state is retained for all
     input records, which enables aggregating results. When you implement
-    a custom aggregate function, it\'s called a *User-Defined Aggregate
+    a custom aggregate function, it's called a *User-Defined Aggregate
     Function (UDAF)*.
 
 ::: {.note}
@@ -33,8 +38,8 @@ Stateful aggregate function (UDAF)
 Note
 :::
 
-Tabular functions, which take one input row and return *N* output
-values, aren\'t supported.
+>Tabular functions, which take one input row and return *N* output
+values, aren't supported.
 :::
 
 Implement a Custom Function
@@ -61,7 +66,7 @@ Follow these steps to create your custom functions:
 Tip
 :::
 
-The SHOW FUNCTIONS statement lists the available functions in your KSQL
+>The SHOW FUNCTIONS statement lists the available functions in your KSQL
 server, including your custom UDF and UDAF functions. Use the DESCRIBE
 FUNCTION statement to display details about your custom functions.
 :::
@@ -73,7 +78,7 @@ For a detailed walkthrough on creating a UDF, see
 
 KSQL supports creating User Defined Scalar Functions (UDFs) and User
 Defined Aggregate Functions (UDAFs) via custom jars that are uploaded to
-the `ext/` directory of the KSQL installation. At start up time KSQL
+the `ext/` directory of the KSQL installation. At start up time, KSQL
 scans the jars in the directory looking for any classes that annotated
 with `@UdfDescription` (UDF) or `@UdafDescription` (UDAF). Classes
 annotated with `@UdfDescription` are scanned for any public methods that
@@ -84,20 +89,20 @@ loaded into KSQL.
 
 Each UD(A)F instance has its own child-first `ClassLoader` that is
 isolated from other UD(A)Fs. If you need to use any third-party
-libraries with your UDFs then they should also be part of your jar,
-i.e., you should create an \"uber-jar\". The classes in your uber-jar
-will be loaded in preference to any classes on the KSQL classpath
+libraries with your UDFs, they should also be part of your jar,
+which means that you should create an "uber-jar". The classes in your
+uber-jar are loaded in preference to any classes on the KSQL classpath,
 excluding anything vital to the running of KSQL, i.e., classes that are
 part of `org.apache.kafka` and `io.confluent`. Further, the
 `ClassLoader` can restrict access to other classes via a blacklist. The
 blacklist file is `resource-blacklist.txt`. You can add any classes or
-packages that you want blacklisted from UDF use, for example you may not
+packages that you want blacklisted from UDF use. For example you may not
 want a UDF to be able to fork processes. Further details on how to
 blacklist are available below.
 
 #### UDFs
 
-To create a UDF you need to create a class that is annotated with
+To create a UDF you need to create a class that's annotated with
 `@UdfDescription`. Each method in the class that represents a UDF must
 be public and annotated with `@Udf`. The class you create represents a
 collection of UDFs all with the same name but may have different
@@ -105,29 +110,30 @@ arguments and return types.
 
 `@UdfParameter` annotations can be added to method parameters to provide
 users with richer information, including the parameter schema. This
-annotation is required if the KSQL type cannot be inferred from the Java
-type (e.g. `STRUCT`).
+annotation is required if the KSQL type can't be inferred from the Java
+type, for example, `STRUCT`.
 
 ##### Null Handling
 
 If a UDF uses primitive types in its signature it is indicating that the
-parameter should never be null. Conversely, using boxed types indicates
-the function can accept null values for the parameter. It is up to the
-implementor of the UDF to chose which is the most appropriate. A common
+parameter should never be `null`. Conversely, using boxed types indicates
+the function can accept `null` values for the parameter. It's up to the
+implementor of the UDF to chose which is the more appropriate. A common
 pattern is to return `null` if the input is `null`, though generally
 this is only for parameters that are expected to be supplied from the
-source row being processed. For example, a
-`substring(String str, int pos)` UDF might return null if `str` is null,
-but a null `pos` parameter would be treated as an error, and hence
-should be a primitive. (In actual fact, the in-built substring is more
-lenient and would return null if pos was null).
+source row being processed.
+
+For example, a `substring(String str, int pos)` UDF might return `null`
+if `str` is `null`, but a `null` value for the `pos` parameter would be
+treated as an error, and so should be a primitive. In fact, the built-in
+substring is more lenient and would return `null` if `pos` is `null`).
 
 The return type of a UDF can also be a primitive or boxed type. A
 primitive return type indicates the function will never return `null`,
-where as a boxed type indicates it may return `null`.
+whereas a boxed type indicates that it may return `null`.
 
-The KSQL server will check the value being passed to each parameter and
-report an error to the server log for any null values being passed to a
+The KSQL server checks the value that's passed to each parameter and
+reports an error to the server log for any `null` values being passed to a
 primitive type. The associated column in the output row will be `null`.
 
 ##### Dynamic return type
@@ -143,7 +149,7 @@ annotate it with `@SchemaProvider`. Also, you need to link it to the
 corresponding UDF by using the `schemaProvider=<your-method-name>`
 parameter of the `@Udf` annotation.
 
-##### Generics in UDFS
+##### Generics in UDFs
 
 A UDF declaration can utilize generics if they match the following
 conditions:
@@ -170,7 +176,7 @@ As can be seen this UDF can be invoked in different ways:
 -   with two double parameters returning a double result.
 -   with variadic double parameters returning a double result.
 
-``` {.sourceCode .java}
+```java
 import io.confluent.ksql.function.udf.Udf;
 import io.confluent.ksql.function.udf.UdfDescription;
 
@@ -208,23 +214,23 @@ public class Multiply {
 }
 ```
 
-If you\'re using Gradle to build your UDF or UDAF, specify the
+If you're using Gradle to build your UDF or UDAF, specify the
 `ksql-udf` dependency:
 
-``` {.sourceCode .bash}
+```bash
 compile 'io.confluent.ksql:ksql-udf:{{ site.release }}'
 ```
 
 To compile with the latest version of `ksql-udf`:
 
-``` {.sourceCode .bash}
+```bash
 compile 'io.confluent.ksql:ksql-udf:+'
 ```
 
-If you\'re using Maven to build your UDF or UDAF, specify the `ksql-udf`
+If you're using Maven to build your UDF or UDAF, specify the `ksql-udf`
 dependency in your POM file:
 
-``` {.sourceCode .xml}
+```xml
 <!-- Specify the repository for Confluent dependencies -->
     <repositories>
         <repository>
@@ -250,21 +256,12 @@ four fields, two of which are required. The information provided here is
 used by the `SHOW FUNCTIONS` and `DESCRIBE FUNCTION <function>`
 commands.
 
-  -------------------------------------------------------
-  Field         Description                    Required
-  ------------- ------------------------------ ----------
-  name          The case-insensitive name of   Yes
-                the UDF(s) represented by this 
-                class.                         
-
-  description   A string describing generally  Yes
-                what the function(s) in this   
-                class do.                      
-
-  author        The author of the UDF.         No
-
-  version       The version of the UDF.        No
-  -------------------------------------------------------
+| Field       | Description                                                          | Required |
+|-------------|----------------------------------------------------------------------|----------|
+| name        | The case-insensitive name of the UDF(s) represented by this class.   | Yes      |
+| description | A string describing generally what the function(s) in this class do. | Yes      |
+| author      | The author of the UDF.                                               | No       |
+| version     | The version of the UDF.                                              | No       |
 
 ##### Udf Annotation
 
@@ -274,7 +271,7 @@ function in KSQL. The annotation only has a single field `description`
 that is optional. You can use this to better describe what a particular
 version of the UDF does, for example:
 
-``` {.sourceCode .java}
+```java
 @Udf(description = "Returns a substring of str that starts at pos"
   + " and continues to the end of the string")
 public String substring(final String str, final int pos)
@@ -286,38 +283,29 @@ public String substring(final String str, final int pos, final int len)
 ##### UdfParameter Annotation
 
 The `@UdfParameter` annotation is applied to parameters of methods
-annotated with `@Udf`. KSQL will use the additional information in the
-`@UdfParameter` annotation to specify the parameter schema (if it cannot
+annotated with `@Udf`. KSQL uses the additional information in the
+`@UdfParameter` annotation to specify the parameter schema (if it can't
 be inferred from the Java type) or to provide users with richer
 information about the method when, for example, they execute
 `DESCRIBE FUNCTION` on the method.
 
-  ---------------------------------------------------------------------
-  Field         Description                    Required
-  ------------- ------------------------------ ------------------------
-  value         The case-insensitive name of   Required if the UDF JAR
-                the parameter                  was not compiled with
-                                               the `-parameters` javac
-                                               argument.
-
-  description   A string describing generally  No
-                what the parameter represents  
-
-  schema        The KSQL schema for the        For complex types such
-                parameter.                     as STRUCT
-  ---------------------------------------------------------------------
+| Field       | Description                                                 | Required                                                                        |
+|-------------|-------------------------------------------------------------|---------------------------------------------------------------------------------|
+| value       | The case-insensitive name of the parameter                  | Required if the UDF JAR was not compiled with the `-parameters` javac argument. |
+| description | A string describing generally what the parameter represents | No                                                                              |
+| schema      | The KSQL schema for the parameter.                          | For complex types, like STRUCT                                                |
 
 ::: {.note}
 ::: {.admonition-title}
 Note
 :::
 
-If `schema` is supplied in the `@UdfParameter` annotation for a `STRUCT`
-it is considered \"strict\" - any inputs must match exactly, including
+>If `schema` is supplied in the `@UdfParameter` annotation for a `STRUCT`
+it is considered "strict" - any inputs must match exactly, including
 order and names of the fields.
 :::
 
-``` {.sourceCode .java}
+```java
 @Udf
 public String substring(
    @UdfParameter("str") final String str,
@@ -335,9 +323,9 @@ the name of the parameter will be inferred from the method declaration.
 ##### Configurable UDF
 
 If the UDF class needs access to the KSQL server configuration it can
-implement `org.apache.kafka.common.Configurable`, e.g.
+implement `org.apache.kafka.common.Configurable`, for example:
 
-``` {.sourceCode .java}
+```java
 @UdfDescription(name = "MyFirstUDF", description = "multiplies 2 numbers")
 public class SomeConfigurableUdf implements Configurable {
   private String someSetting = "a.default.value";
@@ -352,13 +340,13 @@ public class SomeConfigurableUdf implements Configurable {
 ```
 
 For security reasons, only settings whose name is prefixed with
-`ksql.functions.<lowercase-udfname>.` or `ksql.functions._global_.` will
-be propagated to the Udf.
+`ksql.functions.<lowercase-udfname>.` or `ksql.functions._global_.` are
+propagated to the UDF.
 
 #### UDAFs {#ksql-udafs}
 
-To create a UDAF you need to create a class that is annotated with
-`@UdafDescription`. Each method in the class that is used as a factory
+To create a UDAF you need to create a class that's annotated with
+`@UdafDescription`. Each method in the class that's used as a factory
 for creating an aggregation must be `public static`, be annotated with
 `@UdafFactory`, and must return either `Udaf` or `TableUdaf`. The class
 you create represents a collection of UDAFs all with the same name but
@@ -368,22 +356,23 @@ Both `Udaf` and `TableUdaf` are parameterized by three types: `I` is the
 input type of the UDAF. `A` is the data type of the intermediate storage
 used to keep track of the state of the UDAF. `O` is the data type of the
 return value. Decoupling the data types of the state and return value
-allows you to define UDAFs like average as we show in the example below.
-When creating a UDAF, use the `map` method to provide the logic that
+enables you to define UDAFs like `average`, as shown in the following example.
+
+When you create a UDAF, use the `map` method to provide the logic that
 transforms an intermediate aggregate value to the returned value.
 
 ##### Example UDAF class
 
-The class below creates a UDAF named `my_average`. The name of the UDAF
+The following class creates a UDAF named `my_average`. The name of the UDAF
 is provided in the `name` parameter of the `UdafDescription` annotation.
 This name is case-insensitive and is what can be used to call the UDAF.
 
 The class provides three factories that return a `TableUdaf`, one for
-each of the input types Long, Integer and Double. Moreover, it provides
-a factory that returns a `Udaf` that does not support undo. Each method
+each of the input types Long, Integer, and Double. Moreover, it provides
+a factory that returns a `Udaf` that doesn't support undo. Each method
 defines a different type for the intermediate state based on the input
 type (`I`), which in this case is a STRUCT consisting of two fields, the
-SUM of type `I` and the COUNT of type Long. To get the result of the
+SUM, of type `I`, and the COUNT, of type Long. To get the result of the
 UDAF, each method implements a `map` function that returns the Double
 division of the accumulated SUM and COUNT.
 
@@ -401,7 +390,7 @@ The UDAF can be invoked in four ways:
     (VARCHAR), returning the average String (VARCHAR) length as a
     Double.
 
-``` {.sourceCode .java}
+```java
 @UdafDescription(name = "my_average", description = "Computes the average.")
 public class AverageUdaf {
 
@@ -641,21 +630,12 @@ four fields, two of which are required. The information provided here is
 used by the `SHOW FUNCTIONS` and `DESCRIBE FUNCTION <function>`
 commands.
 
-  -------------------------------------------------------
-  Field         Description                    Required
-  ------------- ------------------------------ ----------
-  name          The case-insensitive name of   Yes
-                the UDAF(s) represented by     
-                this class.                    
-
-  description   A string describing generally  Yes
-                what the function(s) in this   
-                class do.                      
-
-  author        The author of the UDF.         No
-
-  version       The version of the UDF.        No
-  -------------------------------------------------------
+| Field       | Description                                                          | Required |
+|-------------|----------------------------------------------------------------------|----------|
+| name        | The case-insensitive name of the UDAF(s) represented by this class.   | Yes      |
+| description | A string describing generally what the function(s) in this class do. | Yes      |
+| author      | The author of the UDF.                                               | No       |
+| version     | The version of the UDF.                                              | No       |
 
 ##### UdafFactory Annotation
 
@@ -665,38 +645,28 @@ class annotated with `@UdafDescription`. The method must return either
 annotated method is a factory for an invocable aggregate function in
 KSQL. The annotation supports the following fields:
 
-  -----------------------------------------------------------------------
-  Field             Description                   Required
-  ----------------- ----------------------------- -----------------------
-  description       A string describing generally Yes
-                    what the function(s) in this  
-                    class do.                     
-
-  paramSchema       The KSQL schema for the input For complex types such
-                    parameter.                    as STRUCT
-
-  aggregateSchema   The KSQL schema for the       For complex types such
-                    intermediate state.           as STRUCT
-
-  returnSchema      The KSQL schema for the       For complex types such
-                    return value.                 as STRUCT
-  -----------------------------------------------------------------------
+| Field           | Description                                                    | Required                       |
+|-----------------|----------------------------------------------------------------|--------------------------------|
+| description     | A string describing generally what the function(s) in this class do. | Yes                            |
+| paramSchema     | The KSQL schema for the input parameter.                       | For complex types, like STRUCT |
+| aggregateSchema | The KSQL schema for the intermediate state.                    | For complex types, like STRUCT |
+| returnSchema    | The KSQL schema for the return value.                          | For complex types, like STRUCT |
 
 ::: {.note}
 ::: {.admonition-title}
 Note
 :::
 
-If `paramSchema` , `aggregateSchema` or `returnSchema` is supplied in
-the `@UdfParameter` annotation for a `STRUCT` it is considered
-\"strict\" - any inputs must match exactly, including order and names of
+>If `paramSchema` , `aggregateSchema` or `returnSchema` is supplied in
+the `@UdfParameter` annotation for a `STRUCT`, it's considered
+"strict" - any inputs must match exactly, including order and names of
 the fields.
 :::
 
-You can use this to better describe what a particular version of the UDF
+You can use this to better describe what a particular version of the UDAF
 does, for example:
 
-``` {.sourceCode .java}
+```java
 @UdafFactory(description = "Compute average of column with type Long.",
           aggregateSchema = "STRUCT<SUM bigint, COUNT bigint>")
 public static TableUdaf<Long, Struct, Double> averageLong(){...}
@@ -708,71 +678,59 @@ public static Udaf<String, Struct, Double> averageStringLength(final String init
 
 ### Supported Types
 
-The types supported by UDFs are currently limited to:
+KSQL supports the following Java types for UDFs and UDAFs.
 
-  ---------------------------------
-  Java Type      KSQL Type
-  -------------- ------------------
-  int            INTEGER
-
-  Integer        INTEGER
-
-  boolean        BOOLEAN
-
-  Boolean        BOOLEAN
-
-  long           BIGINT
-
-  Long           BIGINT
-
-  double         DOUBLE
-
-  Double         DOUBLE
-
-  String         VARCHAR
-
-  List           ARRAY
-
-  Map            MAP
-
-  Struct         STRUCT
-  ---------------------------------
+| Java Type | KSQL Type |
+|-----------|-----------|
+| int       | INTEGER   |
+| Integer   | INTEGER   |
+| boolean   | BOOLEAN   |
+| Boolean   | BOOLEAN   |
+| long      | BIGINT    |
+| Long      | BIGINT    |
+| double    | DOUBLE    |
+| Double    | DOUBLE    |
+| String    | VARCHAR   |
+| List      | ARRAY     |
+| Map       | MAP       |
+| Struct    | STRUCT    |
 
 ### Deploying {#deploying-udf}
 
-To deploy your UD(A)Fs you need to create a jar containing all of the
-classes required by the UD(A)Fs. If you depend on third-party libraries
-then this should be an uber-jar containing those libraries. Once the jar
-is created you need to deploy it to each KSQL server instance. The jar
-should be copied to the `ext/` directory that is part of the KSQL
-distribution. The `ext/` directory can be configured via the
-`ksql.extension.dir`.
+To deploy your UD(A)Fs you create a jar containing all of the classes
+required by the UD(A)Fs. If you depend on third-party libraries,
+this should be an uber-jar containing these libraries. Once the jar
+is created, deploy it to each KSQL server instance. Copy the jar
+to the `ext/` directory that's part of the KSQL distribution. The `ext/`
+ directory can be configured via the `ksql.extension.dir`.
 
-The jars in the `ext/` directory are only scanned at start-up, so you
-will need to restart your KSQL server instances to pick up new UD(A)Fs.
+The jars in the `ext/` directory are scanned only at start-up, so you
+must restart your KSQL server instances to pick up new and updated UD(A)Fs.
 
-It is important to ensure that you deploy the custom jars to each server
-instance. Failure to do so will result in errors when processing any
+It s important to ensure that you deploy the custom jars to each server
+instance. Failure to do so results in errors when processing any
 statements that try to use these functions. The errors may go unnoticed
 in the KSQL CLI if the KSQL server instance it is connected to has the
-jar installed, but one or more other KSQL servers don\'t have it
-installed. In these cases the errors will appear in the KSQL server log
+jar installed, but one or more other KSQL servers don't have it
+installed. In these cases, the errors will appear in the KSQL server log
 (ksql.log) . The error would look something like:
 
-    [2018-07-04 12:37:28,602] ERROR Failed to handle: Command{statement='create stream pageviews_ts as select tostring(viewtime) from pageviews;', overwriteProperties={}} (io.confluent.ksql.rest.server.computation.StatementExecutor:210)
-    io.confluent.ksql.util.KsqlException: Can't find any functions with the name 'TOSTRING'
+```
+[2018-07-04 12:37:28,602] ERROR Failed to handle: Command{statement='create stream pageviews_ts as select tostring(viewtime) from pageviews;', overwriteProperties={}} (io.confluent.ksql.rest.server.computation.StatementExecutor:210)
+io.confluent.ksql.util.KsqlException: Can't find any functions with the name 'TOSTRING'
+```
 
-The servers that don\'t have the jars will not process any queries using
-the custom UD(A)Fs. Processing will continue, but it will be restricted
+The servers that don't have the jars don't process any queries using
+the custom UD(A)Fs. Processing will continue, but it's restricted
 to only the servers with the correct jars installed.
 
 ### Usage
 
 Once your UD(A)Fs are deployed you can call them in the same way you
 would invoke any of the KSQL built-in functions. The function names are
-case-insensitive. For example, using the `multiply` example above:
+case-insensitive. For example, using the `multiply` example:
 
-``` {.sourceCode .sql}
+```sql {.sourceCode .sql}
 CREATE STREAM number_stream (int1 INT, int2 INT, long1 BIGINT, long2 BIGINT)
   WITH (VALUE_FORMAT = 'JSON', KAFKA_TOPIC = 'numbers');
 
@@ -783,51 +741,55 @@ SELECT multiply(int1, int2), MULTIPLY(long1, long2) FROM number_stream;
 
 #### Blacklisting
 
-In some deployment environments it may be necessary to restrict the
-classes that UD(A)Fs have access to as they may represent a security
+In some deployment environments, it may be necessary to restrict the
+classes that UD(A)Fs have access to, as they may represent a security
 risk. To reduce the attack surface of KSQL UD(A)Fs you can optionally
-blacklist classes and packages such that they can\'t be used from a
-UD(A)F. There is an example blacklist that is found in the file
-`resource-blacklist.txt` that is in the `ext/` directory. All the
-entries in it are commented out, but it demonstrates how you can use the
-blacklist.
+blacklist classes and packages so that they can't be used from a
+UD(A)F. An example blacklist is in a file named `resource-blacklist.txt`
+in the `ext/` directory. All of the entries in the default version of the
+file are commented out, but it shows how you can use the blacklist.
 
-This file contains an entry per line, where each line is a class or
+This file contains one entry per line, where each line is a class or
 package that should be blacklisted. The matching of the names is based
-on a regular expression, so if you have an entry, `java.lang.Process`
+on a regular expression, so if you have an entry, `java.lang.Process` like
+this:
 
-    java.lang.Process
+```
+java.lang.Process
+```
 
-This would match any paths that begin with java.lang.Process, i.e.,
-java.lang.Process, java.lang.ProcessBuilder etc.
+This matches any paths that begin with `java.lang.Process`, like
+`java.lang.Process`, `java.lang.ProcessBuilder`, *etc*.
 
-If you want to blacklist a single class, i.e., `java.lang.Compiler`,
-then you would add:
+If you want to blacklist a single class, for example,
+`java.lang.Compiler`, then you would add:
 
-    java.lang.Compiler$
+```
+java.lang.Compiler$
+```
 
 Any blank lines or lines beginning with `#` are ignored. If the file is
 not present, or is empty, then no classes are blacklisted.
 
 #### Security Manager
 
-By default KSQL installs a simple java security manager for UD(A)F
+By default, KSQL installs a simple Java security manager for UD(A)F
 execution. The security manager blocks attempts by any UD(A)Fs to fork
 processes from the KSQL server. It also prevents them from calling
 `System.exit(..)`.
 
-The security manager can be disabled by setting
-`ksql.udf.enable.security.manager` to false.
+You can disable the security manager by setting
+`ksql.udf.enable.security.manager` to `false`.
 
 #### Disabling KSQL Custom Functions
 
 You can disable the loading of all UDFs in the `ext/` directory by
-setting `ksql.udfs.enabled` to `false`. By default they are enabled.
+setting `ksql.udfs.enabled` to `false`. By default, they are enabled.
 
 ### Metric Collection
 
 Metric collection can be enabled by setting the config
 `ksql.udf.collect.metrics` to `true`. This defaults to `false` and is
-generally not recommended for production usage as metrics will be
-collected on each invocation and will introduce some overhead to
+generally not recommended for production usage, as metrics are
+collected on each invocation and introduce some overhead to
 processing time.
