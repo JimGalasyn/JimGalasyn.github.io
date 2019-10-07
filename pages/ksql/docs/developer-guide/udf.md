@@ -730,7 +730,7 @@ Once your UD(A)Fs are deployed you can call them in the same way you
 would invoke any of the KSQL built-in functions. The function names are
 case-insensitive. For example, using the `multiply` example:
 
-```sql {.sourceCode .sql}
+```sql
 CREATE STREAM number_stream (int1 INT, int2 INT, long1 BIGINT, long2 BIGINT)
   WITH (VALUE_FORMAT = 'JSON', KAFKA_TOPIC = 'numbers');
 
