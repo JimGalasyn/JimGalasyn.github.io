@@ -1,5 +1,10 @@
 ---
+layout: page
+title: Transform a Stream With KSQL
+tagline: Convert streaming data from one format to another
+description: Learn how to create streaming transformations 
 ---
+
 Transform a Stream With KSQL
 ============================
 
@@ -14,14 +19,13 @@ existing records in the stream are converted.
 Tip
 :::
 
-Run the following to tell KSQL to read from the beginning of the topic:
-
-``` {.sourceCode .sql}
-SET 'auto.offset.reset' = 'earliest';
-```
-
-You can skip this if you have already run it within your current
-KSQL CLI session.
+>Run the following statement to tell KSQL to read from the beginning of the
+>topic:
+>```sql
+>SET 'auto.offset.reset' = 'earliest';
+>```
+>You can skip this step if you've already run it within your current
+>KSQL CLI session.
 :::
 
 Transform a Stream By Using the WITH Clause
@@ -34,7 +38,7 @@ to a new stream:
 -   The number of partitions
 -   The number of replicas
 -   The timestamp field and/or the timestamp format
--   The new stream\'s underlying {{ site.ak-tm }} topic name
+-   The new stream's underlying {{ site.ak-tm }} topic name
 
 For this example, imagine that you want to create a new stream by
 transforming a `pageviews` stream in the following way:
@@ -50,7 +54,7 @@ transforming a `pageviews` stream in the following way:
 The following statement generates a new stream, named
 `pageviews_transformed`, that has the specified properties:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM pageviews_transformed
   WITH (TIMESTAMP='viewtime',
         PARTITIONS=5,
@@ -78,7 +82,7 @@ WHERE clauses.
 In this example, two streams are derived from a `pageviews` stream, both
 with different users selected into the output.
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM pageviews_for_first_two_users AS
   SELECT viewtime,
          userid,
@@ -88,7 +92,7 @@ CREATE STREAM pageviews_for_first_two_users AS
   PARTITION BY userid;
 ```
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM pageviews_for_other_users AS
   SELECT viewtime,
          userid,
