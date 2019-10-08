@@ -381,6 +381,8 @@ message key, respectively. The timestamp has milliseconds accuracy.
 
 The WITH clause supports the following properties:
 
+TODO: Fix table cells
+
 |        Property         |                                            Description                                            |
 | ----------------------- | ------------------------------------------------------------------------------------------------- |
 | KAFKA_TOPIC (required)  | The name of the Kafka topic that backs this source. The topic must either already exist in        |
@@ -490,6 +492,8 @@ to be a `VARCHAR` aka `STRING`. If the message key is not of this type
 follow the instructions in [ksql_key_requirements]{role="ref"}.
 
 The WITH clause supports the following properties:
+
+TODO: Fix table cells
 
 |        Property         |                                            Description                                            |
 | ----------------------- | ------------------------------------------------------------------------------------------------- |
@@ -613,6 +617,8 @@ For more information, see [join-streams-and-tables]{role="ref"}.
 
 The WITH clause for the result supports the following properties:
 
+TODO: Fix table cells
+
 |     Property      |                                             Description                                              |
 | ----------------- | ---------------------------------------------------------------------------------------------------- |
 | KAFKA_TOPIC       | The name of the Kafka topic that backs this stream. If this property is not set, then the            |
@@ -728,6 +734,8 @@ tables being joined.
 For more information, see [join-streams-and-tables]{role="ref"}.
 
 The WITH clause supports the following properties:
+
+TODO: Fix table cells
 
 
 |     Property      |                                             Description                                              |
@@ -1582,6 +1590,8 @@ CREATE TABLE USERS (
 Scalar functions {#functions}
 ----------------
 
+TODO: Fix table cells
+
 |       Function        |                               Example                                |                    Description                     |
 | --------------------- | -------------------------------------------------------------------- | -------------------------------------------------- |
 | ABS                   | `ABS(col1)`                                                          | The absolute value of a value                      |
@@ -1842,6 +1852,8 @@ Section 3 of the RFC. For encoding/decoding, the
 
 Aggregate functions {#ksql_aggregate_functions}
 -------------------
+
+TODO: Fix table cells
 
 |   Function   |         Example         |  Input Type   |                             Description                              |
 | ------------ | ----------------------- | ------------- | -------------------------------------------------------------------- |
