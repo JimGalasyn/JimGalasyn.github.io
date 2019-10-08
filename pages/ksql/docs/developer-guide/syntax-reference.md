@@ -1,5 +1,10 @@
 ---
+layout: page
+title: KSQL Syntax Reference
+tagline:  Syntax for KSQL queries and statements
+description: KSQL Syntax Reference
 ---
+
 KSQL Syntax Reference {#ksql_syntax_reference}
 =====================
 
@@ -19,7 +24,7 @@ When using KSQL, the following terminology is used.
 
 A stream is an unbounded sequence of structured data ("facts"). For
 example, we could have a stream of financial transactions such as "Alice
-sent \$100 to Bob, then Charlie sent \$50 to Bob". Facts in a stream are
+sent $100 to Bob, then Charlie sent $50 to Bob". Facts in a stream are
 immutable, which means new facts can be inserted to a stream, but
 existing facts can never be updated or deleted. Streams can be created
 from an {{ site.ak-tm }} topic or derived from an existing stream. A
@@ -31,7 +36,7 @@ topic on the Kafka brokers.
 A table is a view of a stream, or another table, and represents a
 collection of evolving facts. For example, we could have a table that
 contains the latest financial information such as "Bob's current account
-balance is \$150". It is the equivalent of a traditional database table
+balance is $150". It is the equivalent of a traditional database table
 but enriched by streaming semantics such as windowing. Facts in a table
 are mutable, which means new facts can be inserted to the table, and
 existing facts can be updated or deleted. Tables can be created from a
@@ -51,7 +56,7 @@ statements. You can use the `STRUCT` type in these KSQL statements:
 
 Use the following syntax to declare nested data:
 
-``` {.sourceCode .sql}
+```sql
 STRUCT<FieldName FieldType, ...>
 ```
 
@@ -65,13 +70,13 @@ any of the supported KSQL types, including the complex types `MAP`,
 Note
 :::
 
-`Properties` is not a valid field name.
+>`Properties` is not a valid field name.
 :::
 
-Here\'s an example CREATE STREAM statement that uses a `STRUCT` to
+Here's an example CREATE STREAM statement that uses a `STRUCT` to
 encapsulate a street address and a postal code:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM orders (
   orderId BIGINT,
   address STRUCT<street VARCHAR, zip INTEGER>) WITH (...);
@@ -80,7 +85,7 @@ CREATE STREAM orders (
 Access the fields in a `STRUCT` by using the dereference operator
 (`->`):
 
-``` {.sourceCode .sql}
+```sql
 SELECT address->city, address->zip FROM orders;
 ```
 
@@ -91,7 +96,7 @@ For more info, see [operators]{role="ref"}.
 Note
 :::
 
-You can't create new nested `STRUCT` data as the result of a query, but
+>You can't create new nested `STRUCT` data as the result of a query, but
 you can copy existing `STRUCT` fields as-is.
 :::
 
@@ -106,7 +111,7 @@ SESSION, and WITHIN clauses.
 -   SECOND, SECONDS
 -   MILLISECOND, MILLISECONDS
 
-For more information, see [windows\_in\_ksql\_queries]{role="ref"}.
+For more information, see [windows_in_ksql_queries]{role="ref"}.
 
 ### KSQL Timestamp Formats
 
@@ -116,12 +121,12 @@ timestamp of a message in a Kafka topic. Timestamps have an accuracy of
 one millisecond.
 
 Use the TIMESTAMP property to override `ROWTIME` with the contents of
-the specified column. Define the format of a record\'s timestamp by
-using the TIMESTAMP\_FORMAT property.
+the specified column. Define the format of a record's timestamp by
+using the TIMESTAMP_FORMAT property.
 
-If you use the TIMESTAMP property but don\'t set TIMESTAMP\_FORMAT, KSQL
+If you use the TIMESTAMP property but don't set TIMESTAMP_FORMAT, KSQL
 assumes that the timestamp field is a `bigint`. If you set
-TIMESTAMP\_FORMAT, the TIMESTAMP field must be of type `varchar` and
+TIMESTAMP_FORMAT, the TIMESTAMP field must be of type `varchar` and
 have a format that the `DateTimeFormatter` Java class can parse.
 
 If your timestamp format has embedded single quotes, you can escape them
@@ -129,7 +134,7 @@ by using two successive single quotes, `''`. For example, to escape
 `'T'`, write `''T''`. The following examples show how to escape the `'`
 character in KSQL statements.
 
-``` {.sourceCode .sql}
+```sql
 -- Example timestamp format: yyyy-MM-dd'T'HH:mm:ssX
 CREATE STREAM TEST (ID bigint, event_timestamp VARCHAR)
   WITH (kafka_topic='test_topic',
@@ -159,14 +164,20 @@ KSQL CLI Commands
 -----------------
 
 The KSQL CLI commands can be run after
-[starting the KSQL CLI \<install\_ksql-cli\>]{role="ref"}. You can view
+[starting the KSQL CLI (<install_ksql-cli>){role="ref"}. You can view
 the KSQL CLI help by running `<path-to-confluent>/bin/ksql --help`.
 
-**Tip:** You can search and browse your command history in the KSQL CLI
+::: {.note}
+::: {.admonition-title}
+Tip
+:::
+
+>**Tip:** You can search and browse your command history in the KSQL CLI
 with `Ctrl-R`. After pressing `Ctrl-R`, start typing the command or any
 part of the command to show an auto-complete of past commands.
+:::
 
-``` {.sourceCode .bash}
+```
 NAME
         ksql - KSQL CLI
 
@@ -220,7 +231,7 @@ using the RUN SCRIPT command.
 
 Example:
 
-``` {.sourceCode .sql}
+```sql
 RUN SCRIPT '/local/path/to/queries.sql';
 ```
 
@@ -233,11 +244,11 @@ The RUN SCRIPT command supports a subset of KSQL statements:
 -   SET, UNSET statements
 -   INSERT INTO statement
 
-It does not support statements such as:
+The RUN SCRIPT doesn't support statements such as:
 
--   SHOW TOPICS and SHOW STREAMS etc
+-   SHOW TOPICS and SHOW STREAMS, *etc*.
 -   TERMINATE
--   Non-persistent queries: SELECT etc
+-   Non-persistent queries: SELECT, *etc*.
 
 RUN SCRIPT can also be used from the command line, for instance when
 writing shell scripts. For more information, see
@@ -253,7 +264,7 @@ KSQL supports the following data types:
 KSQL supports the following primitive data types:
 
 -   `BOOLEAN`
--   `INTEGER` or \[`INT`\]
+-   `INTEGER` or [`INT`]
 -   `BIGINT`
 -   `DOUBLE`
 -   `VARCHAR` (or `STRING`)
@@ -267,7 +278,7 @@ KSQL supports the following primitive data types:
 Note
 :::
 
-The `DELIMITED` format doesn\'t support arrays.
+>The `DELIMITED` format doesn't support arrays.
 :::
 
 KSQL supports fields that are arrays of another type. All the elements
@@ -292,7 +303,7 @@ retrieves the first element from the array. For more information, see
 Note
 :::
 
-The `DELIMITED` format doesn\'t support maps.
+>The `DELIMITED` format doesn't support maps.
 :::
 
 KSQL supports fields that are maps. A map has a key and value type. All
@@ -318,7 +329,7 @@ with key `cost`, or `null` For more information, see
 Note
 :::
 
-The `DELIMITED` format doesn\'t support structs.
+>The `DELIMITED` format doesn't support structs.
 :::
 
 KSQL supports fields that are structs. A struct represents strongly
@@ -342,19 +353,18 @@ KSQL statements
 Tip
 :::
 
--   KSQL statements must be terminated with a semicolon (`;`).
--   Statements can be spread over multiple lines.
--   The hyphen character, `-`, isn\'t supported in names for streams,
-    tables, topics, and columns.
--   Don\'t use quotes around stream names or table names when you CREATE
-    them.
+>-   KSQL statements must be terminated with a semicolon (`;`).
+>-   Statements can be spread over multiple lines.
+>-   The hyphen character, `-`, isn't supported in names for streams,
+>    tables, topics, and columns.
+>-   Don't use quotes around stream names or table names when you CREATE them.
 :::
 
 ### CREATE STREAM
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM stream_name ( { column_name data_type } [, ...] )
   WITH ( property_name = expression [, ...] );
 ```
@@ -362,7 +372,7 @@ CREATE STREAM stream_name ( { column_name data_type } [, ...] )
 **Description**
 
 Create a new stream with the specified columns and properties. Columns
-can be any of the [data types \<data-types\>]{role="ref"} supported by
+can be any of the [data types (<data-types>){role="ref"} supported by
 KSQL.
 
 KSQL adds the implicit columns `ROWTIME` and `ROWKEY` to every stream
@@ -486,16 +496,15 @@ For more information on timestamp formats, see
 Note
 :::
 
-\- To use Avro, you must have {{ site.sr }} enabled and
+>- To use Avro, you must have {{ site.sr }} enabled and
 `ksql.schema.registry.url` must be set in the KSQL server configuration
-file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
-are not case sensitive in KSQL. This matches the KSQL column name
-behavior.
+file. See [install_ksql-avro-schema]{role="ref"}. 
+>- Avro field names are not case sensitive in KSQL. This matches the KSQL column name behavior.
 :::
 
 Example:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM pageviews (viewtime BIGINT, user_id VARCHAR, page_id VARCHAR)
   WITH (VALUE_FORMAT = 'JSON',
         KAFKA_TOPIC = 'my-pageviews-topic');
@@ -505,7 +514,7 @@ CREATE STREAM pageviews (viewtime BIGINT, user_id VARCHAR, page_id VARCHAR)
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE table_name ( { column_name data_type } [, ...] )
   WITH ( property_name = expression [, ...] );
 ```
@@ -513,7 +522,7 @@ CREATE TABLE table_name ( { column_name data_type } [, ...] )
 **Description**
 
 Create a new table with the specified columns and properties. Columns
-can be any of the [data types \<data-types\>]{role="ref"} supported by
+can be any of the [data types (<data-types>){role="ref"} supported by
 KSQL.
 
 KSQL adds the implicit columns `ROWTIME` and `ROWKEY` to every stream
@@ -522,7 +531,7 @@ message key, respectively. The timestamp has milliseconds accuracy.
 
 When creating a table from a Kafka topic, KSQL requries the message key
 to be a `VARCHAR` aka `STRING`. If the message key is not of this type
-follow the instructions in [ksql\_key\_requirements]{role="ref"}.
+follow the instructions in [ksql_key_requirements]{role="ref"}.
 
 The WITH clause supports the following properties:
 
@@ -637,16 +646,15 @@ The WITH clause supports the following properties:
 Note
 :::
 
-\- To use Avro, you must have {{ site.sr }} enabled and
-`ksql.schema.registry.url` must be set in the KSQL server configuration
-file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
-are not case sensitive in KSQL. This matches the KSQL column name
-behavior.
+>- To use Avro, you must have {{ site.sr }} enabled and
+>`ksql.schema.registry.url` must be set in the KSQL server configuration
+>file. See [install_ksql-avro-schema]{role="ref"}.
+>- Avro field names are not case sensitive in KSQL. This matches the KSQL column name behavior.
 :::
 
 Example:
 
-``` {.sourceCode .sql}
+```sql {.sourceCode .sql}
 CREATE TABLE users (usertimestamp BIGINT, user_id VARCHAR, gender VARCHAR, region_id VARCHAR) WITH (
     KAFKA_TOPIC = 'my-users-topic',
     KEY = 'user_id');
@@ -656,7 +664,7 @@ CREATE TABLE users (usertimestamp BIGINT, user_id VARCHAR, gender VARCHAR, regio
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM stream_name
   [WITH ( property_name = expression [, ...] )]
   AS SELECT  select_expr [, ...]
@@ -673,8 +681,8 @@ continuously write the result of the SELECT query into the stream and
 its corresponding topic.
 
 If the PARTITION BY clause is present, then the resulting stream will
-have the specified column as its key. The column\_name must be present
-in the select\_expr. For more information, see
+have the specified column as its key. The `column_name` must be present
+in the `select_expr`. For more information, see
 [partition-data-to-enable-joins]{role="ref"}.
 
 For joins, the key of the resulting stream will be the value from the
@@ -798,11 +806,11 @@ The WITH clause for the result supports the following properties:
 Note
 :::
 
-\- To use Avro, you must have {{ site.sr }} enabled and
-`ksql.schema.registry.url` must be set in the KSQL server configuration
-file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
-are not case sensitive in KSQL. This matches the KSQL column name
-behavior.
+>- To use Avro, you must have {{ site.sr }} enabled and
+>`ksql.schema.registry.url` must be set in the KSQL server configuration
+>file. See [install_ksql-avro-schema]{role="ref"}. 
+>- Avro field names >are not case sensitive in KSQL. This matches the KSQL
+column name behavior.
 :::
 
 ::: {.note}
@@ -810,14 +818,14 @@ behavior.
 Note
 :::
 
-The `KEY` property is not supported -- use PARTITION BY instead.
+>The `KEY` property is not supported -- use PARTITION BY instead.
 :::
 
 ### CREATE TABLE AS SELECT
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE table_name
   [WITH ( property_name = expression [, ...] )]
   AS SELECT  select_expr [, ...]
@@ -951,18 +959,18 @@ The WITH clause supports the following properties:
 Note
 :::
 
-\- To use Avro, you must have {{ site.sr }} enabled and
-`ksql.schema.registry.url` must be set in the KSQL server configuration
-file. See [install\_ksql-avro-schema]{role="ref"}. - Avro field names
-are not case sensitive in KSQL. This matches the KSQL column name
-behavior.
+>- To use Avro, you must have {{ site.sr }} enabled and
+>`ksql.schema.registry.url` must be set in the KSQL server configuration
+>file. See [install\_ksql-avro-schema]{role="ref"}. 
+>- Avro field names are not case sensitive in KSQL. This matches the KSQL
+column name behavior.
 :::
 
 ### INSERT INTO
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 INSERT INTO stream_name
   SELECT select_expr [., ...]
   FROM from_stream
@@ -976,12 +984,12 @@ Stream the result of the SELECT query into an existing stream and its
 underlying topic.
 
 The schema and partitioning column produced by the query must match the
-stream\'s schema and key, respectively. If the schema and partitioning
+stream's schema and key, respectively. If the schema and partitioning
 column are incompatible with the stream, then the statement will return
 an error.
 
-stream\_name and from\_item must both refer to a Stream. Tables are not
-supported.
+The `stream_name` and `from_item` parameters must both refer to a Stream.
+Tables are not supported.
 
 Records written into the stream are not timestamp-ordered with respect
 to other queries. Therefore, the topic partitions of the output stream
@@ -992,7 +1000,7 @@ is ordered by timestamp.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 INSERT INTO <stream_name|table_name> [(column_name [, ...]])]
   VALUES (value [,...]);
 ```
@@ -1018,26 +1026,26 @@ the order does not matter.
 Note
 :::
 
-`ROWTIME` may be specified as an explicit column, but is not required
+>`ROWTIME` may be specified as an explicit column, but is not required
 when omitting the column specifications.
 :::
 
 For example, the statements below would all be valid for a source with
 schema `<KEY_COL VARCHAR, COL_A VARCHAR>` with `KEY=KEY_COL`:
 
-> ``` {.sourceCode .sql}
-> // inserts (1234, "key", "key", "A")
-> INSERT INTO foo (ROWTIME, ROWKEY, KEY_COL, COL_A) VALUES (1234, 'key', 'key', 'A');
->
-> // inserts (current_time(), "key", "key", "A")
-> INSERT INTO foo VALUES ('key', 'key', 'A');
->
-> // inserts (current_time(), "key", "key", "A")
-> INSERT INTO foo (KEY_COL, COL_A) VALUES ('key', 'A');
->
-> // inserts (current_time(), "key", "key", null)
-> INSERT INTO foo (KEY_COL) VALUES ('key');
-> ```
+```sql
+-- inserts (1234, "key", "key", "A")
+INSERT INTO foo (ROWTIME, ROWKEY, KEY_COL, COL_A) VALUES (1234, 'key', 'key', 'A');
+
+-- inserts (current_time(), "key", "key", "A")
+INSERT INTO foo VALUES ('key', 'key', 'A');
+
+-- inserts (current_time(), "key", "key", "A")
+INSERT INTO foo (KEY_COL, COL_A) VALUES ('key', 'A');
+
+-- inserts (current_time(), "key", "key", null)
+INSERT INTO foo (KEY_COL) VALUES ('key');
+```
 
 The values will serialize using the `value_format` specified in the
 original `CREATE` statement. The key will always be serialized as a
@@ -1047,7 +1055,7 @@ String.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 DESCRIBE [EXTENDED] (stream_name|table_name);
 ```
 
@@ -1099,63 +1107,65 @@ backing the source being described.
 
 Example of describing a table:
 
-``` {.sourceCode .sql}
+```sql
 DESCRIBE ip_sum;
 ```
 
 Your output should resemble:
 
-    Field   | Type
-
-> \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- ROWTIME \| BIGINT (system)
->
-> :   ROWKEY \| VARCHAR(STRING) (system) IP \| VARCHAR(STRING) (key)
->     KBYTES \| BIGINT
->
-> \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--For
-> runtime statistics and query details run: DESCRIBE EXTENDED
-> \<Stream,Table\>
+```
+ Field   | Type
+-------------------------------------
+ ROWTIME | BIGINT           (system)
+ ROWKEY  | VARCHAR(STRING)  (system)
+ IP      | VARCHAR(STRING)  (key)
+ KBYTES  | BIGINT
+-------------------------------------
+For runtime statistics and query details run: DESCRIBE EXTENDED <Stream,Table>
+```
 
 Example of describing a table with extended information:
 
-``` {.sourceCode .bash}
+```sql
 DESCRIBE EXTENDED ip_sum;
 ```
 
 Your output should resemble:
 
-    Type                 : TABLE
-    Key field            : CLICKSTREAM.IP
-    Timestamp field      : Not set - using <ROWTIME>
-    Key format           : STRING
-    Value format         : JSON
-    Kafka output topic   : IP_SUM (partitions: 4, replication: 1)
+```
+Type                 : TABLE
+Key field            : CLICKSTREAM.IP
+Timestamp field      : Not set - using <ROWTIME>
+Key format           : STRING
+Value format         : JSON
+Kafka output topic   : IP_SUM (partitions: 4, replication: 1)
 
-     Field   | Type
-    -------------------------------------
-     ROWTIME | BIGINT           (system)
-     ROWKEY  | VARCHAR(STRING)  (system)
-     IP      | VARCHAR(STRING)  (key)
-     KBYTES  | BIGINT
-    -------------------------------------
+ Field   | Type
+-------------------------------------
+ ROWTIME | BIGINT           (system)
+ ROWKEY  | VARCHAR(STRING)  (system)
+ IP      | VARCHAR(STRING)  (key)
+ KBYTES  | BIGINT
+-------------------------------------
 
-    Queries that write into this TABLE
-    -----------------------------------
-    id:CTAS_IP_SUM - CREATE TABLE IP_SUM as SELECT ip,  sum(bytes)/1024 as kbytes FROM CLICKSTREAM window SESSION (300 second) GROUP BY ip;
+Queries that write into this TABLE
+-----------------------------------
+id:CTAS_IP_SUM - CREATE TABLE IP_SUM as SELECT ip,  sum(bytes)/1024 as kbytes FROM CLICKSTREAM window SESSION (300 second) GROUP BY ip;
 
-    For query topology and execution plan run: EXPLAIN <QueryId>; for more information
+For query topology and execution plan run: EXPLAIN <QueryId>; for more information
 
-    Local runtime statistics
-    ------------------------
-    messages-per-sec:      4.41   total-messages:       486     last-message: 12/14/17 4:32:23 PM GMT
-     failed-messages:         0      last-failed:       n/a
-    (Statistics of the local KSQL server interaction with the Kafka topic IP_SUM)
+Local runtime statistics
+------------------------
+messages-per-sec:      4.41   total-messages:       486     last-message: 12/14/17 4:32:23 PM GMT
+  failed-messages:         0      last-failed:       n/a
+(Statistics of the local KSQL server interaction with the Kafka topic IP_SUM)
+```
 
 ### DESCRIBE FUNCTION
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 DESCRIBE FUNCTION function_name;
 ```
 
@@ -1168,7 +1178,7 @@ return type.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 EXPLAIN (sql_expression|query_id);
 ```
 
@@ -1181,12 +1191,13 @@ example, show the IDs of queries related to a stream or table.
 
 Example of explaining a running query:
 
-``` {.sourceCode .sql}
+```sql
 EXPLAIN ctas_ip_sum;
 ```
 
 Your output should resemble:
 
+```
     Type                 : QUERY
     SQL                  : CREATE TABLE IP_SUM as SELECT ip,  sum(bytes)/1024 as kbytes FROM CLICKSTREAM window SESSION (300 second) GROUP BY ip;
 
@@ -1215,12 +1226,13 @@ Your output should resemble:
         Processor: KSTREAM-MAP-0000000001 (stores: [])
           --> KSTREAM-TRANSFORMVALUES-0000000002
           <-- KSTREAM-SOURCE-0000000000
+```
 
 ### DROP STREAM \[IF EXISTS\] \[DELETE TOPIC\]; {#drop-stream}
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 DROP STREAM [IF EXISTS] stream_name [DELETE TOPIC];
 ```
 
@@ -1238,20 +1250,20 @@ removal from brokers may take some time to complete.
 Note
 :::
 
-DELETE TOPIC will not necessarily work if your kafka cluster is
+>DELETE TOPIC will not necessarily work if your kafka cluster is
 configured to create topics automatically with
 `auto.create.topics.enable=true`. We recommended checking after a few
 minutes to ensure that the topic was deleted.
 :::
 
-If the IF EXISTS clause is present, the statement doesn\'t fail if the
-table doesn\'t exist.
+If the IF EXISTS clause is present, the statement doesn't fail if the
+table doesn't exist.
 
 ### DROP TABLE \[IF EXISTS\] \[DELETE TOPIC\]; {#drop-table}
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 DROP TABLE [IF EXISTS] table_name [DELETE TOPIC];
 ```
 
@@ -1270,18 +1282,18 @@ complete.
 Note
 :::
 
-DELETE TOPIC will not necessarily work if your kafka cluster is
+>DELETE TOPIC will not necessarily work if your kafka cluster is
 configured to create topics automatically with
 `auto.create.topics.enable=true`. We recommended checking after a few
 minutes to ensure that the topic was deleted.
 :::
 
-If the IF EXISTS clause is present, the statement doesn\'t fail if the
-table doesn\'t exist.
+If the IF EXISTS clause is present, the statement doesn't fail if the
+table doesn't exist.
 
 ### PRINT
 
-``` {.sourceCode .sql}
+```sql
 PRINT qualifiedName [FROM BEGINNING] [INTERVAL interval] [LIMIT limit]
 ```
 
@@ -1294,7 +1306,7 @@ Print the contents of Kafka topics to the KSQL CLI.
 Important
 :::
 
-SQL grammar defaults to uppercase formatting. You can use quotations
+>SQL grammar defaults to uppercase formatting. You can use quotations
 (`"`) to print topics that contain lowercase characters.
 :::
 
@@ -1315,22 +1327,24 @@ The PRINT statement supports the following properties:
 
 For example:
 
-``` {.sourceCode .sql}
+```sql
 PRINT 'ksql__commands' FROM BEGINNING;
 ```
 
 Your output should resemble:
 
+```json
     Format:JSON
     {"ROWTIME":1516010696273,"ROWKEY":"\"stream/CLICKSTREAM/create\"","statement":"CREATE STREAM clickstream (_time bigint,time varchar, ip varchar, request varchar, status int, userid int, bytes bigint, agent varchar) with (kafka_topic = 'clickstream', value_format = 'json');","streamsProperties":{}}
     {"ROWTIME":1516010709492,"ROWKEY":"\"table/EVENTS_PER_MIN/create\"","statement":"create table events_per_min as select userid, count(*) as events from clickstream window  TUMBLING (size 10 second) group by userid;","streamsProperties":{}}
     ^CTopic printing ceased
+```
 
 ### SELECT
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SELECT select_expr [, ...]
   FROM from_item
   [ LEFT JOIN join_table ON join_criteria ]
@@ -1345,11 +1359,11 @@ SELECT select_expr [, ...]
 
 Selects rows from a KSQL stream or table. The result of this statement
 will not be persisted in a Kafka topic and will only be printed out in
-the console. To stop the continuous query in the CLI press `Ctrl-C`.
+the console. To stop the continuous query in the CLI press Ctrl+C.
 Note that the WINDOW clause can only be used if the `from_item` is a
 stream.
 
-In the above statements from\_item is one of the following:
+In the above statements `from_item` is one of the following:
 
 -   `stream_name [ alias ]`
 -   `table_name [ alias ]`
@@ -1360,7 +1374,7 @@ including the two implicit columns `ROWTIME` and `ROWKEY`.
 
 Example:
 
-``` {.sourceCode .sql}
+```sql
 SELECT * FROM pageviews
   WHERE ROWTIME >= 1510923225000
     AND ROWTIME <= 1510923228000;
@@ -1370,18 +1384,18 @@ When writing logical expressions using `ROWTIME`, ISO-8601 formatted
 datestrings can also be used to represent dates. For example, the above
 query is equivalent to the following:
 
-``` {.sourceCode .sql}
+```sql
 SELECT * FROM pageviews
       WHERE ROWTIME >= '2017-11-17T04:53:45'
         AND ROWTIME <= '2017-11-17T04:53:48';
 ```
 
 If the datestring is inexact, the rest of the timestamp is assumed to be
-padded with 0\'s. For example, `ROWTIME = '2019-07-30T11:00'` is
+padded with 0s. For example, `ROWTIME = '2019-07-30T11:00'` is
 equivalent to `ROWTIME = '2019-07-30T11:00:00.0000'`.
 
 Timezones can be specified within the datestring. For example,
-2017-11-17T04:53:45-0330 is in the Newfoundland time zone. If no
+`2017-11-17T04:53:45-0330` is in the Newfoundland time zone. If no
 timezone is specified within the datestring, then timestamps are
 interperted in the UTC timezone.
 
@@ -1390,18 +1404,24 @@ limit is reached the query will terminate.
 
 Example:
 
-``` {.sourceCode .sql}
+```sql
 SELECT * FROM pageviews LIMIT 5;
 ```
 
 If no limit is supplied the query will run until terminated, streaming
 back all results to the console.
 
-**Tip:** If you want to select older data, you can configure KSQL to
+::: {.important}
+::: {.admonition-title}
+Tip
+:::
+
+>**Tip:** If you want to select older data, you can configure KSQL to
 query the stream from the beginning. You must run this configuration
 before running the query:
+:::
 
-``` {.sourceCode .sql}
+```sql
 SET 'auto.offset.reset' = 'earliest';
 ```
 
@@ -1418,7 +1438,7 @@ the following WINDOW types:
 
     Example:
 
-    ``` {.sourceCode .sql}
+    ```sql
     SELECT item_id, SUM(quantity)
       FROM orders
       WINDOW TUMBLING (SIZE 20 SECONDS)
@@ -1432,7 +1452,7 @@ the following WINDOW types:
 
     Example:
 
-    ``` {.sourceCode .sql}
+    ```sql
     SELECT item_id, SUM(quantity)
       FROM orders
       WINDOW HOPPING (SIZE 20 SECONDS, ADVANCE BY 5 SECONDS)
@@ -1449,7 +1469,7 @@ the following WINDOW types:
 
     Example:
 
-    ``` {.sourceCode .sql}
+    ```sql
     SELECT item_id, SUM(quantity)
       FROM orders
       WINDOW SESSION (20 SECONDS)
@@ -1461,30 +1481,33 @@ name. To specify the output name of a column, use `AS OUTPUT_NAME` after
 the expression definition. If it is omitted, KSQL will assign a system
 generated name `KSQL_COL_i` where `i` is the ordinal number of the
 expression in the SELECT list. If the expression references a column of
-a from\_item, then the output name is the name of that column.
+a `from_item`, then the output name is the name of that column.
 
-**Tip:** KSQL will throw an error for duplicate output names. For
-example:
+::: {.important}
+::: {.admonition-title}
+Tip
+:::
+>**Tip:** KSQL will throw an error for duplicate output names. For example:
+>```sql
+>SELECT 1, KSQL_COL_0
+>  FROM orders;
+>```
+>is not allowed as the output name for the literal `1` is `KSQL_COL_0`.
+:::
 
-> ``` {.sourceCode .sql}
-> SELECT 1, KSQL_COL_0
->   FROM orders;
-> ```
-
-is not allowed as the output name for the literal `1` is `KSQL_COL_0`.
 
 #### CAST
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 CAST (expression AS data_type);
 ```
 
 You can cast an expression's type to a new type using CAST. Here is an
 example of converting a BIGINT into a VARCHAR type:
 
-``` {.sourceCode .sql}
+```sql
 -- This query converts the numerical count into a suffixed string; e.g., 5 becomes '5_HELLO'
 SELECT page_id, CONCAT(CAST(COUNT(*) AS VARCHAR), '_HELLO')
   FROM pageviews_enriched
@@ -1496,7 +1519,7 @@ SELECT page_id, CONCAT(CAST(COUNT(*) AS VARCHAR), '_HELLO')
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 CASE
    WHEN condition THEN result
    [ WHEN ... THEN ... ]
@@ -1514,9 +1537,9 @@ clause. If none of the conditions is true and there is no ELSE clause,
 CASE returns null.
 
 The schema for all results must be the same, otherwise, KSQL rejects the
-statement. Here\'s an example of a CASE expression:
+statement. Here's an example of a CASE expression:
 
-``` {.sourceCode .sql}
+```sql
 SELECT
  CASE
    WHEN orderunits < 2.0 THEN 'small'
@@ -1530,7 +1553,7 @@ FROM orders;
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 column_name LIKE pattern;
 ```
 
@@ -1539,7 +1562,7 @@ supports `%`, which represents zero or more characters.
 
 Example:
 
-``` {.sourceCode .sql}
+```sql
 SELECT user_id
   FROM users
   WHERE user_id LIKE 'santa%';
@@ -1549,7 +1572,7 @@ SELECT user_id
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 WHERE expression [NOT] BETWEEN start_expression AND end_expression;
 ```
 
@@ -1560,7 +1583,7 @@ comparison.
 
 Example:
 
-``` {.sourceCode .sql}
+```sql
 SELECT event
   FROM events
   WHERE event_id BETWEEN 10 AND 20
@@ -1570,7 +1593,7 @@ SELECT event
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SHOW | LIST FUNCTIONS;
 ```
 
@@ -1582,7 +1605,7 @@ List the available scalar and aggregate functions available.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SHOW | LIST TOPICS [EXTENDED];
 ```
 
@@ -1597,7 +1620,7 @@ and their active consumer counts.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SHOW | LIST STREAMS;
 ```
 
@@ -1609,7 +1632,7 @@ List the defined streams.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SHOW | LIST TABLES;
 ```
 
@@ -1621,7 +1644,7 @@ List the defined tables.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SHOW QUERIES;
 ```
 
@@ -1633,20 +1656,20 @@ List the running persistent queries.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SHOW PROPERTIES;
 ```
 
 **Description**
 
-List the [configuration settings \<ksql-param-reference\>]{role="ref"}
+List the [configuration settings](ksql-param-reference){role="ref"}
 that are currently in effect.
 
 ### SPOOL
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 SPOOL <file_name|OFF>
 ```
 
@@ -1660,7 +1683,7 @@ are prefixed with `ksql>` to differentiate from output.
 
 **Synopsis**
 
-``` {.sourceCode .sql}
+```sql
 TERMINATE query_id;
 ```
 
@@ -1669,11 +1692,11 @@ TERMINATE query_id;
 Terminate a persistent query. Persistent queries run continuously until
 they are explicitly terminated.
 
--   In client-server mode, exiting the CLI will not stop persistent
-    queries because the KSQL server(s) will continue to process the
+-   In client-server mode, exiting the CLI doesn't stop persistent
+    queries, because the KSQL server(s) continue to process the
     queries.
 
-(To terminate a non-persistent query use `Ctrl-C` in the CLI.)
+To terminate a non-persistent query, use Ctrl+C in the CLI.
 
 Operators
 ---------
@@ -1683,7 +1706,7 @@ KSQL supports the following operators in value expressions.
 The explanation for each operator includes a supporting example based on
 the following table:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE USERS (
     USERID BIGINT
     FIRST_NAME STRING,
@@ -1695,651 +1718,311 @@ CREATE TABLE USERS (
 
 -   Arithmetic (`+,-,/,*,%`) The usual arithmetic operators may be
     applied to numeric types (INT, BIGINT, DOUBLE)
-
-``` {.sourceCode .sql}
-SELECT LEN(FIRST_NAME) + LEN(LAST_NAME) AS NAME_LENGTH FROM USERS;
-```
+    ```sql
+    SELECT LEN(FIRST_NAME) + LEN(LAST_NAME) AS NAME_LENGTH FROM USERS;
+    ```
 
 -   Concatenation (`+,||`) The concatenation operator can be used to
     concatenate STRING values.
-
-``` {.sourceCode .sql}
-SELECT FIRST_NAME + LAST_NAME AS FULL_NAME FROM USERS;
-```
+    ```sql
+    SELECT FIRST_NAME + LAST_NAME AS FULL_NAME FROM USERS;
+    ```
 
 -   You can use the `+` operator for multi-part concatenation, for
     example:
-
-``` {.sourceCode .sql}
-SELECT TIMESTAMPTOSTRING(ROWTIME, 'yyyy-MM-dd HH:mm:ss') +
-        ': :heavy_exclamation_mark: On ' +
-        HOST +
-        ' there were ' +
-        CAST(INVALID_LOGIN_COUNT AS VARCHAR) +
-        ' attempts in the last minute (threshold is >=4)'
-FROM INVALID_USERS_LOGINS_PER_HOST
-WHERE INVALID_LOGIN_COUNT>=4;
-```
+    ```sql
+    SELECT TIMESTAMPTOSTRING(ROWTIME, 'yyyy-MM-dd HH:mm:ss') +
+            ': :heavy_exclamation_mark: On ' +
+            HOST +
+            ' there were ' +
+            CAST(INVALID_LOGIN_COUNT AS VARCHAR) +
+            ' attempts in the last minute (threshold is >=4)'
+    FROM INVALID_USERS_LOGINS_PER_HOST
+    WHERE INVALID_LOGIN_COUNT>=4;
+    ```
 
 -   Source Dereference (`.`) The source dereference operator can be used
     to specify columns by dereferencing the source stream or table.
-
-``` {.sourceCode .sql}
-SELECT USERS.FIRST_NAME FROM USERS;
-```
+    ```sql
+    SELECT USERS.FIRST_NAME FROM USERS;
+    ```
 
 -   Subscript (`[subscript_expr]`) The subscript operator is used to
     reference the value at an array index or a map key.
-
-``` {.sourceCode .sql}
-SELECT NICKNAMES[0] FROM USERS;
-```
+    ```sql
+    SELECT NICKNAMES[0] FROM USERS;
+    ```
 
 -   STRUCT dereference (`->`) Access nested data by declaring a STRUCT
     and using the dereference operator to access its fields:
+    ```sql
+    CREATE STREAM orders (
+      orderId BIGINT,
+      address STRUCT<street VARCHAR, zip INTEGER>) WITH (...);
 
-``` {.sourceCode .sql}
-CREATE STREAM orders (
-  orderId BIGINT,
-  address STRUCT<street VARCHAR, zip INTEGER>) WITH (...);
-
-SELECT address->street, address->zip FROM orders;
-```
+    SELECT address->street, address->zip FROM orders;
+    ```
 
 -   Combine -\> with . when using aliases:
-
-``` {.sourceCode .sql}
-SELECT orders.address->street, o.address->zip FROM orders o;
+    ``` {.sourceCode .sql}
+    SELECT orders.address->street, o.address->zip FROM orders o;
 ```
 
 Scalar functions {#functions}
 ----------------
 
-+----------+----------------------------------+-----------------------+
-| Function | Example                          | Description           |
-+==========+==================================+=======================+
-| ABS      | > `ABS(col1)`                    | The absolute value of |
-|          |                                  | a value               |
-+----------+----------------------------------+-----------------------+
-| ARRAYCON | > `ARRAYCONTAINS('[1, 2, 3]', 3) | Given JSON or AVRO    |
-| TAINS    | `                                | array checks if a     |
-|          |                                  | search value contains |
-|          |                                  | in it                 |
-+----------+----------------------------------+-----------------------+
-| AS\_ARRA | > `AS_ARRAY(col1, col2)`\`       | Construct an array    |
-| Y        |                                  | from a variable       |
-|          |                                  | number of inputs.     |
-+----------+----------------------------------+-----------------------+
-| AS\_MAP  | > `AS_MAP(keys, vals)`\`         | Construct a map from  |
-|          |                                  | a list of keys and a  |
-|          |                                  | list of values.       |
-+----------+----------------------------------+-----------------------+
-| CEIL     | > `CEIL(col1)`                   | The ceiling of a      |
-|          |                                  | value.                |
-+----------+----------------------------------+-----------------------+
-| CONCAT   | > `CONCAT(col1, '_hello')`       | Concatenate two       |
-|          |                                  | strings.              |
-+----------+----------------------------------+-----------------------+
-| UNIX\_DA | > `UNIX_DATE()`                  | Gets an integer       |
-| TE       |                                  | representing days     |
-|          |                                  | since epoch. The      |
-|          |                                  | returned timestamp    |
-|          |                                  | may differ depending  |
-|          |                                  | on the local time of  |
-|          |                                  | different KSQL Server |
-|          |                                  | instances.            |
-+----------+----------------------------------+-----------------------+
-| UNIX\_TI | > `UNIX_TIMESTAMP()`             | Gets the Unix         |
-| MESTAMP  |                                  | timestamp in          |
-|          |                                  | milliseconds,         |
-|          |                                  | represented as a      |
-|          |                                  | BIGINT. The returned  |
-|          |                                  | timestamp may differ  |
-|          |                                  | depending on the      |
-|          |                                  | local time of         |
-|          |                                  | different KSQL Server |
-|          |                                  | instances.            |
-+----------+----------------------------------+-----------------------+
-| DATETOST | > `DATETOSTRING(START_DATE, 'yyy | Converts an integer   |
-| RING     | y-MM-dd')`                       | representation of a   |
-|          |                                  | date into a string    |
-|          |                                  | representing the date |
-|          |                                  | in the given format.  |
-|          |                                  | Single quotes in the  |
-|          |                                  | timestamp format can  |
-|          |                                  | be escaped with two   |
-|          |                                  | successive single     |
-|          |                                  | quotes, `''`, for     |
-|          |                                  | example:              |
-|          |                                  | `'yyyy-MM-dd''T'''`.  |
-|          |                                  | The integer           |
-|          |                                  | represents days since |
-|          |                                  | epoch matching the    |
-|          |                                  | encoding used by      |
-|          |                                  | Kafka Connect dates.  |
-+----------+----------------------------------+-----------------------+
-| ELT      | `ELT(n INTEGER, args VARCHAR[])` | Returns element `n`   |
-|          |                                  | in the `args` list of |
-|          |                                  | strings, or NULL if   |
-|          |                                  | `n` is less than 1 or |
-|          |                                  | greater than the      |
-|          |                                  | number of arguments.  |
-|          |                                  | This function is      |
-|          |                                  | 1-indexed. ELT is the |
-|          |                                  | complement to FIELD.  |
-+----------+----------------------------------+-----------------------+
-| EXTRACTJ | > `EXTRACTJSONFIELD(message, '$. | Given a string column |
-| SONFIELD | log.cloud')`                     | in JSON format,       |
-|          |                                  | extract the field     |
-|          |                                  | that matches.         |
-|          |                                  |                       |
-|          |                                  | Example where         |
-|          |                                  | EXTRACTJSONFIELD is   |
-|          |                                  | needed:               |
-|          |                                  |                       |
-|          |                                  | `{"foo": \"{\"bar\":  |
-|          |                                  | \"quux\"}\"}`         |
-|          |                                  |                       |
-|          |                                  | However, in cases     |
-|          |                                  | where the column is   |
-|          |                                  | really an object but  |
-|          |                                  | declared as a STRING  |
-|          |                                  | you can use the       |
-|          |                                  | `STRUCT` type, which  |
-|          |                                  | is easier to work     |
-|          |                                  | with.                 |
-|          |                                  |                       |
-|          |                                  | Example where         |
-|          |                                  | `STRUCT` will work:   |
-|          |                                  |                       |
-|          |                                  | `{"foo": {"bar": "quu |
-|          |                                  | x"}}`                 |
-+----------+----------------------------------+-----------------------+
-| EXP      | > `EXP(col1)`                    | The exponential of a  |
-|          |                                  | value.                |
-+----------+----------------------------------+-----------------------+
-| FIELD    | `FIELD(str VARCHAR, args VARCHAR | Returns the 1-indexed |
-|          | [])`                             | position of `str` in  |
-|          |                                  | `args`, or 0 if not   |
-|          |                                  | found. If `str` is    |
-|          |                                  | NULL, the return      |
-|          |                                  | value is 0, because   |
-|          |                                  | NULL is not           |
-|          |                                  | considered to be      |
-|          |                                  | equal to any value.   |
-|          |                                  | FIELD is the          |
-|          |                                  | complement to ELT.    |
-+----------+----------------------------------+-----------------------+
-| FLOOR    | > `FLOOR(col1)`                  | The floor of a value. |
-+----------+----------------------------------+-----------------------+
-| GEO\_DIS | > `GEO_DISTANCE(lat1, lon1, lat2 | The great-circle      |
-| TANCE    | , lon2, unit)`                   | distance between two  |
-|          |                                  | lat-long points, both |
-|          |                                  | specified in decimal  |
-|          |                                  | degrees. An optional  |
-|          |                                  | final parameter       |
-|          |                                  | specifies `KM` (the   |
-|          |                                  | default) or `miles`.  |
-+----------+----------------------------------+-----------------------+
-| IFNULL   | > `IFNULL(col1, retval)`         | If the provided       |
-|          |                                  | VARCHAR is NULL,      |
-|          |                                  | return `retval`,      |
-|          |                                  | otherwise, return the |
-|          |                                  | value. Only VARCHAR   |
-|          |                                  | values are supported  |
-|          |                                  | for the input. The    |
-|          |                                  | return value must be  |
-|          |                                  | a VARCHAR.            |
-+----------+----------------------------------+-----------------------+
-| INITCAP  | > `INITCAP(col1)`                | Capitalize the first  |
-|          |                                  | letter in each word   |
-|          |                                  | and convert all other |
-|          |                                  | letters to lowercase. |
-|          |                                  | Words are delimited   |
-|          |                                  | by whitespace.        |
-+----------+----------------------------------+-----------------------+
-| LCASE    | > `LCASE(col1)`                  | Convert a string to   |
-|          |                                  | lowercase.            |
-+----------+----------------------------------+-----------------------+
-| LEN      | > `LEN(col1)`                    | The length of a       |
-|          |                                  | string.               |
-+----------+----------------------------------+-----------------------+
-| LN       | > `LN(col1)`                     | The natural logarithm |
-|          |                                  | of a value.           |
-+----------+----------------------------------+-----------------------+
-| MASK     | > `MASK(col1, 'X', 'x', 'n', '-' | Convert a string to a |
-|          | )`                               | masked or obfuscated  |
-|          |                                  | version of itself.    |
-|          |                                  | The optional          |
-|          |                                  | arguments following   |
-|          |                                  | the input string to   |
-|          |                                  | be masked are the     |
-|          |                                  | characters to be      |
-|          |                                  | substituted for       |
-|          |                                  | upper-case,           |
-|          |                                  | lower-case, numeric   |
-|          |                                  | and other characters  |
-|          |                                  | of the input,         |
-|          |                                  | respectively. If the  |
-|          |                                  | mask characters are   |
-|          |                                  | omitted then the      |
-|          |                                  | default values,       |
-|          |                                  | illustrated in the    |
-|          |                                  | example to the left,  |
-|          |                                  | will be applied. Set  |
-|          |                                  | a given mask          |
-|          |                                  | character to NULL to  |
-|          |                                  | prevent any masking   |
-|          |                                  | of that character     |
-|          |                                  | type. For example:    |
-|          |                                  | `MASK("My Test $123") |
-|          |                                  | `                     |
-|          |                                  | will return           |
-|          |                                  | `Xx-Xxxx--nnn`,       |
-|          |                                  | applying all default  |
-|          |                                  | masks.                |
-|          |                                  | `MASK("My Test $123", |
-|          |                                  |  '*', NULL, '1', NULL |
-|          |                                  | )`                    |
-|          |                                  | will yield            |
-|          |                                  | `*y *est $111`.       |
-+----------+----------------------------------+-----------------------+
-| MASK\_KE | > `MASK_KEEP_LEFT(col1, numChars | Similar to the `MASK` |
-| EP\_LEFT | , 'X', 'x', 'n', '-')`           | function above,       |
-|          |                                  | except that the first |
-|          |                                  | or left-most          |
-|          |                                  | `numChars` characters |
-|          |                                  | will not be masked in |
-|          |                                  | any way. For example: |
-|          |                                  | `MASK_KEEP_LEFT("My T |
-|          |                                  | est $123", 4)`        |
-|          |                                  | will return           |
-|          |                                  | `My Txxx--nnn`.       |
-+----------+----------------------------------+-----------------------+
-| MASK\_KE | > `MASK_KEEP_RIGHT(col1, numChar | Similar to the `MASK` |
-| EP\_RIGH | s, 'X', 'x', 'n', '-')`          | function above,       |
-| T        |                                  | except that the last  |
-|          |                                  | or right-most         |
-|          |                                  | `numChars` characters |
-|          |                                  | will not be masked in |
-|          |                                  | any way. For          |
-|          |                                  | example:`MASK_KEEP_RI |
-|          |                                  | GHT("My Test $123", 4 |
-|          |                                  | )`                    |
-|          |                                  | will return           |
-|          |                                  | `Xx-Xxxx-$123`.       |
-+----------+----------------------------------+-----------------------+
-| MASK\_LE | > `MASK_LEFT(col1, numChars, 'X' | Similar to the `MASK` |
-| FT       | , 'x', 'n', '-')`                | function above,       |
-|          |                                  | except that only the  |
-|          |                                  | first or left-most    |
-|          |                                  | `numChars` characters |
-|          |                                  | will have any masking |
-|          |                                  | applied to them. For  |
-|          |                                  | example:              |
-|          |                                  | `MASK_LEFT("My Test $ |
-|          |                                  | 123", 4)`             |
-|          |                                  | will return           |
-|          |                                  | `Xx-Xest $123`.       |
-+----------+----------------------------------+-----------------------+
-| MASK\_RI | > `MASK_RIGHT(col1, numChars, 'X | Similar to the `MASK` |
-| GHT      | ', 'x', 'n', '-')`               | function above,       |
-|          |                                  | except that only the  |
-|          |                                  | last or right-most    |
-|          |                                  | `numChars` characters |
-|          |                                  | will have any masking |
-|          |                                  | applied to them. For  |
-|          |                                  | example:              |
-|          |                                  | `MASK_RIGHT("My Test  |
-|          |                                  | $123", 4)`            |
-|          |                                  | will return           |
-|          |                                  | `My Test -nnn`.       |
-+----------+----------------------------------+-----------------------+
-| RANDOM   | > `RANDOM()`                     | Return a random       |
-|          |                                  | DOUBLE value between  |
-|          |                                  | 0.0 and 1.0.          |
-+----------+----------------------------------+-----------------------+
-| REPLACE  | > `REPLACE(col1, 'foo', 'bar')`  | Replace all instances |
-|          |                                  | of a substring in a   |
-|          |                                  | string with a new     |
-|          |                                  | string.               |
-+----------+----------------------------------+-----------------------+
-| ROUND    | > `ROUND(col1)` or               | Round a value to the  |
-|          | > `ROUND(col1, scale)`           | number of decimal     |
-|          |                                  | places as specified   |
-|          |                                  | by scale to the right |
-|          |                                  | of the decimal point. |
-|          |                                  | If scale is negative  |
-|          |                                  | then value is rounded |
-|          |                                  | to the right of the   |
-|          |                                  | decimal point.        |
-|          |                                  | Numbers equidistant   |
-|          |                                  | to the nearest value  |
-|          |                                  | are rounded up (in    |
-|          |                                  | the positive          |
-|          |                                  | direction). If the    |
-|          |                                  | number of decimal     |
-|          |                                  | places is not         |
-|          |                                  | provided it defaults  |
-|          |                                  | to zero.              |
-+----------+----------------------------------+-----------------------+
-| SIGN     | > `SIGN(col1)`                   | The sign of a numeric |
-|          |                                  | value as an INTEGER:  |
-|          |                                  | \* -1 if the argument |
-|          |                                  | is negative \* 0 if   |
-|          |                                  | the argument is zero  |
-|          |                                  | \* 1 if the argument  |
-|          |                                  | is positive \* `null` |
-|          |                                  | argument is null      |
-+----------+----------------------------------+-----------------------+
-| SQRT     | > `SQRT(col1)`                   | The square root of a  |
-|          |                                  | value.                |
-+----------+----------------------------------+-----------------------+
-| SLICE    | > `SLICE(col1, from, to)`        | Slices a list based   |
-|          |                                  | on the supplied       |
-|          |                                  | indices. The indices  |
-|          |                                  | start at 1 and        |
-|          |                                  | include both          |
-|          |                                  | endpoints.            |
-+----------+----------------------------------+-----------------------+
-| SPLIT    | > `SPLIT(col1, delimiter)`       | Splits a string into  |
-|          |                                  | an array of           |
-|          |                                  | substrings based on a |
-|          |                                  | delimiter. If the     |
-|          |                                  | delimiter is not      |
-|          |                                  | found, then the       |
-|          |                                  | original string is    |
-|          |                                  | returned as the only  |
-|          |                                  | element in the array. |
-|          |                                  | If the delimiter is   |
-|          |                                  | empty, then all       |
-|          |                                  | characters in the     |
-|          |                                  | string are split. If  |
-|          |                                  | either, string or     |
-|          |                                  | delimiter, are NULL,  |
-|          |                                  | then a NULL value is  |
-|          |                                  | returned.             |
-|          |                                  |                       |
-|          |                                  | If the delimiter is   |
-|          |                                  | found at the          |
-|          |                                  | beginning or end of   |
-|          |                                  | the string, or there  |
-|          |                                  | are contiguous        |
-|          |                                  | delimiters, then an   |
-|          |                                  | empty space is added  |
-|          |                                  | to the array.         |
-+----------+----------------------------------+-----------------------+
-| STRINGTO | > `STRINGTODATE(col1, 'yyyy-MM-d | Converts a string     |
-| DATE     | d')`                             | representation of a   |
-|          |                                  | date in the given     |
-|          |                                  | format into an        |
-|          |                                  | integer representing  |
-|          |                                  | days since epoch.     |
-|          |                                  | Single quotes in the  |
-|          |                                  | timestamp format can  |
-|          |                                  | be escaped with two   |
-|          |                                  | successive single     |
-|          |                                  | quotes, `''`, for     |
-|          |                                  | example:              |
-|          |                                  | `'yyyy-MM-dd''T'''`.  |
-+----------+----------------------------------+-----------------------+
-| STRINGTO | > `STRINGTOTIMESTAMP(col1, 'yyyy | Converts a string     |
-| TIMESTAM | -MM-dd HH:mm:ss.SSS' [, TIMEZONE | value in the given    |
-| P        | ])`                              | format into the       |
-|          |                                  | BIGINT value that     |
-|          |                                  | represents the        |
-|          |                                  | millisecond           |
-|          |                                  | timestamp. Single     |
-|          |                                  | quotes in the         |
-|          |                                  | timestamp format can  |
-|          |                                  | be escaped with two   |
-|          |                                  | successive single     |
-|          |                                  | quotes, `''`, for     |
-|          |                                  | example:              |
-|          |                                  | `'yyyy-MM-dd''T''HH:m |
-|          |                                  | m:ssX'`.              |
-|          |                                  | TIMEZONE is an        |
-|          |                                  | optional parameter    |
-|          |                                  | and it is a           |
-|          |                                  | java.util.TimeZone ID |
-|          |                                  | format, for example:  |
-|          |                                  | \"UTC\",              |
-|          |                                  | \"America/Los\_Angele |
-|          |                                  | s\",                  |
-|          |                                  | \"PDT\",              |
-|          |                                  | \"Europe/London\".    |
-|          |                                  | For more information  |
-|          |                                  | on timestamp formats, |
-|          |                                  | see                   |
-|          |                                  | [DateTimeFormatter](h |
-|          |                                  | ttps://cnfl.io/java-d |
-|          |                                  | tf).                  |
-+----------+----------------------------------+-----------------------+
-| SUBSTRIN | > `SUBSTRING(col1, 2, 5)`        | `SUBSTRING(str, pos,  |
-| G        |                                  | [len]`.               |
-|          |                                  | Returns a substring   |
-|          |                                  | of `str` that starts  |
-|          |                                  | at `pos` (first       |
-|          |                                  | character is at       |
-|          |                                  | position 1) and has   |
-|          |                                  | length `len`, or      |
-|          |                                  | continues to the end  |
-|          |                                  | of the string. For    |
-|          |                                  | example,              |
-|          |                                  | `SUBSTRING("stream",  |
-|          |                                  | 1, 4)`                |
-|          |                                  | returns \"stre\".     |
-|          |                                  |                       |
-|          |                                  | NOTE: Prior to v5.1   |
-|          |                                  | of KSQL the syntax    |
-|          |                                  | was:                  |
-|          |                                  | `SUBSTRING(str, start |
-|          |                                  | , [end])`,            |
-|          |                                  | where `start` and     |
-|          |                                  | `end` positions where |
-|          |                                  | base-zero indexes     |
-|          |                                  | (first character at   |
-|          |                                  | position 0) to start  |
-|          |                                  | (inclusive) and end   |
-|          |                                  | (exclusive) the       |
-|          |                                  | substring,            |
-|          |                                  | respectively. For     |
-|          |                                  | example,              |
-|          |                                  | `SUBSTRING("stream",  |
-|          |                                  | 1, 4)`                |
-|          |                                  | would return \"tre\". |
-|          |                                  | It is possible to     |
-|          |                                  | switch back to this   |
-|          |                                  | legacy mode by        |
-|          |                                  | setting               |
-|          |                                  | `ksql.functions.subst |
-|          |                                  | ring.legacy.args`     |
-|          |                                  | to `true`. We         |
-|          |                                  | recommend against     |
-|          |                                  | enabling this         |
-|          |                                  | setting. Instead,     |
-|          |                                  | update your queries   |
-|          |                                  | accordingly.          |
-+----------+----------------------------------+-----------------------+
-| TIMESTAM | > `TIMESTAMPTOSTRING(ROWTIME, 'y | Converts a BIGINT     |
-| PTOSTRIN | yyy-MM-dd HH:mm:ss.SSS' [, TIMEZ | millisecond timestamp |
-| G        | ONE])`                           | value into the string |
-|          |                                  | representation of the |
-|          |                                  | timestamp in the      |
-|          |                                  | given format. Single  |
-|          |                                  | quotes in the         |
-|          |                                  | timestamp format can  |
-|          |                                  | be escaped with two   |
-|          |                                  | successive single     |
-|          |                                  | quotes, `''`, for     |
-|          |                                  | example:              |
-|          |                                  | `'yyyy-MM-dd''T''HH:m |
-|          |                                  | m:ssX'`.              |
-|          |                                  | TIMEZONE is an        |
-|          |                                  | optional parameter    |
-|          |                                  | and it is a           |
-|          |                                  | java.util.TimeZone ID |
-|          |                                  | format, for example:  |
-|          |                                  | \"UTC\",              |
-|          |                                  | \"America/Los\_Angele |
-|          |                                  | s\",                  |
-|          |                                  | \"PDT\",              |
-|          |                                  | \"Europe/London\".    |
-|          |                                  | For more information  |
-|          |                                  | on timestamp formats, |
-|          |                                  | see                   |
-|          |                                  | [DateTimeFormatter](h |
-|          |                                  | ttps://cnfl.io/java-d |
-|          |                                  | tf).                  |
-+----------+----------------------------------+-----------------------+
-| TRIM     | > `TRIM(col1)`                   | Trim the spaces from  |
-|          |                                  | the beginning and end |
-|          |                                  | of a string.          |
-+----------+----------------------------------+-----------------------+
-| UCASE    | > `UCASE(col1)`                  | Convert a string to   |
-|          |                                  | uppercase.            |
-+----------+----------------------------------+-----------------------+
-| URL\_DEC | > `URL_DECODE_PARAM(col1)`       | Unescapes the         |
-| ODE\_PAR |                                  | [URL-param-encoded](# |
-| AM       |                                  | URL-param-encoded)    |
-|          |                                  | value in `col1` This  |
-|          |                                  | is the inverse of     |
-|          |                                  | URL\_ENCODE\_PARAM    |
-|          |                                  | ^\*^                  |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `'url%20encoded`      |
-|          |                                  | Output: `url encoded` |
-+----------+----------------------------------+-----------------------+
-| URL\_ENC | > `URL_ENCODE_PARAM(col1)`       | Escapes the value of  |
-| ODE\_PAR |                                  | `col1` such that it   |
-| AM       |                                  | can safely be used in |
-|          |                                  | URL query parameters. |
-|          |                                  | Note that this is not |
-|          |                                  | the same as encoding  |
-|          |                                  | a value for use in    |
-|          |                                  | the path portion of a |
-|          |                                  | URL.                  |
-|          |                                  |                       |
-|          |                                  | Input: `url encoded`  |
-|          |                                  | Output:               |
-|          |                                  | `'url%20encoded`      |
-+----------+----------------------------------+-----------------------+
-| URL\_EXT | > `URL_EXTRACT_FRAGMENT(url)`    | Extract the fragment  |
-| RACT\_FR |                                  | portion of the        |
-| AGMENT   |                                  | specified value.      |
-|          |                                  | Returns NULL if `url` |
-|          |                                  | is not a valid URL or |
-|          |                                  | if the fragment does  |
-|          |                                  | not exist. Any        |
-|          |                                  | encoded value will be |
-|          |                                  | decoded.              |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `http://test.com#frag |
-|          |                                  | `,                    |
-|          |                                  | Output: `frag` Input: |
-|          |                                  | `http://test.com#frag |
-|          |                                  | %20space`,            |
-|          |                                  | Output: `frag space`  |
-+----------+----------------------------------+-----------------------+
-| URL\_EXT | > `URL_EXTRACT_HOST(url)`        | Extract the host-name |
-| RACT\_HO |                                  | portion of the        |
-| ST       |                                  | specified value.      |
-|          |                                  | Returns NULL if the   |
-|          |                                  | `url` is not a valid  |
-|          |                                  | URI according to      |
-|          |                                  | RFC-2396.             |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `http://test.com:8080 |
-|          |                                  | /path`,               |
-|          |                                  | Output: `test.com`    |
-+----------+----------------------------------+-----------------------+
-| URL\_EXT | > `URL_EXTRACT_PARAMETER(url, pa | Extract the value of  |
-| RACT\_PA | rameter_name)`                   | the requested         |
-| RAMETER  |                                  | parameter from the    |
-|          |                                  | query-string of       |
-|          |                                  | `url`. Returns NULL   |
-|          |                                  | if the parameter is   |
-|          |                                  | not present, has no   |
-|          |                                  | value specified for   |
-|          |                                  | it in the             |
-|          |                                  | query-string, or      |
-|          |                                  | `url` is not a valid  |
-|          |                                  | URI. Encodes the      |
-|          |                                  | param and decodes the |
-|          |                                  | output (see           |
-|          |                                  | examples).            |
-|          |                                  |                       |
-|          |                                  | To get all of the     |
-|          |                                  | parameter values from |
-|          |                                  | a URL as a single     |
-|          |                                  | string, see           |
-|          |                                  | `URL_EXTRACT_QUERY.`  |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `http://test.com?a%20 |
-|          |                                  | b=c%20d`,             |
-|          |                                  | `a b` Output: `c d`   |
-|          |                                  | Input:                |
-|          |                                  | `http://test.com?a=fo |
-|          |                                  | o&b=bar`,             |
-|          |                                  | b Output: `bar`       |
-+----------+----------------------------------+-----------------------+
-| URL\_EXT | > `URL_EXTRACT_PATH(url)`        | Extracts the path     |
-| RACT\_PA |                                  | from `url`. Returns   |
-| TH       |                                  | NULL if `url` is not  |
-|          |                                  | a valid URI but       |
-|          |                                  | returns an empty      |
-|          |                                  | string if the path is |
-|          |                                  | empty.                |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `http://test.com/path |
-|          |                                  | /to#a`                |
-|          |                                  | Output: `path/to`     |
-+----------+----------------------------------+-----------------------+
-| URL\_EXT | > `URL_EXTRACT_PORT(url)`        | Extract the port      |
-| RACT\_PO |                                  | number from `url`.    |
-| RT       |                                  | Returns NULL if `url` |
-|          |                                  | is not a valid URI or |
-|          |                                  | does not contain an   |
-|          |                                  | explicit port number. |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `http://localhost:808 |
-|          |                                  | 0/path`               |
-|          |                                  | Output: `8080`        |
-+----------+----------------------------------+-----------------------+
-| URL\_EXT | > `URL_EXTRACT_PROTOCOL(url)`    | Extract the protocol  |
-| RACT\_PR |                                  | from `url`. Returns   |
-| OTOCOL   |                                  | NULL if `url` is an   |
-|          |                                  | invalid URI or has no |
-|          |                                  | protocol.             |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `http://test.com?a=fo |
-|          |                                  | o&b=bar`              |
-|          |                                  | Output: `http`        |
-+----------+----------------------------------+-----------------------+
-| URL\_EXT | > `URL_EXTRACT_QUERY(url)`       | Extract the decoded   |
-| RACT\_QU |                                  | query-string portion  |
-| ERY      |                                  | of `url`. Returns     |
-|          |                                  | NULL if no            |
-|          |                                  | query-string is       |
-|          |                                  | present or `url` is   |
-|          |                                  | not a valid URI.      |
-|          |                                  |                       |
-|          |                                  | Input:                |
-|          |                                  | `http://test.com?a=fo |
-|          |                                  | o%20bar&b=baz`,       |
-|          |                                  | Output:               |
-|          |                                  | `a=foo bar&b=baz`     |
-+----------+----------------------------------+-----------------------+
+|       Function        |                               Example                                |                    Description                     |
+| --------------------- | -------------------------------------------------------------------- | -------------------------------------------------- |
+| ABS                   | `ABS(col1)`                                                          | The absolute value of a value                      |
+| ARRAYCONTAINS         | `ARRAYCONTAINS('[1, 2, 3]', 3)`                                      | Given JSON or AVRO array checks if a search        |
+|                       |                                                                      | value contains in it                               |
+| AS_ARRAY              | `AS_ARRAY(col1, col2)``                                              | Construct an array from a variable number of       |
+|                       |                                                                      | inputs.                                            |
+| AS_MAP                | `AS_MAP(keys, vals)``                                                | Construct a map from a list of keys and a list of  |
+|                       |                                                                      | values.                                            |
+| CEIL                  | `CEIL(col1)`                                                         | The ceiling of a value.                            |
+| CONCAT                | `CONCAT(col1, '_hello')`                                             | Concatenate two strings.                           |
+| UNIX_DATE             | `UNIX_DATE()`                                                        | Gets an integer representing days since epoch.     |
+|                       |                                                                      | The returned timestamp may differ depending on     |
+|                       |                                                                      | the local time of different KSQL Server instances. |
+| UNIX_TIMESTAMP        | `UNIX_TIMESTAMP()`                                                   | Gets the Unix timestamp in milliseconds,           |
+|                       |                                                                      | represented as a BIGINT.                           |
+|                       |                                                                      | The returned timestamp may differ depending on     |
+|                       |                                                                      | the local time of different KSQL Server instances. |
+| DATETOSTRING          | `DATETOSTRING(START_DATE, 'yyyy-MM-dd')`                             | Converts an integer representation of a date into  |
+|                       |                                                                      | a string representing the date in                  |
+|                       |                                                                      | the given format. Single quotes in the             |
+|                       |                                                                      | timestamp format can be escaped with two           |
+|                       |                                                                      | successive single quotes, `''`, for example:       |
+|                       |                                                                      | `'yyyy-MM-dd''T'''`.                               |
+|                       |                                                                      | The integer represents days since epoch            |
+|                       |                                                                      | matching the encoding used by Kafka Connect dates. |
+| ELT                   | `ELT(n INTEGER, args VARCHAR[])`                                     | Returns element `n` in the `args` list of          |
+|                       |                                                                      | strings, or NULL if `n` is less than 1 or          |
+|                       |                                                                      | greater than the number of arguments. This         |
+|                       |                                                                      | function is 1-indexed. ELT is the complement to    |
+|                       |                                                                      | FIELD.                                             |
+| EXTRACTJSONFIELD      | `EXTRACTJSONFIELD(message, '$.log.cloud')`                           | Given a string column in JSON format, extract      |
+|                       |                                                                      | the field that matches.                            |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Example where EXTRACTJSONFIELD is needed:          |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | `{"foo": \"{\"bar\": \"quux\"}\"}`                 |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | However, in cases where the column is really an    |
+|                       |                                                                      | object but declared as a STRING you can use the    |
+|                       |                                                                      | `STRUCT` type, which is easier to work with.       |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Example where `STRUCT` will work:                  |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | `{"foo": {"bar": "quux"}}`                         |
+| EXP                   | `EXP(col1)`                                                          | The exponential of a value.                        |
+| FIELD                 | `FIELD(str VARCHAR, args VARCHAR[])`                                 | Returns the 1-indexed position of `str` in         |
+|                       |                                                                      | `args`, or 0 if not found. If `str` is NULL,       |
+|                       |                                                                      | the return value is 0, because NULL is not         |
+|                       |                                                                      | considered to be equal to any value. FIELD is the  |
+|                       |                                                                      | complement to ELT.                                 |
+| FLOOR                 | `FLOOR(col1)`                                                        | The floor of a value.                              |
+| GEO_DISTANCE          | `GEO_DISTANCE(lat1, lon1, lat2, lon2, unit)`                         | The great-circle distance between two lat-long     |
+|                       |                                                                      | points, both specified in decimal degrees. An      |
+|                       |                                                                      | optional final parameter specifies `KM`            |
+|                       |                                                                      | (the default) or `miles`.                          |
+| IFNULL                | `IFNULL(col1, retval)`                                               | If the provided VARCHAR is NULL, return            |
+|                       |                                                                      | `retval`, otherwise, return the value. Only        |
+|                       |                                                                      | VARCHAR values are supported for the input. The    |
+|                       |                                                                      | return value must be a VARCHAR.                    |
+| INITCAP               | `INITCAP(col1)`                                                      | Capitalize the first letter in each word and       |
+|                       |                                                                      | convert all other letters to lowercase. Words are  |
+|                       |                                                                      | delimited by whitespace.                           |
+| LCASE                 | `LCASE(col1)`                                                        | Convert a string to lowercase.                     |
+| LEN                   | `LEN(col1)`                                                          | The length of a string.                            |
+| LN                    | `LN(col1)`                                                           | The natural logarithm of a value.                  |
+| MASK                  | `MASK(col1, 'X', 'x', 'n', '-')`                                     | Convert a string to a masked or obfuscated         |
+|                       |                                                                      | version of itself. The optional arguments          |
+|                       |                                                                      | following the input string to be masked are the    |
+|                       |                                                                      | characters to be substituted for upper-case,       |
+|                       |                                                                      | lower-case, numeric and other characters of the    |
+|                       |                                                                      | input, respectively. If the mask characters are    |
+|                       |                                                                      | omitted then the default values, illustrated in    |
+|                       |                                                                      | the example to the left, will be applied.          |
+|                       |                                                                      | Set a given mask character to NULL to prevent any  |
+|                       |                                                                      | masking of that character type.                    |
+|                       |                                                                      | For example: `MASK("My Test $123")` will return    |
+|                       |                                                                      | `Xx-Xxxx--nnn`, applying all default masks.        |
+|                       |                                                                      | `MASK("My Test $123", '*', NULL, '1', NULL)`       |
+|                       |                                                                      | will yield `*y *est $111`.                         |
+| MASK_KEEP_LEFT        | `MASK_KEEP_LEFT(col1, numChars, 'X', 'x', 'n', '-')`                 | Similar to the `MASK` function above, except       |
+|                       |                                                                      | that the first or left-most `numChars`             |
+|                       |                                                                      | characters will not be masked in any way.          |
+|                       |                                                                      | For example: `MASK_KEEP_LEFT("My Test $123", 4)`   |
+|                       |                                                                      | will return `My Txxx--nnn`.                        |
+| MASK_KEEP_RIGHT       | `MASK_KEEP_RIGHT(col1, numChars, 'X', 'x', 'n', '-')`                | Similar to the `MASK` function above, except       |
+|                       |                                                                      | that the last or right-most `numChars`             |
+|                       |                                                                      | characters will not be masked in any way.          |
+|                       |                                                                      | For example:`MASK_KEEP_RIGHT("My Test $123", 4)`   |
+|                       |                                                                      | will return `Xx-Xxxx-$123`.                        |
+| MASK_LEFT             | `MASK_LEFT(col1, numChars, 'X', 'x', 'n', '-')`                      | Similar to the `MASK` function above, except       |
+|                       |                                                                      | that only the first or left-most `numChars`        |
+|                       |                                                                      | characters will have any masking applied to them.  |
+|                       |                                                                      | For example: `MASK_LEFT("My Test $123", 4)`        |
+|                       |                                                                      | will return `Xx-Xest $123`.                        |
+| MASK_RIGHT            | `MASK_RIGHT(col1, numChars, 'X', 'x', 'n', '-')`                     | Similar to the `MASK` function above, except       |
+|                       |                                                                      | that only the last or right-most `numChars`        |
+|                       |                                                                      | characters will have any masking applied to them.  |
+|                       |                                                                      | For example: `MASK_RIGHT("My Test $123", 4)`       |
+|                       |                                                                      | will return `My Test -nnn`.                        |
+| RANDOM                | `RANDOM()`                                                           | Return a random DOUBLE value between 0.0 and 1.0.  |
+| REPLACE               | `REPLACE(col1, 'foo', 'bar')`                                        | Replace all instances of a substring in a string   |
+|                       |                                                                      | with a new string.                                 |
+| ROUND                 | `ROUND(col1)` or `ROUND(col1, scale)`                                | Round a value to the number of decimal places      |
+|                       |                                                                      | as specified by scale to the right of the decimal  |
+|                       |                                                                      | point. If scale is negative then value is rounded  |
+|                       |                                                                      | to the right of the decimal point.                 |
+|                       |                                                                      | Numbers equidistant to the nearest value are       |
+|                       |                                                                      | rounded up (in the positive direction).            |
+|                       |                                                                      | If the number of decimal places is not provided    |
+|                       |                                                                      | it defaults to zero.                               |
+| SIGN                  | `SIGN(col1)`                                                         | The sign of a numeric value as an INTEGER:         |
+|                       |                                                                      | * -1 if the argument is negative                   |
+|                       |                                                                      | * 0 if the argument is zero                        |
+|                       |                                                                      | * 1 if the argument is positive                    |
+|                       |                                                                      | * `null` argument is null                          |
+| SQRT                  | `SQRT(col1)`                                                         | The square root of a value.                        |
+| SLICE                 | `SLICE(col1, from, to)`                                              | Slices a list based on the supplied indices. The   |
+|                       |                                                                      | indices start at 1 and include both endpoints.     |
+| SPLIT                 | `SPLIT(col1, delimiter)`                                             | Splits a string into an array of substrings based  |
+|                       |                                                                      | on a delimiter. If the delimiter is not found,     |
+|                       |                                                                      | then the original string is returned as the only   |
+|                       |                                                                      | element in the array. If the delimiter is empty,   |
+|                       |                                                                      | then all characters in the string are split.       |
+|                       |                                                                      | If either, string or delimiter, are NULL, then a   |
+|                       |                                                                      | NULL value is returned.                            |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | If the delimiter is found at the beginning or end  |
+|                       |                                                                      | of the string, or there are contiguous delimiters, |
+|                       |                                                                      | then an empty space is added to the array.         |
+| STRINGTODATE          | `STRINGTODATE(col1, 'yyyy-MM-dd')`                                   | Converts a string representation of a date in the  |
+|                       |                                                                      | given format into an integer representing days     |
+|                       |                                                                      | since epoch. Single quotes in the timestamp        |
+|                       |                                                                      | format can be escaped with two successive single   |
+|                       |                                                                      | quotes, `''`, for example:                         |
+|                       |                                                                      | `'yyyy-MM-dd''T'''`.                               |
+| STRINGTOTIMESTAMP     | `STRINGTOTIMESTAMP(col1, 'yyyy-MM-dd HH:mm:ss.SSS' [, TIMEZONE])`    | Converts a string value in the given               |
+|                       |                                                                      | format into the BIGINT value                       |
+|                       |                                                                      | that represents the millisecond timestamp. Single  |
+|                       |                                                                      | quotes in the timestamp format can be escaped with |
+|                       |                                                                      | two successive single quotes, `''`, for            |
+|                       |                                                                      | example: `'yyyy-MM-dd''T''HH:mm:ssX'`.             |
+|                       |                                                                      | TIMEZONE is an optional parameter and it is a      |
+|                       |                                                                      | java.util.TimeZone ID format, for example: "UTC",  |
+|                       |                                                                      | "America/Los_Angeles", "PDT", "Europe/London". For |
+|                       |                                                                      | more information on timestamp formats, see         |
+|                       |                                                                      | `DateTimeFormatter <https://cnfl.io/java-dtf>`__.  |
+| SUBSTRING             | `SUBSTRING(col1, 2, 5)`                                              | `SUBSTRING(str, pos, [len]`.                       |
+|                       |                                                                      | Returns a substring of `str` that starts at        |
+|                       |                                                                      | `pos` (first character is at position 1) and       |
+|                       |                                                                      | has length `len`, or continues to the end of       |
+|                       |                                                                      | the string.                                        |
+|                       |                                                                      | For example, `SUBSTRING("stream", 1, 4)`           |
+|                       |                                                                      | returns "stre".                                    |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | NOTE: Prior to v5.1 of KSQL the syntax was:        |
+|                       |                                                                      | `SUBSTRING(str, start, [end])`, where `start`      |
+|                       |                                                                      | and `end` positions where base-zero indexes        |
+|                       |                                                                      | (first character at position 0) to start           |
+|                       |                                                                      | (inclusive) and end (exclusive) the substring,     |
+|                       |                                                                      | respectively.                                      |
+|                       |                                                                      | For example, `SUBSTRING("stream", 1, 4)` would     |
+|                       |                                                                      | return "tre".                                      |
+|                       |                                                                      | It is possible to switch back to this legacy mode  |
+|                       |                                                                      | by setting                                         |
+|                       |                                                                      | `ksql.functions.substring.legacy.args` to          |
+|                       |                                                                      | `true`. We recommend against enabling this         |
+|                       |                                                                      | setting. Instead, update your queries              |
+|                       |                                                                      | accordingly.                                       |
+| TIMESTAMPTOSTRING     | `TIMESTAMPTOSTRING(ROWTIME, 'yyyy-MM-dd HH:mm:ss.SSS' [, TIMEZONE])` | Converts a BIGINT millisecond timestamp value into |
+|                       |                                                                      | the string representation of the timestamp in      |
+|                       |                                                                      | the given format. Single quotes in the             |
+|                       |                                                                      | timestamp format can be escaped with two           |
+|                       |                                                                      | successive single quotes, `''`, for example:       |
+|                       |                                                                      | `'yyyy-MM-dd''T''HH:mm:ssX'`.                      |
+|                       |                                                                      | TIMEZONE is an optional parameter and it is a      |
+|                       |                                                                      | java.util.TimeZone ID format, for example: "UTC",  |
+|                       |                                                                      | "America/Los_Angeles", "PDT", "Europe/London". For |
+|                       |                                                                      | more information on timestamp formats, see         |
+|                       |                                                                      | `DateTimeFormatter <https://cnfl.io/java-dtf>`__.  |
+| TRIM                  | `TRIM(col1)`                                                         | Trim the spaces from the beginning and end of      |
+|                       |                                                                      | a string.                                          |
+| UCASE                 | `UCASE(col1)`                                                        | Convert a string to uppercase.                     |
+| URL_DECODE_PARAM      | `URL_DECODE_PARAM(col1)`                                             | Unescapes the `URL-param-encoded`_ value in        |
+|                       |                                                                      | `col1` This is the inverse of URL_ENCODE_PARAM     |
+|                       |                                                                      | :superscript:`*`                                   |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `'url%20encoded`                            |
+|                       |                                                                      | Output: `url encoded`                              |
+| URL_ENCODE_PARAM      | `URL_ENCODE_PARAM(col1)`                                             | Escapes the value of `col1` such that it can       |
+|                       |                                                                      | safely be used in URL query parameters. Note that  |
+|                       |                                                                      | this is not the same as encoding a value for use   |
+|                       |                                                                      | in the path portion of a URL.                      |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `url encoded`                               |
+|                       |                                                                      | Output: `'url%20encoded`                           |
+| URL_EXTRACT_FRAGMENT  | `URL_EXTRACT_FRAGMENT(url)`                                          | Extract the fragment portion of the specified      |
+|                       |                                                                      | value. Returns NULL if `url` is not a valid URL    |
+|                       |                                                                      | or if the fragment does not exist. Any encoded     |
+|                       |                                                                      | value will be decoded.                             |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `http://test.com#frag`,                     |
+|                       |                                                                      | Output: `frag`                                     |
+|                       |                                                                      | Input: `http://test.com#frag%20space`,             |
+|                       |                                                                      | Output: `frag space`                               |
+| URL_EXTRACT_HOST      | `URL_EXTRACT_HOST(url)`                                              | Extract the host-name portion of the specified     |
+|                       |                                                                      | value. Returns NULL if the `url` is not a valid    |
+|                       |                                                                      | URI according to RFC-2396.                         |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `http://test.com:8080/path`,                |
+|                       |                                                                      | Output: `test.com`                                 |
+| URL_EXTRACT_PARAMETER | `URL_EXTRACT_PARAMETER(url, parameter_name)`                         | Extract the value of the requested parameter from  |
+|                       |                                                                      | the query-string of `url`. Returns NULL            |
+|                       |                                                                      | if the parameter is not present, has no value      |
+|                       |                                                                      | specified for it in the query-string, or `url`     |
+|                       |                                                                      | is not a valid URI. Encodes the param and decodes  |
+|                       |                                                                      | the output (see examples).                         |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | To get all of the parameter values from a          |
+|                       |                                                                      | URL as a single string, see `URL_EXTRACT_QUERY.`   |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `http://test.com?a%20b=c%20d`, `a b`        |
+|                       |                                                                      | Output: `c d`                                      |
+|                       |                                                                      | Input: `http://test.com?a=foo&b=bar`, `b`          |
+|                       |                                                                      | Output: `bar`                                      |
+| URL_EXTRACT_PATH      | `URL_EXTRACT_PATH(url)`                                              | Extracts the path from `url`.                      |
+|                       |                                                                      | Returns NULL if `url` is not a valid URI but       |
+|                       |                                                                      | returns an empty string if the path is empty.      |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `http://test.com/path/to#a`                 |
+|                       |                                                                      | Output: `path/to`                                  |
+| URL_EXTRACT_PORT      | `URL_EXTRACT_PORT(url)`                                              | Extract the port number from `url`.                |
+|                       |                                                                      | Returns NULL if `url` is not a valid URI or does   |
+|                       |                                                                      | not contain an explicit port number.               |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `http://localhost:8080/path`                |
+|                       |                                                                      | Output: `8080`                                     |
+| URL_EXTRACT_PROTOCOL  | `URL_EXTRACT_PROTOCOL(url)`                                          | Extract the protocol from `url`. Returns NULL if   |
+|                       |                                                                      | `url` is an invalid URI or has no protocol.        |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `http://test.com?a=foo&b=bar`               |
+|                       |                                                                      | Output: `http`                                     |
+| URL_EXTRACT_QUERY     | `URL_EXTRACT_QUERY(url)`                                             | Extract the decoded query-string portion of        |
+|                       |                                                                      | `url`. Returns NULL if no query-string is          |
+|                       |                                                                      | present or `url` is not a valid URI.               |
+|                       |                                                                      |                                                    |
+|                       |                                                                      | Input: `http://test.com?a=foo%20bar&b=baz`         |
+|                       |                                                                      | Output: `a=foo bar&b=baz`                          |
+
 
 ::: {#URL-param-encoded}
-^\*^ All KSQL URL functions assume URI syntax defined in [RFC
+* All KSQL URL functions assume URI syntax defined in [RFC
 39386](https://tools.ietf.org/html/rfc3986). For more information on the
 structure of a URI, including definitions of the various components, see
 Section 3 of the RFC. For encoding/decoding, the
@@ -2349,121 +2032,65 @@ Section 3 of the RFC. For encoding/decoding, the
 Aggregate functions {#ksql_aggregate_functions}
 -------------------
 
-  ----------------------------------------------------------------------------------------
-  Function        Example                   Input     Description
-                                            Type      
-  --------------- ------------------------- --------- ------------------------------------
-  COLLECT\_LIST   `COLLECT_LIST(col1)`      Stream,   Return an array containing all the
-                                            Table     values of `col1` from each input row
-                                                      (for the specified grouping and time
-                                                      window, if any). Currently only
-                                                      works for simple types (not Map,
-                                                      Array, or Struct). This version
-                                                      limits the size of the result Array
-                                                      to a maximum of 1000 entries and any
-                                                      values beyond this limit are
-                                                      silently ignored. When using with a
-                                                      window type of `session`, it can
-                                                      sometimes happen that two session
-                                                      windows get merged together into one
-                                                      when a late-arriving record with a
-                                                      timestamp between the two windows is
-                                                      processed. In this case the 1000
-                                                      record limit is calculated by first
-                                                      considering all the records from the
-                                                      first window, then the late-arriving
-                                                      record, then the records from the
-                                                      second window in the order they were
-                                                      originally processed.
+|   Function   |         Example         |  Input Type   |                             Description                              |
+| ------------ | ----------------------- | ------------- | -------------------------------------------------------------------- |
+| COLLECT_LIST | `COLLECT_LIST(col1)`    | Stream, Table | Return an array containing all the values of `col1` from each        |
+|              |                         |               | input row (for the specified grouping and time window, if any).      |
+|              |                         |               | Currently only works for simple types (not Map, Array, or Struct).   |
+|              |                         |               | This version limits the size of the result Array to a maximum of     |
+|              |                         |               | 1000 entries and any values beyond this limit are silently ignored.  |
+|              |                         |               | When using with a window type of `session`, it can sometimes         |
+|              |                         |               | happen that two session windows get merged together into one when a  |
+|              |                         |               | late-arriving record with a timestamp between the two windows is     |
+|              |                         |               | processed. In this case the 1000 record limit is calculated by       |
+|              |                         |               | first considering all the records from the first window, then the    |
+|              |                         |               | late-arriving record, then the records from the second window in     |
+|              |                         |               | the order they were originally processed.                            |
+| COLLECT_SET  | `COLLECT_SET(col1)`     | Stream        | Return an array containing the distinct values of `col1` from        |
+|              |                         |               | each input row (for the specified grouping and time window, if any). |
+|              |                         |               | Currently only works for simple types (not Map, Array, or Struct).   |
+|              |                         |               | This version limits the size of the result Array to a maximum of     |
+|              |                         |               | 1000 entries and any values beyond this limit are silently ignored.  |
+|              |                         |               | When using with a window type of `session`, it can sometimes         |
+|              |                         |               | happen that two session windows get merged together into one when a  |
+|              |                         |               | late-arriving record with a timestamp between the two windows is     |
+|              |                         |               | processed. In this case the 1000 record limit is calculated by       |
+|              |                         |               | first considering all the records from the first window, then the    |
+|              |                         |               | late-arriving record, then the records from the second window in     |
+|              |                         |               | the order they were originally processed.                            |
+| COUNT        | `COUNT(col1)`,          | Stream,       | Count the number of rows. When `col1` is specified, the count        |
+|              | `COUNT(*)`              | Table         | returned will be the number of rows where `col1` is non-null.        |
+|              |                         |               | When `*` is specified, the count returned will be the total          |
+|              |                         |               | number of rows.                                                      |
+| HISTOGRAM    | `HISTOGRAM(col1)`       | Stream,       | Return a map containing the distinct String values of `col1`         |
+|              |                         | Table         | mapped to the number of times each one occurs for the given window.  |
+|              |                         |               | This version limits the number of distinct values which can be       |
+|              |                         |               | counted to 1000, beyond which any additional entries are ignored.    |
+|              |                         |               | When using with a window type of `session`, it can sometimes         |
+|              |                         |               | happen that two session windows get merged together into one when a  |
+|              |                         |               | late-arriving record with a timestamp between the two windows is     |
+|              |                         |               | processed. In this case the 1000 record limit is calculated by       |
+|              |                         |               | first considering all the records from the first window, then the    |
+|              |                         |               | late-arriving record, then the records from the second window in     |
+|              |                         |               | the order they were originally processed.                            |
+| AVERAGE      | `AVG(col1)`             | Stream,       | Return the average value for a given column.                         |
+|              |                         | Table         | Note: rows where `col1` is null are ignored.                         |
+| MAX          | `MAX(col1)`             | Stream        | Return the maximum value for a given column and window.              |
+|              |                         |               | Note: rows where `col1` is null will be ignored.                     |
+| MIN          | `MIN(col1)`             | Stream        | Return the minimum value for a given column and window.              |
+|              |                         |               | Note: rows where `col1` is null will be ignored.                     |
+| SUM          | `SUM(col1)`             | Stream,       | Sums the column values                                               |
+|              |                         | Table         | Note: rows where `col1` is null will be ignored.                     |
+| TOPK         | `TOPK(col1, k)`         | Stream        | Return the Top *K* values for the given column and window            |
+|              |                         |               | Note: rows where `col1` is null will be ignored.                     |
+| TOPKDISTINCT | `TOPKDISTINCT(col1, k)` | Stream        | Return the distinct Top *K* values for the given column and window   |
+|              |                         |               | Note: rows where `col1` is null will be ignored.                     |
+| WindowStart  | `WindowStart()`         | Stream        | Extract the start time of the current window, in milliseconds.       |
+|              |                         | Table         | If the query is not windowed the function will return null.          |
+| WindowEnd    | `WindowEnd()`           | Stream        | Extract the end time of the current window, in milliseconds.         |
+|              |                         | Table         | If the query is not windowed the function will return null.          |
 
-  COLLECT\_SET    `COLLECT_SET(col1)`       Stream    Return an array containing the
-                                                      distinct values of `col1` from each
-                                                      input row (for the specified
-                                                      grouping and time window, if any).
-                                                      Currently only works for simple
-                                                      types (not Map, Array, or Struct).
-                                                      This version limits the size of the
-                                                      result Array to a maximum of 1000
-                                                      entries and any values beyond this
-                                                      limit are silently ignored. When
-                                                      using with a window type of
-                                                      `session`, it can sometimes happen
-                                                      that two session windows get merged
-                                                      together into one when a
-                                                      late-arriving record with a
-                                                      timestamp between the two windows is
-                                                      processed. In this case the 1000
-                                                      record limit is calculated by first
-                                                      considering all the records from the
-                                                      first window, then the late-arriving
-                                                      record, then the records from the
-                                                      second window in the order they were
-                                                      originally processed.
 
-  COUNT           `COUNT(col1)`, `COUNT(*)` Stream,   Count the number of rows. When
-                                            Table     `col1` is specified, the count
-                                                      returned will be the number of rows
-                                                      where `col1` is non-null. When `*`
-                                                      is specified, the count returned
-                                                      will be the total number of rows.
-
-  HISTOGRAM       `HISTOGRAM(col1)`         Stream,   Return a map containing the distinct
-                                            Table     String values of `col1` mapped to
-                                                      the number of times each one occurs
-                                                      for the given window. This version
-                                                      limits the number of distinct values
-                                                      which can be counted to 1000, beyond
-                                                      which any additional entries are
-                                                      ignored. When using with a window
-                                                      type of `session`, it can sometimes
-                                                      happen that two session windows get
-                                                      merged together into one when a
-                                                      late-arriving record with a
-                                                      timestamp between the two windows is
-                                                      processed. In this case the 1000
-                                                      record limit is calculated by first
-                                                      considering all the records from the
-                                                      first window, then the late-arriving
-                                                      record, then the records from the
-                                                      second window in the order they were
-                                                      originally processed.
-
-  AVERAGE         `AVG(col1)`               Stream,   Return the average value for a given
-                                            Table     column. Note: rows where `col1` is
-                                                      null are ignored.
-
-  MAX             `MAX(col1)`               Stream    Return the maximum value for a given
-                                                      column and window. Note: rows where
-                                                      `col1` is null will be ignored.
-
-  MIN             `MIN(col1)`               Stream    Return the minimum value for a given
-                                                      column and window. Note: rows where
-                                                      `col1` is null will be ignored.
-
-  SUM             `SUM(col1)`               Stream,   Sums the column values Note: rows
-                                            Table     where `col1` is null will be
-                                                      ignored.
-
-  TOPK            `TOPK(col1, k)`           Stream    Return the Top *K* values for the
-                                                      given column and window Note: rows
-                                                      where `col1` is null will be
-                                                      ignored.
-
-  TOPKDISTINCT    `TOPKDISTINCT(col1, k)`   Stream    Return the distinct Top *K* values
-                                                      for the given column and window
-                                                      Note: rows where `col1` is null will
-                                                      be ignored.
-
-  WindowStart     `WindowStart()`           Stream    Extract the start time of the
-                                            Table     current window, in milliseconds. If
-                                                      the query is not windowed the
-                                                      function will return null.
-
-  WindowEnd       `WindowEnd()`             Stream    Extract the end time of the current
-                                            Table     window, in milliseconds. If the
-                                                      query is not windowed the function
-                                                      will return null.
-  ----------------------------------------------------------------------------------------
 
 For more information, see
 [aggregate-streaming-data-with-ksql]{role="ref"}.
@@ -2480,7 +2107,7 @@ message key by setting the `KEY` property of the `WITH` clause.
 
 Example:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE users (registertime BIGINT, gender VARCHAR, regionid VARCHAR, userid VARCHAR)
   WITH (KAFKA_TOPIC='users', VALUE_FORMAT='JSON', KEY = 'userid');
 ```
@@ -2489,15 +2116,15 @@ The `KEY` property is optional. KSQL uses it as an optimization hint to
 determine if repartitioning can be avoided when performing aggregations
 and joins.
 
-> ::: {.important}
-> ::: {.admonition-title}
-> Important
-> :::
->
-> Don\'t set the KEY property, unless you have validated that your
-> stream doesn\'t need to be re-partitioned for future joins. If you set
+::: {.important}
+::: {.admonition-title}
+Important
+:::
+
+> Don't set the KEY property, unless you have validated that your
+> stream doesn't need to be re-partitioned for future joins. If you set
 > the KEY property, you will need to re-partition explicitly if your
-> record key doesn\'t meet partitioning requirements. For more
+> record key doesn't meet partitioning requirements. For more
 > information, see [partition-data-to-enable-joins]{role="ref"}.
 > :::
 
@@ -2509,13 +2136,13 @@ following conditions are true:
     from a field in the Kafka message value).
 2.  `KEY` must be set to a column of type `VARCHAR` aka `STRING`.
 
-If these conditions are not met, then the results of aggregations and
-joins may be incorrect. However, if your data doesn\'t meet these
+If these conditions aren't met, then the results of aggregations and
+joins may be incorrect. However, if your data doesn't meet these
 requirements, you can still use KSQL with a few extra steps. The
 following section explains how.
 
 Table-table joins can be joined only on the `KEY` field, and one-to-many
-(1:N) joins aren\'t supported.
+(1:N) joins aren't supported.
 
 ### What To Do If Your Key Is Not Set or Is In A Different Format
 
@@ -2549,7 +2176,7 @@ Example:
     userid) in the message value but in the wrong format (INT instead of
     VARCHAR).
 
-``` {.sourceCode .sql}
+```sql
 -- Create a stream on the original topic
 CREATE STREAM users_with_wrong_key_format (userid INT, username VARCHAR, email VARCHAR)
   WITH (KAFKA_TOPIC='users', VALUE_FORMAT='JSON');
@@ -2577,7 +2204,7 @@ Example:
 -   Problem: The message key is not present as a field/column in the
     topic\'s message values.
 
-``` {.sourceCode .sql}
+```sql
 -- Create a stream on the original topic.
 -- The topic is keyed by userid, which is available as the implicit column ROWKEY
 -- in the users_with_missing_key stream. Note how the explicit column definitions
