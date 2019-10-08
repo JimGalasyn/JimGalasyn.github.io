@@ -381,115 +381,73 @@ message key, respectively. The timestamp has milliseconds accuracy.
 
 The WITH clause supports the following properties:
 
-+--------------+-------------------------------------------------------+
-| Property     | Description                                           |
-+==============+=======================================================+
-| KAFKA\_TOPIC | The name of the Kafka topic that backs this source.   |
-| (required)   | The topic must either already exist in Kafka, or      |
-|              | PARTITIONS must be specified to create the topic.     |
-|              | Command will fail if the topic exists with different  |
-|              | partition/replica counts.                             |
-+--------------+-------------------------------------------------------+
-| VALUE\_FORMA | Specifies the serialization format of the message     |
-| T            | value in the topic. Supported formats: `JSON`,        |
-| (required)   | `DELIMITED` (comma-separated value), `AVRO` and       |
-|              | `KAFKA`. For more information, see                    |
-|              | [ksql\_formats]{role="ref"}.                          |
-+--------------+-------------------------------------------------------+
-| PARTITIONS   | The number of partitions in the backing topic. This   |
-|              | property must be set if creating a STREAM without an  |
-|              | existing topic (the command will fail if the topic    |
-|              | does not exist).                                      |
-+--------------+-------------------------------------------------------+
-| REPLICAS     | The number of replicas in the backing topic. If this  |
-|              | property is not set but PARTITIONS is set, then the   |
-|              | default Kafka cluster configuration for replicas will |
-|              | be used for creating a new topic.                     |
-+--------------+-------------------------------------------------------+
-| VALUE\_DELIM | Used when VALUE\_FORMAT=\'DELIMITED\'. Supports       |
-| ITER         | single character to be a delimiter, defaults to       |
-|              | \',\'. For space and tab delimited values you must    |
-|              | use the special values \'SPACE\' or \'TAB\', not an   |
-|              | actual space or tab character.                        |
-+--------------+-------------------------------------------------------+
-| KEY          | Optimization hint: If the Kafka message key is also   |
-|              | present as a field/column in the Kafka message value, |
-|              | you may set this property to associate the            |
-|              | corresponding field/column with the implicit `ROWKEY` |
-|              | column (message key). If set, KSQL uses it as an      |
-|              | optimization hint to determine if repartitioning can  |
-|              | be avoided when performing aggregations and joins.    |
-|              | You can only use this if the key format in Kafka is   |
-|              | `VARCHAR` or `STRING`. Do not use this hint if the    |
-|              | message key format in Kafka is `AVRO` or `JSON`. See  |
-|              | [ksql\_key\_requirements]{role="ref"} for more        |
-|              | information.                                          |
-+--------------+-------------------------------------------------------+
-| TIMESTAMP    | By default, the implicit `ROWTIME` column is the      |
-|              | timestamp of the message in the Kafka topic. The      |
-|              | TIMESTAMP property can be used to override `ROWTIME`  |
-|              | with the contents of the specified field/column       |
-|              | within the Kafka message value (similar to timestamp  |
-|              | extractors in Kafka\'s Streams API). Timestamps have  |
-|              | a millisecond accuracy. Time-based operations, such   |
-|              | as windowing, will process a record according to the  |
-|              | timestamp in `ROWTIME`.                               |
-+--------------+-------------------------------------------------------+
-| TIMESTAMP\_F | Used in conjunction with TIMESTAMP. If not set will   |
-| ORMAT        | assume that the timestamp field is a bigint. If it is |
-|              | set, then the TIMESTAMP field must be of type varchar |
-|              | and have a format that can be parsed with the java    |
-|              | `DateTimeFormatter`. If your timestamp format has     |
-|              | characters requiring single quotes, you can escape    |
-|              | them with successive single quotes, `''`, for         |
-|              | example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more       |
-|              | information on timestamp formats, see                 |
-|              | [DateTimeFormatter](https://cnfl.io/java-dtf).        |
-+--------------+-------------------------------------------------------+
-| WRAP\_SINGLE | Controls how values are deserialized where the value  |
-| \_VALUE      | schema contains only a single field.                  |
-|              |                                                       |
-|              | The setting controls how KSQL will deserialize the    |
-|              | value of the records in the supplied `KAFKA_TOPIC`    |
-|              | that contain only a single field. If set to `true`,   |
-|              | KSQL expects the field to have been serialized as a   |
-|              | named field within a record. If set to `false`, KSQL  |
-|              | expects the field to have been serialized as an       |
-|              | anonymous value. If not supplied, the system default, |
-|              | defined by                                            |
-|              | [ksql-persistence-wrap-single-values]{role="ref"} and |
-|              | defaulting to `true`, is used.                        |
-|              |                                                       |
-|              | Note: null\` values have special meaning in KSQL.     |
-|              | Care should be taken when dealing with single-field   |
-|              | schemas where the value can be `null`. For more       |
-|              | information, see                                      |
-|              | [ksql\_single\_field\_wrapping]{role="ref"}.          |
-|              |                                                       |
-|              | Note: Supplying this property for formats that do not |
-|              | support wrapping, for example `DELIMITED`, or when    |
-|              | the value schema has multiple fields, will result in  |
-|              | an error.                                             |
-+--------------+-------------------------------------------------------+
-| WINDOW\_TYPE | By default, the topic is assumed to contain           |
-|              | non-windowed data. If the data is windowed, i.e., was |
-|              | created using KSQL using a query that contains a      |
-|              | `WINDOW` clause, then the `WINDOW_TYPE` property can  |
-|              | be used to provide the window type. Valid values are  |
-|              | `SESSION`, `HOPPING`, and `TUMBLING`.                 |
-+--------------+-------------------------------------------------------+
-| WINDOW\_SIZE | By default, the topic is assumed to contain           |
-|              | non-windowed data. If the data is windowed, i.e., was |
-|              | created using KSQL using a query that contains a      |
-|              | `WINDOW` clause, and the `WINDOW_TYPE` property is    |
-|              | TUMBLING or HOPPING, then the WINDOW\_SIZE property   |
-|              | should be set. The property is a string with two      |
-|              | literals, window size (a number) and window size unit |
-|              | (a time unit). For example: \'10 SECONDS\'.           |
-+--------------+-------------------------------------------------------+
+TODO: Fix table cells
+
+|        Property         |                                            Description                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------- |
+| KAFKA_TOPIC (required)  | The name of the Kafka topic that backs this source. The topic must either already exist in        |
+|                         | Kafka, or PARTITIONS must be specified to create the topic. Command will fail if the topic        |
+|                         | exists with different partition/replica counts.                                                   |
+| VALUE_FORMAT (required) | Specifies the serialization format of the message value in the topic. Supported formats:          |
+|                         | `JSON`, `DELIMITED` (comma-separated value), `AVRO` and `KAFKA`.                                  |
+|                         | For more information, see [ksql_formats]{role="ref"}.                                             |
+| PARTITIONS              | The number of partitions in the backing topic. This property must be set if creating a            |
+|                         | STREAM without an existing topic (the command will fail if the topic does not exist).             |
+| REPLICAS                | The number of replicas in the backing topic. If this property is not set but PARTITIONS is        |
+|                         | set, then the default Kafka cluster configuration for replicas will be used for creating a        |
+|                         | new topic.                                                                                        |
+| VALUE_DELIMITER         | Used when VALUE_FORMAT='DELIMITED'. Supports single character to be a delimiter,                  |
+|                         | defaults to ','.                                                                                  |
+|                         | For space and tab delimited values you must use the special values 'SPACE' or 'TAB', not          |
+|                         | an actual space or tab character.                                                                 |
+| KEY                     | Optimization hint: If the Kafka message key is also present as a field/column in the Kafka        |
+|                         | message value, you may set this property to associate the corresponding field/column with         |
+|                         | the implicit `ROWKEY` column (message key).                                                       |
+|                         | If set, KSQL uses it as an optimization hint to determine if repartitioning can be avoided        |
+|                         | when performing aggregations and joins.                                                           |
+|                         | You can only use this if the key format in Kafka is `VARCHAR` or `STRING`. Do not use             |
+|                         | this hint if the message key format in Kafka is `AVRO` or `JSON`.                                 |
+|                         | See [ksql_key_requirements]{role="ref"} for more information.                                     |
+| TIMESTAMP               | By default, the implicit `ROWTIME` column is the timestamp of the message in the Kafka            |
+|                         | topic. The TIMESTAMP property can be used to override `ROWTIME` with the contents of the          |
+|                         | specified field/column within the Kafka message value (similar to timestamp extractors            |
+|                         | in Kafka's Streams API). Timestamps have a millisecond accuracy. Time-based operations,           |
+|                         | such as windowing, will process a record according to the timestamp in `ROWTIME`.                 |
+| TIMESTAMP_FORMAT        | Used in conjunction with TIMESTAMP. If not set will assume that the timestamp field is a          |
+|                         | bigint. If it is set, then the TIMESTAMP field must be of type varchar and have a format          |
+|                         | that can be parsed with the java `DateTimeFormatter`. If your timestamp format has                |
+|                         | characters requiring single quotes, you can escape them with successive single quotes,            |
+|                         | `''`, for example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more information on timestamp                |
+|                         | formats, see [DateTimeFormatter](https://cnfl.io/java-dtf).                                       |
+| WRAP_SINGLE_VALUE       | Controls how values are deserialized where the value schema contains only a single field.         |
+|                         |                                                                                                   |
+|                         | The setting controls how KSQL will deserialize the value of the records in the supplied           |
+|                         | `KAFKA_TOPIC` that contain only a single field.                                                   |
+|                         | If set to `true`, KSQL expects the field to have been serialized as a named field                 |
+|                         | within a record.                                                                                  |
+|                         | If set to `false`, KSQL expects the field to have been serialized as an anonymous value.          |
+|                         | If not supplied, the system default, defined by [ksql-persistence-wrap-single-values]{role="ref"} |
+|                         | and defaulting to `true`, is used.                                                                |
+|                         |                                                                                                   |
+|                         | Note: `null` values have special meaning in KSQL. Care should be taken when dealing with          |
+|                         | single-field schemas where the value can be `null`. For more information, see                     |
+|                         | [ksql_single_field_wrapping]{role="ref"}.                                                         |
+|                         |                                                                                                   |
+|                         | Note: Supplying this property for formats that do not support wrapping, for example               |
+|                         | `DELIMITED`, or when the value schema has multiple fields, will result in an error.               |
+| WINDOW_TYPE             | By default, the topic is assumed to contain non-windowed data. If the data is windowed,           |
+|                         | i.e., was created using KSQL using a query that contains a `WINDOW` clause, then the              |
+|                         | `WINDOW_TYPE` property can be used to provide the window type. Valid values are                   |
+|                         | `SESSION`, `HOPPING`, and `TUMBLING`.                                                             |
+| WINDOW_SIZE             | By default, the topic is assumed to contain non-windowed data. If the data is windowed,           |
+|                         | i.e., was created using KSQL using a query that contains a `WINDOW` clause, and the               |
+|                         | `WINDOW_TYPE` property is TUMBLING or HOPPING, then the WINDOW_SIZE property should be            |
+|                         | set. The property is a string with two literals, window size (a number) and window size           |
+|                         | unit (a time unit). For example: '10 SECONDS'.                                                    |
+
 
 For more information on timestamp formats, see
-[DateTimeFormatter](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
+[DateTimeFormatter](https://cnfl.io/java-dtf).
 
 ::: {.note}
 ::: {.admonition-title}
@@ -535,111 +493,69 @@ follow the instructions in [ksql_key_requirements]{role="ref"}.
 
 The WITH clause supports the following properties:
 
-+--------------+-------------------------------------------------------+
-| Property     | Description                                           |
-+==============+=======================================================+
-| KAFKA\_TOPIC | The name of the Kafka topic that backs this source.   |
-| (required)   | The topic must either already exist in Kafka, or      |
-|              | PARTITIONS must be specified to create the topic.     |
-|              | Command will fail if the topic exists with different  |
-|              | partition/replica counts.                             |
-+--------------+-------------------------------------------------------+
-| VALUE\_FORMA | Specifies the serialization format of message values  |
-| T            | in the topic. Supported formats: `JSON`, `DELIMITED`  |
-| (required)   | (comma-separated value), `AVRO` and `KAFKA`. For more |
-|              | information, see [ksql\_formats]{role="ref"}.         |
-+--------------+-------------------------------------------------------+
-| PARTITIONS   | The number of partitions in the backing topic. This   |
-|              | property must be set if creating a TABLE without an   |
-|              | existing topic (the command will fail if the topic    |
-|              | does not exist).                                      |
-+--------------+-------------------------------------------------------+
-| REPLICAS     | The number of replicas in the backing topic. If this  |
-|              | property is not set but PARTITIONS is set, then the   |
-|              | default Kafka cluster configuration for replicas will |
-|              | be used for creating a new topic.                     |
-+--------------+-------------------------------------------------------+
-| VALUE\_DELIM | Used when VALUE\_FORMAT=\'DELIMITED\'. Supports       |
-| ITER         | single character to be a delimiter, defaults to       |
-|              | \',\'. For space and tab delimited values you must    |
-|              | use the special values \'SPACE\' or \'TAB\', not an   |
-|              | actual space or tab character.                        |
-+--------------+-------------------------------------------------------+
-| KEY          | Optimization hint: If the Kafka message key is also   |
-|              | present as a field/column in the Kafka message value, |
-|              | you may set this property to associate the            |
-|              | corresponding field/column with the implicit `ROWKEY` |
-|              | column (message key). If set, KSQL uses it as an      |
-|              | optimization hint to determine if repartitioning can  |
-|              | be avoided when performing aggregations and joins.    |
-|              | You can only use this if the key format in kafka is   |
-|              | `VARCHAR` or `STRING`. Do not use this hint if the    |
-|              | message key format in kafka is AVRO or JSON. For more |
-|              | information, see                                      |
-|              | [ksql\_key\_requirements]{role="ref"}.                |
-+--------------+-------------------------------------------------------+
-| TIMESTAMP    | By default, the implicit `ROWTIME` column is the      |
-|              | timestamp of the message in the Kafka topic. The      |
-|              | TIMESTAMP property can be used to override `ROWTIME`  |
-|              | with the contents of the specified field/column       |
-|              | within the Kafka message value (similar to timestamp  |
-|              | extractors in Kafka\'s Streams API). Timestamps have  |
-|              | a millisecond accuracy. Time-based operations, such   |
-|              | as windowing, will process a record according to the  |
-|              | timestamp in `ROWTIME`.                               |
-+--------------+-------------------------------------------------------+
-| TIMESTAMP\_F | Used in conjunction with TIMESTAMP. If not set will   |
-| ORMAT        | assume that the timestamp field is a bigint. If it is |
-|              | set, then the TIMESTAMP field must be of type varchar |
-|              | and have a format that can be parsed with the Java    |
-|              | `DateTimeFormatter`. If your timestamp format has     |
-|              | characters requiring single quotes, you can escape    |
-|              | them with two successive single quotes, `''`, for     |
-|              | example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more       |
-|              | information on timestamp formats, see                 |
-|              | [DateTimeFormatter](https://cnfl.io/java-dtf).        |
-+--------------+-------------------------------------------------------+
-| WRAP\_SINGLE | Controls how values are deserialized where the values |
-| \_VALUE      | schema contains only a single field.                  |
-|              |                                                       |
-|              | The setting controls how KSQL will deserialize the    |
-|              | value of the records in the supplied `KAFKA_TOPIC`    |
-|              | that contain only a single field. If set to `true`,   |
-|              | KSQL expects the field to have been serialized as     |
-|              | named field within a record. If set to `false`, KSQL  |
-|              | expects the field to have been serialized as an       |
-|              | anonymous value. If not supplied, the system default, |
-|              | defined by                                            |
-|              | [ksql-persistence-wrap-single-values]{role="ref"} and |
-|              | defaulting to `true`, is used.                        |
-|              |                                                       |
-|              | Note: null\` values have special meaning in KSQL.     |
-|              | Care should be taken when dealing with single-field   |
-|              | schemas where the value can be `null`. For more       |
-|              | information, see                                      |
-|              | [ksql\_single\_field\_wrapping]{role="ref"}.          |
-|              |                                                       |
-|              | Note: Supplying this property for formats that do not |
-|              | support wrapping, for example `DELIMITED`, or when    |
-|              | the value schema has multiple fields, will result in  |
-|              | an error.                                             |
-+--------------+-------------------------------------------------------+
-| WINDOW\_TYPE | By default, the topic is assumed to contain           |
-|              | non-windowed data. If the data is windowed, i.e. was  |
-|              | created using KSQL using a query that contains a      |
-|              | `WINDOW` clause, then the `WINDOW_TYPE` property can  |
-|              | be used to provide the window type. Valid values are  |
-|              | `SESSION`, `HOPPING`, and `TUMBLING`.                 |
-+--------------+-------------------------------------------------------+
-| WINDOW\_SIZE | By default, the topic is assumed to contain           |
-|              | non-windowed data. If the data is windowed, i.e., was |
-|              | created using KSQL using a query that contains a      |
-|              | `WINDOW` clause, and the `WINDOW_TYPE` property is    |
-|              | TUMBLING or HOPPING, then the WINDOW\_SIZE property   |
-|              | should be set. The property is a string with two      |
-|              | literals, window size (a number) and window size unit |
-|              | (a time unit). For example: \'10 SECONDS\'.           |
-+--------------+-------------------------------------------------------+
+TODO: Fix table cells
+
+|        Property         |                                            Description                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------- |
+| KAFKA_TOPIC (required)  | The name of the Kafka topic that backs this source. The topic must either already exist in        |
+|                         | Kafka, or PARTITIONS must be specified to create the topic. Command will fail if the topic        |
+|                         | exists with different partition/replica counts.                                                   |
+| VALUE_FORMAT (required) | Specifies the serialization format of message values in the topic. Supported formats:             |
+|                         | `JSON`, `DELIMITED` (comma-separated value), `AVRO` and `KAFKA`.                                  |
+|                         | For more information, see [ksql_formats]{role="ref"}.                                             |
+| PARTITIONS              | The number of partitions in the backing topic. This property must be set if creating a            |
+|                         | TABLE without an existing topic (the command will fail if the topic does not exist).              |
+| REPLICAS                | The number of replicas in the backing topic. If this property is not set but PARTITIONS is        |
+|                         | set, then the default Kafka cluster configuration for replicas will be used for creating a        |
+|                         | new topic.                                                                                        |
+| VALUE_DELIMITER         | Used when VALUE_FORMAT='DELIMITED'. Supports single character to be a delimiter,                  |
+|                         | defaults to ','.                                                                                  |
+|                         | For space and tab delimited values you must use the special values 'SPACE' or 'TAB', not          |
+|                         | an actual space or tab character.                                                                 |
+| KEY                     | Optimization hint: If the Kafka message key is also present as a field/column in the Kafka        |
+|                         | message value, you may set this property to associate the corresponding field/column with         |
+|                         | the implicit `ROWKEY` column (message key).                                                       |
+|                         | If set, KSQL uses it as an optimization hint to determine if repartitioning can be avoided        |
+|                         | when performing aggregations and joins.                                                           |
+|                         | You can only use this if the key format in kafka is `VARCHAR` or `STRING`. Do not use             |
+|                         | this hint if the message key format in kafka is AVRO or JSON.                                     |
+|                         | For more information, see [ksql_key_requirements]{role="ref"}.                                    |
+| TIMESTAMP               | By default, the implicit `ROWTIME` column is the timestamp of the message in the Kafka            |
+|                         | topic. The TIMESTAMP property can be used to override `ROWTIME` with the contents of the          |
+|                         | specified field/column within the Kafka message value (similar to timestamp extractors in         |
+|                         | Kafka's Streams API). Timestamps have a millisecond accuracy. Time-based operations, such         |
+|                         | as windowing, will process a record according to the timestamp in `ROWTIME`.                      |
+| TIMESTAMP_FORMAT        | Used in conjunction with TIMESTAMP. If not set will assume that the timestamp field is a          |
+|                         | bigint. If it is set, then the TIMESTAMP field must be of type varchar and have a format          |
+|                         | that can be parsed with the Java `DateTimeFormatter`. If your timestamp format has                |
+|                         | characters requiring single quotes, you can escape them with two successive single quotes,        |
+|                         | `''`, for example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more information on timestamp                |
+|                         | formats, see [DateTimeFormatter](https://cnfl.io/java-dtf).                                    |
+| WRAP_SINGLE_VALUE       | Controls how values are deserialized where the values schema contains only a single field.        |
+|                         |                                                                                                   |
+|                         | The setting controls how KSQL will deserialize the value of the records in the supplied           |
+|                         | `KAFKA_TOPIC` that contain only a single field.                                                   |
+|                         | If set to `true`, KSQL expects the field to have been serialized as named field                   |
+|                         | within a record.                                                                                  |
+|                         | If set to `false`, KSQL expects the field to have been serialized as an anonymous value.          |
+|                         | If not supplied, the system default, defined by [ksql-persistence-wrap-single-values]{role="ref"} |
+|                         | and defaulting to `true``, is used.                                                               |
+|                         |                                                                                                   |
+|                         | Note: `null` values have special meaning in KSQL. Care should be taken when dealing with          |
+|                         | single-field schemas where the value can be `null`. For more information, see                     |
+|                         | [ksql_single_field_wrapping]{role="ref"}.                                                         |
+|                         |                                                                                                   |
+|                         | Note: Supplying this property for formats that do not support wrapping, for example               |
+|                         | `DELIMITED`, or when the value schema has multiple fields, will result in an error.               |
+| WINDOW_TYPE             | By default, the topic is assumed to contain non-windowed data. If the data is windowed,           |
+|                         | i.e. was created using KSQL using a query that contains a `WINDOW` clause, then the               |
+|                         | `WINDOW_TYPE` property can be used to provide the window type. Valid values are                   |
+|                         | `SESSION`, `HOPPING`, and `TUMBLING`.                                                             |
+| WINDOW_SIZE             | By default, the topic is assumed to contain non-windowed data. If the data is windowed,           |
+|                         | i.e., was created using KSQL using a query that contains a `WINDOW` clause, and the               |
+|                         | `WINDOW_TYPE` property is TUMBLING or HOPPING, then the WINDOW_SIZE property should be           |
+|                         | set. The property is a string with two literals, window size (a number) and window size           |
+|                         | unit (a time unit). For example: '10 SECONDS'.                                                    |
 
 ::: {.note}
 ::: {.admonition-title}
@@ -701,105 +617,68 @@ For more information, see [join-streams-and-tables]{role="ref"}.
 
 The WITH clause for the result supports the following properties:
 
-+-------------+--------------------------------------------------------+
-| Property    | Description                                            |
-+=============+========================================================+
-| KAFKA\_TOPI | The name of the Kafka topic that backs this stream. If |
-| C           | this property is not set, then the name of the stream  |
-|             | in upper case will be used as default.                 |
-+-------------+--------------------------------------------------------+
-| VALUE\_FORM | Specifies the serialization format of the message      |
-| AT          | value in the topic. Supported formats: `JSON`,         |
-|             | `DELIMITED` (comma-separated value), `AVRO` and        |
-|             | `KAFKA`. If this property is not set, then the format  |
-|             | of the input stream/table is used. For more            |
-|             | information, see [ksql\_formats]{role="ref"}.          |
-+-------------+--------------------------------------------------------+
-| VALUE\_DELI | Used when VALUE\_FORMAT=\'DELIMITED\'. Supports single |
-| MITER       | character to be a delimiter, defaults to \',\'. For    |
-|             | space and tab delimited values you must use the        |
-|             | special values \'SPACE\' or \'TAB\', not an actual     |
-|             | space or tab character.                                |
-+-------------+--------------------------------------------------------+
-| PARTITIONS  | The number of partitions in the backing topic. If this |
-|             | property is not set, then the number of partitions of  |
-|             | the input stream/table will be used. In join queries,  |
-|             | the property values are taken from the left-side       |
-|             | stream or table. For KSQL 5.2 and earlier, if the      |
-|             | property is not set, the value of the                  |
-|             | `ksql.sink.partitions` property, which defaults to     |
-|             | four partitions, will be used. The                     |
-|             | `ksql.sink.partitions` property can be set in the      |
-|             | properties file the KSQL server is started with, or by |
-|             | using the `SET` statement.                             |
-+-------------+--------------------------------------------------------+
-| REPLICAS    | The replication factor for the topic. If this property |
-|             | is not set, then the number of replicas of the input   |
-|             | stream or table will be used. In join queries, the     |
-|             | property values are taken from the left-side stream or |
-|             | table. For KSQL 5.2 and earlier, if the REPLICAS is    |
-|             | not set, the value of the `ksql.sink.replicas`         |
-|             | property, which defaults to one replica, will be used. |
-|             | The `ksql.sink.replicas` property can be set in the    |
-|             | properties file the KSQL server is started with, or by |
-|             | using the `SET` statement.                             |
-+-------------+--------------------------------------------------------+
-| TIMESTAMP   | Sets a field within this stream\'s schema to be used   |
-|             | as the default source of `ROWTIME` for any downstream  |
-|             | queries. Downstream queries that use time-based        |
-|             | operations, such as windowing, will process records in |
-|             | this stream based on the timestamp in this field. By   |
-|             | default, such queries will also use this field to set  |
-|             | the timestamp on any records emitted to Kafka.         |
-|             | Timestamps have a millisecond accuracy.                |
-|             |                                                        |
-|             | If not supplied, the `ROWTIME` of the source stream    |
-|             | will be used.                                          |
-|             |                                                        |
-|             | **Note**: This doesn\'t affect the processing of the   |
-|             | query that populates this stream. For example, given   |
-|             | the following statement:                               |
-|             |                                                        |
-|             | ::: {.literalinclude}                                  |
-|             | ../includes/csas-snippet.sql                           |
-|             | :::                                                    |
-|             |                                                        |
-|             | The window into which each row of `bar` is placed is   |
-|             | determined by bar\'s `ROWTIME`, not `t2`.              |
-+-------------+--------------------------------------------------------+
-| TIMESTAMP\_ | Used in conjunction with TIMESTAMP. If not set will    |
-| FORMAT      | assume that the timestamp field is a bigint. If it is  |
-|             | set, then the TIMESTAMP field must be of type varchar  |
-|             | and have a format that can be parsed with the Java     |
-|             | `DateTimeFormatter`. If your timestamp format has      |
-|             | characters requiring single quotes, you can escape     |
-|             | them with two successive single quotes, `''`, for      |
-|             | example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more        |
-|             | information on timestamp formats, see                  |
-|             | [DateTimeFormatter](https://cnfl.io/java-dtf).         |
-+-------------+--------------------------------------------------------+
-| WRAP\_SINGL | Controls how values are serialized where the values    |
-| E\_VALUE    | schema contains only a single field.                   |
-|             |                                                        |
-|             | The setting controls how the query will serialize      |
-|             | values with a single-field schema. If set to `true`,   |
-|             | KSQL will serialize the field as a named field within  |
-|             | a record. If set to `false` KSQL, KSQL will serialize  |
-|             | the field as an anonymous value. If not supplied, the  |
-|             | system default, defined by                             |
-|             | [ksql-persistence-wrap-single-values]{role="ref"} and  |
-|             | defaulting to `true`, is used.                         |
-|             |                                                        |
-|             | Note: null\` values have special meaning in KSQL. Care |
-|             | should be taken when dealing with single-field schemas |
-|             | where the value can be `null`. For more information,   |
-|             | see [ksql\_single\_field\_wrapping]{role="ref"}.       |
-|             |                                                        |
-|             | Note: Supplying this property for formats that do not  |
-|             | support wrapping, for example `DELIMITED`, or when the |
-|             | value schema has multiple fields, will result in an    |
-|             | error.                                                 |
-+-------------+--------------------------------------------------------+
+TODO: Fix table cells
+
+|     Property      |                                             Description                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| KAFKA_TOPIC       | The name of the Kafka topic that backs this stream. If this property is not set, then the            |
+|                   | name of the stream in upper case will be used as default.                                            |
+| VALUE_FORMAT      | Specifies the serialization format of the message value in the topic. Supported formats:             |
+|                   | `JSON`, `DELIMITED` (comma-separated value), `AVRO` and `KAFKA`.                                     |
+|                   | If this property is not set, then the format of the input stream/table is used.                      |
+|                   | For more information, see [ksql_formats]{role="ref"}.                                                |
+| VALUE_DELIMITER   | Used when VALUE_FORMAT='DELIMITED'. Supports single character to be a delimiter,                     |
+|                   | defaults to ','.                                                                                     |
+|                   | For space and tab delimited values you must use the special values 'SPACE' or 'TAB', not             |
+|                   | an actual space or tab character.                                                                    |
+| PARTITIONS        | The number of partitions in the backing topic. If this property is not set, then the number          |
+|                   | of partitions of the input stream/table will be used. In join queries, the property values are taken |
+|                   | from the left-side stream or table.                                                                  |
+|                   | For KSQL 5.2 and earlier, if the property is not set, the value of the `ksql.sink.partitions`        |
+|                   | property, which defaults to four partitions, will be used. The `ksql.sink.partitions` property can   |
+|                   | be set in the properties file the KSQL server is started with, or by using the `SET` statement.      |
+| REPLICAS          | The replication factor for the topic. If this property is not set, then the number of                |
+|                   | replicas of the input stream or table will be used. In join queries, the property values are taken   |
+|                   | from the left-side stream or table.                                                                  |
+|                   | For KSQL 5.2 and earlier, if the REPLICAS is not set, the value of the `ksql.sink.replicas`          |
+|                   | property, which defaults to one replica, will be used. The `ksql.sink.replicas` property can         |
+|                   | be set in the properties file the KSQL server is started with, or by using the `SET` statement.      |
+| TIMESTAMP         | Sets a field within this stream's schema to be used as the default source of `ROWTIME` for           |
+|                   | any downstream queries. Downstream queries that use time-based operations, such as windowing,        |
+|                   | will process records in this stream based on the timestamp in this field. By default,                |
+|                   | such queries will also use this field to set the timestamp on any records emitted to Kafka.          |
+|                   | Timestamps have a millisecond accuracy.                                                              |
+|                   |                                                                                                      |
+|                   | If not supplied, the `ROWTIME` of the source stream will be used.                                    |
+|                   |                                                                                                      |
+|                   | **Note**: This doesn't affect the processing of the query that populates this stream.                |
+|                   | For example, given the following statement:                                                          |
+|                   | TODO: Solve this code block issue                                                                    |
+|                   | .. literalinclude:: ../includes/csas-snippet.sql                                                     |
+|                   | :language: sql                                                                                       |
+|                   |                                                                                                      |
+|                   | The window into which each row of `bar` is placed is determined by bar's `ROWTIME`, not `t2`.        |
+| TIMESTAMP_FORMAT  | Used in conjunction with TIMESTAMP. If not set will assume that the timestamp field is a             |
+|                   | bigint. If it is set, then the TIMESTAMP field must be of type varchar and have a format             |
+|                   | that can be parsed with the Java `DateTimeFormatter`. If your timestamp format has                   |
+|                   | characters requiring single quotes, you can escape them with two successive single quotes,           |
+|                   | `''`, for example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more information on timestamp                   |
+|                   | formats, see [DateTimeFormatter](https://cnfl.io/java-dtf).                                       |
+| WRAP_SINGLE_VALUE | Controls how values are serialized where the values schema contains only a single field.             |
+|                   |                                                                                                      |
+|                   | The setting controls how the query will serialize values with a single-field schema.                 |
+|                   | If set to `true`, KSQL will serialize the field as a named field within a record.                    |
+|                   | If set to `false` KSQL, KSQL will serialize the field as an anonymous value.                         |
+|                   | If not supplied, the system default, defined by :ref:`ksql-persistence-wrap-single-values` and       |
+|                   | defaulting to `true``, is used.                                                                      |
+|                   |                                                                                                      |
+|                   | Note: `null` values have special meaning in KSQL. Care should be taken when dealing with             |
+|                   | single-field schemas where the value can be `null`. For more information, see                        |
+|                   | :ref:`ksql_single_field_wrapping`.                                                                   |
+|                   |                                                                                                      |
+|                   | Note: Supplying this property for formats that do not support wrapping, for example                  |
+|                   | `DELIMITED`, or when the value schema has multiple fields, will result in an error.                  |
+
 
 ::: {.note}
 ::: {.admonition-title}
@@ -856,103 +735,72 @@ For more information, see [join-streams-and-tables]{role="ref"}.
 
 The WITH clause supports the following properties:
 
-+-------------+--------------------------------------------------------+
-| Property    | Description                                            |
-+=============+========================================================+
-| KAFKA\_TOPI | The name of the Kafka topic that backs this table. If  |
-| C           | this property is not set, then the name of the table   |
-|             | will be used as default.                               |
-+-------------+--------------------------------------------------------+
-| VALUE\_FORM | Specifies the serialization format of the message      |
-| AT          | value in the topic. Supported formats: `JSON`,         |
-|             | `DELIMITED` (comma-separated value), `AVRO` and        |
-|             | `KAFKA`. If this property is not set, then the format  |
-|             | of the input stream/table is used. For more            |
-|             | information, see [ksql\_formats]{role="ref"}.          |
-+-------------+--------------------------------------------------------+
-| VALUE\_DELI | Used when VALUE\_FORMAT=\'DELIMITED\'. Supports single |
-| MITER       | character to be a delimiter, defaults to \',\'. For    |
-|             | space and tab delimited values you must use the        |
-|             | special values \'SPACE\' or \'TAB\', not an actual     |
-|             | space or tab character.                                |
-+-------------+--------------------------------------------------------+
-| PARTITIONS  | The number of partitions in the backing topic. If this |
-|             | property is not set, then the number of partitions of  |
-|             | the input stream/table will be used. In join queries,  |
-|             | the property values are taken from the left-side       |
-|             | stream or table. For KSQL 5.2 and earlier, if the      |
-|             | property is not set, the value of the                  |
-|             | `ksql.sink.partitions` property, which defaults to     |
-|             | four partitions, will be used. The                     |
-|             | `ksql.sink.partitions` property can be set in the      |
-|             | properties file the KSQL server is started with, or by |
-|             | using the `SET` statement.                             |
-+-------------+--------------------------------------------------------+
-| REPLICAS    | The replication factor for the topic. If this property |
-|             | is not set, then the number of replicas of the input   |
-|             | stream or table will be used. In join queries, the     |
-|             | property values are taken from the left-side stream or |
-|             | table. For KSQL 5.2 and earlier, if the REPLICAS is    |
-|             | not set, the value of the `ksql.sink.replicas`         |
-|             | property, which defaults to one replica, will be used. |
-|             | The `ksql.sink.replicas` property can be set in the    |
-|             | properties file the KSQL server is started with, or by |
-|             | using the `SET` statement.                             |
-+-------------+--------------------------------------------------------+
-| TIMESTAMP   | Sets a field within this tables\'s schema to be used   |
-|             | as the default source of `ROWTIME` for any downstream  |
-|             | queries. Downstream queries that use time-based        |
-|             | operations, such as windowing, will process records in |
-|             | this stream based on the timestamp in this field.      |
-|             | Timestamps have a millisecond accuracy.                |
-|             |                                                        |
-|             | If not supplied, the `ROWTIME` of the source stream    |
-|             | will be used.                                          |
-|             |                                                        |
-|             | **Note**: This doesn\'t affect the processing of the   |
-|             | query that populates this table. For example, given    |
-|             | the following statement:                               |
-|             |                                                        |
-|             | ::: {.literalinclude}                                  |
-|             | ../includes/ctas-snippet.sql                           |
-|             | :::                                                    |
-|             |                                                        |
-|             | The window into which each row of `bar` is placed is   |
-|             | determined by bar\'s `ROWTIME`, not `t2`.              |
-+-------------+--------------------------------------------------------+
-| TIMESTAMP\_ | Used in conjunction with TIMESTAMP. If not set will    |
-| FORMAT      | assume that the timestamp field is a bigint. If it is  |
-|             | set, then the TIMESTAMP field must be of type varchar  |
-|             | and have a format that can be parsed with the Java     |
-|             | `DateTimeFormatter`. If your timestamp format has      |
-|             | characters requiring single quotes, you can escape     |
-|             | them with two successive single quotes, `''`, for      |
-|             | example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more        |
-|             | information on timestamp formats, see                  |
-|             | [DateTimeFormatter](https://cnfl.io/java-dtf).         |
-+-------------+--------------------------------------------------------+
-| WRAP\_SINGL | Controls how values are serialized where the values    |
-| E\_VALUE    | schema contains only a single field.                   |
-|             |                                                        |
-|             | The setting controls how the query will serialize      |
-|             | values with a single-field schema. If set to `true`,   |
-|             | KSQL will serialize the field as a named field within  |
-|             | a record. If set to `false` KSQL, KSQL will serialize  |
-|             | the field as an anonymous value. If not supplied, the  |
-|             | system default, defined by                             |
-|             | [ksql-persistence-wrap-single-values]{role="ref"} and  |
-|             | defaulting to `true`, is used.                         |
-|             |                                                        |
-|             | Note: null\` values have special meaning in KSQL. Care |
-|             | should be taken when dealing with single-field schemas |
-|             | where the value can be `null`. For more information,   |
-|             | see [ksql\_single\_field\_wrapping]{role="ref"}.       |
-|             |                                                        |
-|             | Note: Supplying this property for formats that do not  |
-|             | support wrapping, for example `DELIMITED`, or when the |
-|             | value schema has multiple fields, will result in an    |
-|             | error.                                                 |
-+-------------+--------------------------------------------------------+
+TODO: Fix table cells
+
+
+|     Property      |                                             Description                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| KAFKA_TOPIC       | The name of the Kafka topic that backs this table. If this property is not set, then the             |
+|                   | name of the table will be used as default.                                                           |
+| VALUE_FORMAT      | Specifies the serialization format of the message value in the topic. Supported formats:             |
+|                   | `JSON`, `DELIMITED` (comma-separated value), `AVRO` and `KAFKA`.                                     |
+|                   | If this property is not set, then the format of the input stream/table is used.                      |
+|                   | For more information, see [ksql_formats]{role="ref"}.                                                |
+| VALUE_DELIMITER   | Used when VALUE_FORMAT='DELIMITED'. Supports single character to be a delimiter,                     |
+|                   | defaults to ','.                                                                                     |
+|                   | For space and tab delimited values you must use the special values 'SPACE' or 'TAB', not             |
+|                   | an actual space or tab character.                                                                    |
+| PARTITIONS        | The number of partitions in the backing topic. If this property is not set, then the number          |
+|                   | of partitions of the input stream/table will be used. In join queries, the property values are taken |
+|                   | from the left-side stream or table.                                                                  |
+|                   | For KSQL 5.2 and earlier, if the property is not set, the value of the `ksql.sink.partitions`        |
+|                   | property, which defaults to four partitions, will be used. The `ksql.sink.partitions` property can   |
+|                   | be set in the properties file the KSQL server is started with, or by using the `SET` statement.      |
+| REPLICAS          | The replication factor for the topic. If this property is not set, then the number of                |
+|                   | replicas of the input stream or table will be used. In join queries, the property values are taken   |
+|                   | from the left-side stream or table.                                                                  |
+|                   | For KSQL 5.2 and earlier, if the REPLICAS is not set, the value of the `ksql.sink.replicas`          |
+|                   | property, which defaults to one replica, will be used. The `ksql.sink.replicas` property can         |
+|                   | be set in the properties file the KSQL server is started with, or by using the `SET` statement.      |
+| TIMESTAMP         | Sets a field within this tables's schema to be used as the default source of `ROWTIME` for           |
+|                   | any downstream queries. Downstream queries that use time-based operations, such as windowing,        |
+|                   | will process records in this stream based on the timestamp in this field.                            |
+|                   | Timestamps have a millisecond accuracy.                                                              |
+|                   |                                                                                                      |
+|                   | If not supplied, the `ROWTIME` of the source stream will be used.                                    |
+|                   |                                                                                                      |
+|                   | **Note**: This doesn't affect the processing of the query that populates this table.                 |
+|                   | For example, given the following statement:                                                          |
+|                   | TODO: Solve this code block issue                                                                    |
+|                   | ```sql                                                                                               |
+|                   | CREATE TABLE foo WITH (TIMESTAMP='t2') AS                                                            |
+|                   | SELECT host, COUNT(*) FROM bar                                                                       |
+|                   | WINDOW TUMBLING (size 10 seconds)                                                                    |
+|                   | GROUP BY host;                                                                                       |
+|                   | ```                                                                                                  |
+|                   |                                                                                                      |
+|                   | The window into which each row of `bar` is placed is determined by bar's `ROWTIME`, not `t2`.        |
+| TIMESTAMP_FORMAT  | Used in conjunction with TIMESTAMP. If not set will assume that the timestamp field is a             |
+|                   | bigint. If it is set, then the TIMESTAMP field must be of type varchar and have a format             |
+|                   | that can be parsed with the Java `DateTimeFormatter`. If your timestamp format has                   |
+|                   | characters requiring single quotes, you can escape them with two successive single quotes,           |
+|                   | `''`, for example: `'yyyy-MM-dd''T''HH:mm:ssX'`. For more information on timestamp                   |
+|                   | formats, see [DateTimeFormatter](https://cnfl.io/java-dtf).                                       |
+| WRAP_SINGLE_VALUE | Controls how values are serialized where the values schema contains only a single field.             |
+|                   |                                                                                                      |
+|                   | The setting controls how the query will serialize values with a single-field schema.                 |
+|                   | If set to `true`, KSQL will serialize the field as a named field within a record.                    |
+|                   | If set to `false` KSQL, KSQL will serialize the field as an anonymous value.                         |
+|                   | If not supplied, the system default, defined by :ref:`ksql-persistence-wrap-single-values` and       |
+|                   | defaulting to `true``, is used.                                                                      |
+|                   |                                                                                                      |
+|                   | Note: `null` values have special meaning in KSQL. Care should be taken when dealing with             |
+|                   | single-field schemas where the value can be `null`. For more information, see                        |
+|                   | [ksql_single_field_wrapping]{role="ref"}.                                                            |
+|                   |                                                                                                      |
+|                   | Note: Supplying this property for formats that do not support wrapping, for example                  |
+|                   | `DELIMITED`, or when the value schema has multiple fields, will result in an error.                  |
+
 
 ::: {.note}
 ::: {.admonition-title}
@@ -1070,40 +918,18 @@ DESCRIBE [EXTENDED] (stream_name|table_name);
 Extended descriptions provide the following metrics for the topic
 backing the source being described.
 
-  -------------------------------------------------------------------------------------
-  KSQL Metric                    Description
-  ------------------------------ ------------------------------------------------------
-  consumer-failed-messages       Total number of failures during message consumption on
-                                 the server.
-
-  consumer-messages-per-sec      The number of messages consumed per second from the
-                                 topic by the server.
-
-  consumer-total-message-bytes   Total number of bytes consumed from the topic by the
-                                 server.
-
-  consumer-total-messages        Total number of messages consumed from the topic by
-                                 the server.
-
-  failed-messages-per-sec        Number of failures during message consumption (for
-                                 example, deserialization failures) per second on the
-                                 server.
-
-  last-failed                    Time that the last failure occured when a message was
-                                 consumed from the topic by the server.
-
-  last-message                   Time that the last message was produced to or consumed
-                                 from the topic by the server.
-
-  messages-per-sec               Number of messages produced per second into the topic
-                                 by the server.
-
-  total-messages                 Total number of messages produced into the topic by
-                                 the server.
-
-  total-message-bytes            Total number of bytes produced into the topic by the
-                                 server.
-  -------------------------------------------------------------------------------------
+|         KSQL Metric          |                                                   Description                                                   |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| consumer-failed-messages     | Total number of failures during message consumption on the server.                                              |
+| consumer-messages-per-sec    | The number of messages consumed per second from the topic by the server.                                        |
+| consumer-total-message-bytes | Total number of bytes consumed from the topic by the server.                                                    |
+| consumer-total-messages      | Total number of messages consumed from the topic by the server.                                                 |
+| failed-messages-per-sec      | Number of failures during message consumption (for example, deserialization failures) per second on the server. |
+| last-failed                  | Time that the last failure occurred when a message was consumed from the topic by the server.                   |
+| last-message                 | Time that the last message was produced to or consumed from the topic by the server.                            |
+| messages-per-sec             | Number of messages produced per second into the topic by the server.                                            |
+| total-messages               | Total number of messages produced into the topic by the server.                                                 |
+| total-message-bytes          | Total number of bytes produced into the topic by the server.                                                    |
 
 Example of describing a table:
 
@@ -1312,18 +1138,11 @@ Important
 
 The PRINT statement supports the following properties:
 
-  -----------------------------------------------------------------------
-  Property      Description
-  ------------- ---------------------------------------------------------
-  FROM          Print starting with the first message in the topic. If
-  BEGINNING     not specified, PRINT starts with the most recent message.
-
-  INTERVAL      Print every `interval` th message. The default is 1,
-  interval      meaning that every message is printed.
-
-  LIMIT limit   Stop printing after `limit` messages. The default value
-                is unlimited, requiring Ctrl+C to terminate the query.
-  -----------------------------------------------------------------------
+|     Property      |                                                   Description                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| FROM BEGINNING    | Print starting with the first message in the topic. If not specified, PRINT starts with the most recent message. |
+| INTERVAL interval | Print every `interval` th message. The default is 1, meaning that every message is printed.                      |
+| LIMIT limit       | Stop printing after `limit` messages. The default value is unlimited, requiring Ctrl+C to terminate the query.   |
 
 For example:
 
@@ -1764,12 +1583,14 @@ CREATE TABLE USERS (
     ```
 
 -   Combine -\> with . when using aliases:
-    ``` {.sourceCode .sql}
+    ```sql
     SELECT orders.address->street, o.address->zip FROM orders o;
-```
+    ```
 
 Scalar functions {#functions}
 ----------------
+
+TODO: Fix table cells
 
 |       Function        |                               Example                                |                    Description                     |
 | --------------------- | -------------------------------------------------------------------- | -------------------------------------------------- |
@@ -1917,7 +1738,7 @@ Scalar functions {#functions}
 |                       |                                                                      | java.util.TimeZone ID format, for example: "UTC",  |
 |                       |                                                                      | "America/Los_Angeles", "PDT", "Europe/London". For |
 |                       |                                                                      | more information on timestamp formats, see         |
-|                       |                                                                      | `DateTimeFormatter <https://cnfl.io/java-dtf>`__.  |
+|                       |                                                                      | [DateTimeFormatter](https://cnfl.io/java-dtf).     |
 | SUBSTRING             | `SUBSTRING(col1, 2, 5)`                                              | `SUBSTRING(str, pos, [len]`.                       |
 |                       |                                                                      | Returns a substring of `str` that starts at        |
 |                       |                                                                      | `pos` (first character is at position 1) and       |
@@ -1950,7 +1771,7 @@ Scalar functions {#functions}
 |                       |                                                                      | java.util.TimeZone ID format, for example: "UTC",  |
 |                       |                                                                      | "America/Los_Angeles", "PDT", "Europe/London". For |
 |                       |                                                                      | more information on timestamp formats, see         |
-|                       |                                                                      | `DateTimeFormatter <https://cnfl.io/java-dtf>`__.  |
+|                       |                                                                      | [DateTimeFormatter](https://cnfl.io/java-dtf).     |
 | TRIM                  | `TRIM(col1)`                                                         | Trim the spaces from the beginning and end of      |
 |                       |                                                                      | a string.                                          |
 | UCASE                 | `UCASE(col1)`                                                        | Convert a string to uppercase.                     |
@@ -2031,6 +1852,8 @@ Section 3 of the RFC. For encoding/decoding, the
 
 Aggregate functions {#ksql_aggregate_functions}
 -------------------
+
+TODO: Fix table cells
 
 |   Function   |         Example         |  Input Type   |                             Description                              |
 | ------------ | ----------------------- | ------------- | -------------------------------------------------------------------- |
