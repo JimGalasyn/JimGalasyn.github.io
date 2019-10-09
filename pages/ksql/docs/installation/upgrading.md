@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Upgrade KSQL
-tagline: upgrade on-premises KSQL 
+tagline: Upgrade on-premises KSQL 
 description: Learn how to upgrade your on-premises KSQL deployments
 keywords: ksql, install, upgrade
 ---
