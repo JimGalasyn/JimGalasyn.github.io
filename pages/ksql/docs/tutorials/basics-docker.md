@@ -335,12 +335,12 @@ the latest offset.
 
     Your output should resemble:
 
-```
-1519746861328 | User_4 | User_4 | Page_58 | Region_5 | OTHER
-1519746861794 | User_9 | User_9 | Page_94 | Region_9 | MALE
-1519746862164 | User_1 | User_1 | Page_90 | Region_7 | FEMALE
-^CQuery terminated
-```
+    ```
+    1519746861328 | User_4 | User_4 | Page_58 | Region_5 | OTHER
+    1519746861794 | User_9 | User_9 | Page_94 | Region_9 | MALE
+    1519746862164 | User_1 | User_1 | Page_90 | Region_7 | FEMALE
+    ^CQuery terminated
+    ```
 
 4.  Create a new persistent query where a condition limits the streams
     content, using `WHERE`. Results from this query are written to a
@@ -895,7 +895,7 @@ syntax. Because multiple sources of data are being joined into a common
 target, it is useful to add in lineage information. This can be done by
 simply including it as part of the `SELECT`:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM ALL_ORDERS AS SELECT 'LOCAL' AS SRC, * FROM ORDERS_SRC_LOCAL;
 ```
 
