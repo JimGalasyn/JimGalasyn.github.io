@@ -1,10 +1,13 @@
 ---
+layout: page
+title: Write Streaming Queries Against {{ site.ak-tm }} Using KSQL and {{ site.c3 }}
+tagline: Use KSQL for event streaming applications
+description: Learn how to use KSQL to create event streaming applications on Kafka topics
+keywords: ksql, confluent control center
 ---
-::: {#ksql_quickstart-c3}
-Writing Streaming Queries Against {{ site.ak-tm }} Using KSQL and {{
-site.c3 }}
-\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
-:::
+
+Write Streaming Queries Against {{ site.ak-tm }} Using KSQL and {{ site.c3 }} {#ksql_quickstart-c3}
+=============================================================================
 
 You can use KSQL in {{ site.c3 }} to write streaming queries against
 messages in {{ site.ak }}.
@@ -14,16 +17,15 @@ messages in {{ site.ak }}.
 -   [Confluent
     Platform](https://docs.confluent.io/current/installation/installing_cp/index.html)
     is installed and running. This installation includes a Kafka broker,
-    KSQL, {{ site.c3-short }}, {{ site.zk }}, {{ site.sr }}, {{
-    site.crest }}, and {{ site.kconnect }}.
+    KSQL, {{ site.c3-short }}, {{ site.zk }}, {{ site.sr }}, {{ site.crest }},
+    and {{ site.kconnect }}.
 -   If you installed {{ site.cp }} via TAR or ZIP, navigate into the
     installation directory. The paths and commands used throughout this
     tutorial assume that you are in this installation directory.
 -   Consider
     [installing](https://docs.confluent.io/current/cli/installing.html)
-    the {{ site.confluent-cli }} to start a local installation of {{
-    site.cp }}.
--   Java: Minimum version 1.8. Install Oracle Java JRE or JDK \>= 1.8 on
+    the {{ site.confluent-cli }} to start a local installation of {{ site.cp }}.
+-   Java: Minimum version 1.8. Install Oracle Java JRE or JDK >= 1.8 on
     your local machine
 
 Create Topics and Produce Data
@@ -36,16 +38,16 @@ These steps use the KSQL datagen that is included {{ site.cp }}.
     generator. The following example continuously generates data with a
     value in DELIMITED format.
 
-    ``` {.sourceCode .bash}
-    $ <path-to-confluent>/bin/ksql-datagen quickstart=pageviews format=delimited topic=pageviews maxInterval=500
+    ```bash
+    <path-to-confluent>/bin/ksql-datagen quickstart=pageviews format=delimited topic=pageviews maxInterval=500
     ```
 
 2.  Produce Kafka data to the `users` topic using the data generator.
     The following example continuously generates data with a value in
     JSON format.
 
-    ``` {.sourceCode .bash}
-    $ <path-to-confluent>/bin/ksql-datagen quickstart=users format=json topic=users maxInterval=100
+    ```bash
+    <path-to-confluent>/bin/ksql-datagen quickstart=users format=json topic=users maxInterval=100
     ```
 
 ::: {.tip}
@@ -53,7 +55,7 @@ These steps use the KSQL datagen that is included {{ site.cp }}.
 Tip
 :::
 
-You can also produce Kafka data using the `kafka-console-producer` CLI
+>You can also produce Kafka data using the `kafka-console-producer` CLI
 provided with {{ site.cp }}.
 :::
 
@@ -65,14 +67,12 @@ to the `./ksql_logs` directory, relative to your current directory. By
 default, the CLI will look for a KSQL Server running at
 `http://localhost:8088`.
 
-``` {.sourceCode .bash}
-$ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql
+```bash
+LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql
 ```
 
-::: {#ksql_quickstart-c3-inspect-topics}
-Inspect Topics By Using {{ site.c3-short }}
-\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
-:::
+Inspect Topics By Using {{ site.c3-short }} {#ksql_quickstart-c3-inspect-topics}
+-------------------------------------------
 
 1.  Open your browser to `http://localhost:9021`. {{ site.c3 }} opens,
     showing the **Home** page for your clusters. In the navigation bar,
@@ -83,7 +83,7 @@ Inspect Topics By Using {{ site.c3-short }}
     ![](../img/c3-topics-pageviews-users.png){.align-center}
 
 Inspect Topics By Using KSQL in {{ site.c3-short }}
-\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+---------------------------------------------------
 
 1.  In the cluster submenu, click **KSQL** to open the KSQL clusters
     page, and click **KSQL** to open the **KSQL Editor** on the default
@@ -95,7 +95,9 @@ Inspect Topics By Using KSQL in {{ site.c3-short }}
     available topics on the Kafka cluster. Click **Run** to start the
     query.
 
+    ```
         SHOW TOPICS;
+    ```
 
     ![](../img/c3-ksql-editor-show-topics.png){.align-center}
 
@@ -103,7 +105,7 @@ Inspect Topics By Using KSQL in {{ site.c3-short }}
     `pageviews` and `users` topics that you created previously. Your
     output should resemble:
 
-    ``` {.sourceCode .json}
+    ```json
     {
       "name": "pageviews",
       "registered": false,
@@ -124,14 +126,16 @@ Inspect Topics By Using KSQL in {{ site.c3-short }}
     }
     ```
 
-    The `"registered": false` indicator means that you haven\'t created
-    a stream or table on top of these topics, so you can\'t write
+    The `"registered": false` indicator means that you haven't created
+    a stream or table on top of these topics, so you can't write
     streaming queries against them yet.
 
 4.  In the editing window, use the PRINT TOPIC statement to inspect the
     records in the `users` topic. Click **Run** to start the query.
 
-        PRINT 'users' FROM BEGINNING;
+    ```
+       PRINT 'users' FROM BEGINNING;
+    ```
 
     Your output should resemble:
 
@@ -146,7 +150,7 @@ Create a Stream and Table
 To write streaming queries against the `pageviews` and `users` topics,
 register the the topics with KSQL as a stream and a table. You can use
 the CREATE STREAM and CREATE TABLE statements in the KSQL Editor, or you
-can use the {{ site.c3-short }} UI .
+can use the {{ site.c3-short }} UI.
 
 These examples query records from the `pageviews` and `users` topics
 using the following schema.
@@ -160,7 +164,7 @@ TABLE statements in KSQL Editor, just like you use them in the KSQL CLI.
 
 1.  Copy the following code into the editing window and click **Run**.
 
-    ``` {.sourceCode .sql}
+    ```sql
     CREATE STREAM pageviews_original (viewtime bigint, userid varchar, pageid varchar) WITH 
     (kafka_topic='pageviews', value_format='DELIMITED');
     ```
@@ -172,12 +176,14 @@ TABLE statements in KSQL Editor, just like you use them in the KSQL CLI.
 2.  In the editing window, use the SHOW TOPICS statement to inspect the
     status of the `pageviews` topic. Click **Run** to start the query.
 
-        SHOW TOPICS;
+    ```
+       SHOW TOPICS;
+    ```
 
 3.  In the **Query Results** window, scroll to the bottom to view the
     `pageviews` topic. Your output should resemble:
 
-    ``` {.sourceCode .json}
+    ```json
     {
       "name": "pageviews",
       "registered": true,
@@ -191,7 +197,7 @@ TABLE statements in KSQL Editor, just like you use them in the KSQL CLI.
     the topic and you can write streaming queries against it.
 
 Create a Table in the {{ site.c3-short }} UI
-===================================
+============================================
 
 {{ site.c3 }} guides you through the process of registering a topic as a
 stream or a table.
@@ -228,7 +234,7 @@ you end them with the TERMINATE statement.
 
 1.  Copy the following code into the editing window and click **Run**.
 
-    ``` {.sourceCode .sql}
+    ```sql
     CREATE STREAM pageviews_enriched AS
     SELECT users.userid AS userid, pageid, regionid, gender
     FROM pageviews_original
@@ -286,7 +292,7 @@ queries.
     to **Earliest**.
 3.  Copy the following code into the editing window and click **Run**.
 
-    ``` {.sourceCode .sql}
+    ```sql
     CREATE STREAM pageviews_female AS
     SELECT * FROM pageviews_enriched
     WHERE gender = 'FEMALE';
@@ -319,7 +325,7 @@ single, unified view.
 
 1.  Click **KSQl Editor** and find the **All available streams and
     tables** pane on the right side of the page,
-2.  Click **KSQL\_PROCESSING\_LOG** to open the processing log stream.
+2.  Click **KSQL_PROCESSING_LOG** to open the processing log stream.
     The schema for the stream is displayed, including nested data
     structures.
 
@@ -332,7 +338,7 @@ a JSON file.
 
 1.  Copy the following code into the editing window and click **Run**.
 
-    ``` {.sourceCode .sql}
+    ```sql
     SELECT * FROM  PAGEVIEWS_FEMALE;
     ```
 
@@ -344,4 +350,4 @@ a JSON file.
 Next Steps
 ----------
 
--   [ksql\_clickstream-docker]{role="ref"}
+-   [ksql_clickstream-docker]{role="ref"}
