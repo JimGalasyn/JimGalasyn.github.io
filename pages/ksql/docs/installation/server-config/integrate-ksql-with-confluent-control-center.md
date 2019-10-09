@@ -42,8 +42,8 @@ passing credentials as part of the KSQL Server URL in {{ site.c3-short }}
 configuration.
 
 ```
-    # KSQL cluster URL
-    confluent.controlcenter.ksql.<ksql-cluster-name>.url=http://<username>:<password>@localhost:8088
+# KSQL cluster URL
+confluent.controlcenter.ksql.<ksql-cluster-name>.url=http://<username>:<password>@localhost:8088
 ```
 
 You can set up KSQL Server to communicate securely with other components
@@ -114,7 +114,7 @@ In the KSQL Server configuration file, set `listeners` to bind to all
 interfaces:
 
 ```
-    listeners=http://0.0.0.0:8088
+listeners=http://0.0.0.0:8088
 ```
 
 {{ site.c3-short }} Configuration
@@ -127,7 +127,7 @@ for the KSQL Server hosts, which must be reachable from the host that
 name that {{ site.c3-short }} uses to identify the KSQL cluster.
 
 ```
-    confluent.controlcenter.ksql.<ksql-cluster-name>.url=<internally-resolvable-hostname1>, <internally-resolvable-hostname2>, ...
+confluent.controlcenter.ksql.<ksql-cluster-name>.url=<internally-resolvable-hostname1>, <internally-resolvable-hostname2>, ...
 ```
 
 Also, set
@@ -137,7 +137,7 @@ list of URLs that the browser can resolve through externally available
 DNS.
 
 ```
-    confluent.controlcenter.ksql.<ksql-cluster-name>.advertised.url=<externally-resolvable-hostname1>, <externally-resolvable-hostname2>, ...
+confluent.controlcenter.ksql.<ksql-cluster-name>.advertised.url=<externally-resolvable-hostname1>, <externally-resolvable-hostname2>, ...
 ```
 
 The {{ site.c3-short }} configuration must match the KSQL Server
