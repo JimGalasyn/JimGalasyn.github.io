@@ -3,7 +3,7 @@ layout: page
 title: Write Streaming Queries Against Apache Kafka® Using KSQL and Confluent Control Center (Docker)
 tagline: Use KSQL for event streaming applications
 description: Learn how to use KSQL to create event streaming applications on Kafka topics
-keywords: ksql, confluent control center, docker
+keywords: ksql, docker
 ---
 
 Writing Streaming Queries Against {{ site.ak-tm }} Using KSQL (Docker) {#ksql_quickstart-docker}
@@ -232,9 +232,9 @@ These examples query messages from Kafka topics called `pageviews` and
     Your output should resemble:
 
     ```
-    Message
+     Message
     ---------------
-    Table created
+     Table created
     ---------------
     ```
 
@@ -310,9 +310,9 @@ the latest offset.
     Your output should resemble:
 
     ```
-    Message
+     Message
     ----------------------------
-    Stream created and running
+     Stream created and running
     ----------------------------
     ```
 
@@ -355,9 +355,9 @@ the latest offset.
     Your output should resemble:
 
     ```
-    Message
+     Message
     ----------------------------
-    Stream created and running
+     Stream created and running
     ----------------------------
     ```
 
@@ -383,9 +383,9 @@ the latest offset.
     Your output should resemble:
 
     ```
-    Message
+     Message
     ----------------------------
-    Stream created and running
+     Stream created and running
     ----------------------------
     ```
         
@@ -552,19 +552,19 @@ DESCRIBE ORDERS;
 Your output should resemble:
 
 ```
-    Name                 : ORDERS
-     Field      | Type
-    ----------------------------------------------------------------------------------
-     ROWTIME    | BIGINT           (system)
-     ROWKEY     | VARCHAR(STRING)  (system)
-     ORDERTIME  | BIGINT
-     ORDERID    | INTEGER
-     ITEMID     | VARCHAR(STRING)
-     ORDERUNITS | DOUBLE
-     ADDRESS    | STRUCT<CITY VARCHAR(STRING), STATE VARCHAR(STRING), ZIPCODE BIGINT>
-    ----------------------------------------------------------------------------------
-    For runtime statistics and query details run: DESCRIBE EXTENDED <Stream,Table>;
-    ksql>
+Name                 : ORDERS
+ Field      | Type
+----------------------------------------------------------------------------------
+ ROWTIME    | BIGINT           (system)
+ ROWKEY     | VARCHAR(STRING)  (system)
+ ORDERTIME  | BIGINT
+ ORDERID    | INTEGER
+ ITEMID     | VARCHAR(STRING)
+ ORDERUNITS | DOUBLE
+ ADDRESS    | STRUCT<CITY VARCHAR(STRING), STATE VARCHAR(STRING), ZIPCODE BIGINT>
+----------------------------------------------------------------------------------
+For runtime statistics and query details run: DESCRIBE EXTENDED <Stream,Table>;
+ksql>
 ```
 
 Query the data, using `->` notation to access the Struct contents:
@@ -589,7 +589,7 @@ Stream-Stream join {#ss-joins-docker}
 ------------------
 
 Using a stream-stream join, you can join two *event streams* on a
-common key. An example of this could be a stream of order events, and
+common key. An example of this could be a stream of order events and
 a stream of shipment events. By joining these on the order key, you can
 see shipment information alongside the order.
 
@@ -650,7 +650,7 @@ Tip
 >Run the following to tell KSQL to read from the beginning of the topic: 
 >
 >```sql
->    SET 'auto.offset.reset' = 'earliest';
+>SET 'auto.offset.reset' = 'earliest';
 >```
 > You can skip this if you have already run it within your current
 > KSQL CLI session.
@@ -782,7 +782,7 @@ Tip
 >Run the following to tell KSQL to read from the beginning of the topic: 
 >
 >```sql
->    SET 'auto.offset.reset' = 'earliest';
+>SET 'auto.offset.reset' = 'earliest';
 >```
 > You can skip this if you have already run it within your current
 > KSQL CLI session.
