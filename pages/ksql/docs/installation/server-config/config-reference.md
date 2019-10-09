@@ -1,5 +1,11 @@
 ---
+layout: page
+title: KSQL Configuration Parameter Reference
+tagline: Set up KSQL Server
+description: Settings for configuring KSQL Server
+keywords: ksql, confguration, setup, install
 ---
+
 KSQL Configuration Parameter Reference {#ksql-param-reference}
 ======================================
 
@@ -12,7 +18,7 @@ Refer to [ksql-server-config]{role="ref"} and
 Tip
 :::
 
-Each property has a corresponding environment variable in the Docker
+>Each property has a corresponding environment variable in the Docker
 image for [KSQL
 Server](https://hub.docker.com/r/confluentinc/cp-ksql-server/). The
 environment variable name is constructed from the configuration property
@@ -35,26 +41,25 @@ via `SET` in a KSQL CLI. These can be provided with the optional
 Important
 :::
 
-Although you can use either prefixed (`ksql.streams.`) or un-prefixed
+>Although you can use either prefixed (`ksql.streams.`) or un-prefixed
 settings, it is recommended that you use prefixed settings.
 :::
 
 ### ksql.streams.auto.offset.reset {#ksql-auto-offset-reset}
 
-Determines what to do when there is no initial offset in {{ site.ak-tm
-}} or if the current offset does not exist on the server. The default
+Determines what to do when there is no initial offset in {{ site.ak-tm }}
+or if the current offset doesn't exist on the server. The default
 value in KSQL is `latest`, which means all Kafka topics are read from
-the latest available offset. For example, to change it to earliest by
+the latest available offset. For example, to change it to `earliest` by
 using the KSQL command line:
 
-``` {.sourceCode .sql}
+```sql
 SET 'auto.offset.reset'='earliest';
 ```
 
 For more information, see [Kafka
 Consumer](https://docs.confluent.io/current/clients/consumer.html) and
-the
-[Javadoc\|clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html\#AUTO\_OFFSET\_RESET\_CONFIG]{role="cp-javadoc"}.
+[AUTO_OFFSET_RESET_CONFIG](https://docs.confluent.io/{{ site.release }}/clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html#AUTO_OFFSET_RESET_CONFIG){role="cp-javadoc"}.
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -68,14 +73,14 @@ connection to the Kafka cluster. This list should be in the form
 `localhost:9092`. For example, to change it to `9095` by using the KSQL
 command line:
 
-``` {.sourceCode .sql}
+```sql
 SET 'bootstrap.servers'='localhost:9095';
 ```
 
 For more information, see [Streams parameter
 reference](https://docs.confluent.io/current/streams/developer-guide/config-streams.html#configuration-parameter-reference)
-and the
-[Javadoc\|clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html\#BOOTSTRAP\_SERVERS\_CONFIG]{role="cp-javadoc"}.
+and 
+[BOOTSTRAP_SERVERS_CONFIG](https://docs.confluent.io/{{ site.release }}/clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html#BOOTSTRAP_SERVERS_CONFIG){role="cp-javadoc"}.
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -88,14 +93,14 @@ The frequency to save the position of the processor. The default value
 in KSQL is `2000`. Here is an example to change the value to `5000` by
 using the KSQL command line:
 
-``` {.sourceCode .sql}
+```sql
 SET 'commit.interval.ms'='5000';
 ```
 
 For more information, see the [Streams parameter
 reference](https://docs.confluent.io/current/streams/developer-guide/config-streams.html#optional-configuration-parameters)
-and the
-[Javadoc\|streams/javadocs/org/apache/kafka/streams/StreamsConfig.html\#COMMIT\_INTERVAL\_MS\_CONFIG]{role="cp-javadoc"},
+and 
+[COMMIT_INTERVAL_MS_CONFIG](https://docs.confluent.io/{{ site.release }}/clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html#COMMIT_INTERVAL_MS_CONFIG){role="cp-javadoc"},
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -104,18 +109,18 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 ### ksql.streams.cache.max.bytes.buffering {#ksql-cache-max-bytes-buffering}
 
 The maximum number of memory bytes to be used for buffering across all
-threads. The default value in KSQL is `10000000` (\~ 10 MB). Here is an
+threads. The default value in KSQL is `10000000` (~ 10 MB). Here is an
 example to change the value to `20000000` by using the KSQL command
 line:
 
-``` {.sourceCode .sql}
+```sql
 SET 'cache.max.bytes.buffering'='20000000';
 ```
 
 For more information, see the [Streams parameter
 reference](https://docs.confluent.io/current/streams/developer-guide/config-streams.html#optional-configuration-parameters)
 and
-[Javadoc\|streams/javadocs/org/apache/kafka/streams/StreamsConfig.html\#CACHE\_MAX\_BYTES\_BUFFERING\_CONFIG]{role="cp-javadoc"}.
+[CACHE_MAX_BYTES_BUFFERING_CONFIG](https://docs.confluent.io/{{ site.release }}/clients/javadocs/org/apache/kafka/clients/consumer/ConsumerConfig.html#CACHE_MAX_BYTES_BUFFERING_CONFIG){role="cp-javadoc"}.
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -137,10 +142,10 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 The default prefix for automatically created topic names. Unless a user
 defines an explicit topic name in a KSQL statement, KSQL prepends the
 value of `ksql.output.topic.name.prefix` to the names of automatically
-created output topics. For example, you might use \"ksql-interactive-\"
-to name output topics in a KSQL Server cluster that\'s deployed in
+created output topics. For example, you might use "ksql-interactive-"
+to name output topics in a KSQL Server cluster that's deployed in
 interactive mode. For more information, see
-[Configuring Security for KSQL \<config-security-ksql-acl-interactive\_post\_ak\_2\_0\>]{role="ref"}.
+[Configuring Security for KSQL](config-security-ksql-acl-interactive_post_ak_2_0){role="ref"}.
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -158,9 +163,9 @@ via `SET` in a KSQL CLI. For example, `ksql.service.id` and
 
 Indicates whether to fail if corrupt messages are read. KSQL decodes
 messages at runtime when reading from a Kafka topic. The decoding that
-KSQL uses depends on what\'s defined in STREAM\'s or TABLE\'s data
+KSQL uses depends on what's defined in STREAM's or TABLE's data
 definition as the data format for the topic. If a message in the topic
-can\'t be decoded according to that data format, KSQL considers this
+can't be decoded according to that data format, KSQL considers this
 message to be corrupt. For example, a message is corrupt if KSQL expects
 message values to be in JSON format, but they are in DELIMITED format.
 The default value in KSQL is `false`, which means a corrupt message will
@@ -168,7 +173,9 @@ result in a log entry, and KSQL will continue processing. To change this
 default behavior and instead have Kafka Streams threads shut down when
 corrupt messages are encountered, add this to your properties file:
 
-    ksql.fail.on.deserialization.error=true
+```
+ksql.fail.on.deserialization.error=true
+```
 
 ### ksql.fail.on.production.error {#ksql-fail-on-production-error}
 
@@ -176,10 +183,12 @@ Indicates whether to fail if KSQL fails to publish a record to an output
 topic due to a Kafka producer exception. The default value in KSQL is
 `true`, which means if a producer error occurs, then the Kafka Streams
 thread that encountered the error will shut down. To log the error
-message to the [ksql\_processing\_log]{role="ref"} and have KSQL
+message to the [ksql_processing_log]{role="ref"} and have KSQL
 continue processing as normal, add this to your properties file:
 
-    ksql.fail.on.production.error=false
+```
+ksql.fail.on.production.error=false
+```
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -187,9 +196,8 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 
 ### ksql.schema.registry.url {#ksql-schema-registry-url}
 
-The {{ site.sr }} URL path to connect KSQL to. To communicate with {{
-site.sr }} over a secure connection, see
-[config-security-ksql-sr]{role="ref"}.
+The {{ site.sr }} URL path to connect KSQL to. To communicate with {{ site.sr }}
+over a secure connection, see [config-security-ksql-sr]{role="ref"}.
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -206,12 +214,18 @@ share the workload.
 By default, the service ID of KSQL servers is `default_`. The service ID
 is also used as the prefix for the internal topics created by KSQL.
 Using the default value `ksql.service.id`, the KSQL internal topics will
-be prefixed as `_confluent-ksql-default_` (e.g. `_command_topic` becomes
-`_confluent-ksql-default__command_topic`).
+be prefixed as `_confluent-ksql-default_`. For example, `_command_topic`
+becomes `_confluent-ksql-default__command_topic`).
 
-By convention, the `ksql.service.id` property should end with a
-separator character of some form, for example a dash or underscore, as
+::: {.important}
+::: {.admonition-title}
+Important
+:::
+
+>By convention, the `ksql.service.id` property should end with a
+separator character of some form, like a dash or underscore, as
 this makes the internal topic names easier to read.
+:::
 
 ### ksql.internal.topic.replicas {#ksql-internal-topic-replicas}
 
@@ -219,7 +233,7 @@ The number of replicas for the internal topics created by KSQL Server.
 The default is 1. This configuration parameter works in KSQL 5.3 and
 later. Replicas for the record processing log topic should be configured
 separately. For more information, see
-[KSQL Processing Log \<ksql\_processing\_log\>]{role="ref"}.
+[KSQL Processing Log](ksql_processing_log){role="ref"}.
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -230,8 +244,8 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 The default number of partitions for the topics created by KSQL. The
 default is four. This property has been deprecated since 5.3 release.
 For more info see the WITH clause properties in
-[CREATE STREAM AS SELECT \<create-stream-as-select\>]{role="ref"} and
-[CREATE TABLE AS SELECT \<create-table-as-select\>]{role="ref"}.
+[CREATE STREAM AS SELECT](create-stream-as-select){role="ref"} and
+[CREATE TABLE AS SELECT](create-table-as-select){role="ref"}.
 
 The corresponding environment variable in the [KSQL Server
 image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
@@ -242,13 +256,13 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 The default number of replicas for the topics created by KSQL. The
 default is one. This property has been deprecated since 5.3 release. For
 more info see the WITH clause properties in
-[CREATE STREAM AS SELECT \<create-stream-as-select\>]{role="ref"} and
-[CREATE TABLE AS SELECT \<create-table-as-select\>]{role="ref"}.
+[CREATE STREAM AS SELECT](create-stream-as-select){role="ref"} and
+[CREATE TABLE AS SELECT](<create-table-as-select>){role="ref"}.
 
 ### ksql.functions.substring.legacy.args
 
 Controls the semantics of the SUBSTRING UDF. Refer to the SUBSTRING
-documentation in the [function \<functions\>]{role="ref"} guide for
+documentation in the [function](functions){role="ref"} guide for
 details.
 
 When upgrading headless mode KSQL applications from versions 5.0.x or
@@ -265,10 +279,10 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 ### ksql.persistence.wrap.single.values {#ksql-persistence-wrap-single-values}
 
 Sets the default value for the `WRAP_SINGLE_VALUE` property if one is
-not supplied explicitly in [CREATE TABLE \<create-table\>]{role="ref"},
-[CREATE STREAM \<create-stream\>]{role="ref"},
-[CREATE TABLE \<create-table-as-select\>]{role="ref"} or
-[CREATE STREAM AS SELECT \<create-stream-as-select\>]{role="ref"}
+not supplied explicitly in [CREATE TABLE](create-table){role="ref"},
+[CREATE STREAM](create-stream){role="ref"},
+[CREATE TABLE](create-table-as-select){role="ref"} or
+[CREATE STREAM AS SELECT](create-stream-as-select){role="ref"}
 statements.
 
 When set to the default value, `true`, KSQL serializes the column value
@@ -278,7 +292,7 @@ nesting.
 
 For example, consider the statement:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM y AS SELECT f0 FROM x;
 ```
 
@@ -287,34 +301,34 @@ has the integer value `10`, with `ksql.persistence.wrap.single.values`
 set to `true`, the JSON format persists the value within a JSON object,
 as it would if the value had more fields:
 
-``` {.sourceCode .json}
+```json
 {
    "F0": 10
 }
 ```
 
 With `ksql.persistence.wrap.single.values` set to `false`, the JSON
-format persists the single field\'s value as a JSON number: `10`.
+format persists the single field's value as a JSON number: `10`.
 
-``` {.sourceCode .json}
+```json
 10
 ```
 
 The `AVRO` format supports the same properties. The properties control
-whether or not the field\'s value is written as a named field within an
+whether or not the field's value is written as a named field within an
 Avro record or as an anonymous value.
 
 This setting can be toggled using the SET command
 
-``` {.sourceCode .sql}
+```sql
 SET 'ksql.persistence.wrap.single.values'='false';
 ```
 
 For more information, refer to the
-[CREATE TABLE \<create-table\>]{role="ref"},
-[CREATE STREAM \<create-stream\>]{role="ref"},
-[CREATE TABLE \<create-table-as-select\>]{role="ref"} or
-[CREATE STREAM AS SELECT \<create-stream-as-select\>]{role="ref"}
+[CREATE TABLE](create-table){role="ref"},
+[CREATE STREAM](create-stream){role="ref"},
+[CREATE TABLE](create-table-as-select){role="ref"} or
+[CREATE STREAM AS SELECT](create-stream-as-select){role="ref"}
 statements.
 
 ::: {.note}
@@ -322,8 +336,8 @@ statements.
 Note
 :::
 
-The `DELIMITED` format is not affected by the
-ksql.persistence.ensure.value.is.struct\` setting, because it has no
+>The `DELIMITED` format is not affected by the
+`ksql.persistence.ensure.value.is.struct` setting, because it has no
 concept of an outer record or structure.
 :::
 
@@ -339,7 +353,7 @@ These configurations can only be specified via the
 Important
 :::
 
-KSQL server configuration settings take precedence over those set in the
+>KSQL server configuration settings take precedence over those set in the
 KSQL CLI. For example, if a value for `ksql.streams.replication.factor`
 is set in both the KSQL server and KSQL CLI, the KSQL server value is
 used.
@@ -358,7 +372,7 @@ limit to prevent users from overloading the server with too many
 queries, since throughput suffers as more queries are run
 simultaneously, and also because there is some small CPU overhead
 associated with starting each new query. See
-[KSQL Sizing Recommendations \<ksql\_sizing\_best\>]{role="ref"} for
+[KSQL Sizing Recommendations](ksql_sizing_best){role="ref"} for
 more details.
 
 ### ksql.queries.file {#ksql-queries-file}
@@ -380,14 +394,16 @@ IPv4 interfaces. Set `listeners` to `http://[::]:8088` to bind to all
 IPv6 interfaces. Update this to a specific interface to bind only to a
 single interface. For example:
 
-    # Bind to all IPv4 interfaces.
-    listeners=http://0.0.0.0:8088
+```
+# Bind to all IPv4 interfaces.
+listeners=http://0.0.0.0:8088
 
-    # Bind to all IPv6 interfaces.
-    listeners=http://[::]:8088
+# Bind to all IPv6 interfaces.
+listeners=http://[::]:8088
 
-    # Bind only to localhost.
-    listeners=http://localhost:8088
+# Bind only to localhost.
+listeners=http://localhost:8088
+```
 
 You can configure KSQL Server to use HTTPS. For more information, see
 [config-ksql-for-https]{role="ref"}.
@@ -399,21 +415,20 @@ image](https://hub.docker.com/r/confluentinc/cp-ksql-server/) is
 ### ksql.metrics.tags.custom {#ksql-metrics-tags-custom}
 
 A list of tags to be included with emitted
-[JMX metrics \<ksql-monitoring-and-metrics\>]{role="ref"}, formatted as
+[JMX metrics](ksql-monitoring-and-metrics){role="ref"}, formatted as
 a string of `key:value` pairs separated by commas. For example,
 `key1:value1,key2:value2`.
 
-::: {#ksql-c3-settings}
-{{ site.c3 }} Settings \-\-\-\-\-\-\-\-\-\-\-\--
-:::
+{{ site.c3 }} Settings {#ksql-c3-settings}
+----------------------
 
 You can access KSQL Server by using {{ site.c3 }}. For more information,
 see [Control Center Configuration
 Reference](https://docs.confluent.io/current/control-center/installation/configuration.html#ksql-settings).
 
-::: {#ksql-cloud-settings}
-{{ site.ccloud }} Settings \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
-:::
+
+{{ site.ccloud }} Settings {#ksql-cloud-settings}
+--------------------------
 
 You can connect KSQL Server to {{ site.ccloud }}. For more information,
 see [Connecting KSQL to Confluent
@@ -426,17 +441,19 @@ To get DEBUG or INFO output from KSQL Server, configure a Kafka appender
 for the server logs. Assign the following configuration settings in the
 KSQL Server config file.
 
-    log4j.appender.kafka_appender=org.apache.kafka.log4jappender.KafkaLog4jAppender
-    log4j.appender.kafka_appender.layout=io.confluent.common.logging.log4j.StructuredJsonLayout
-    log4j.appender.kafka_appender.BrokerList=localhost:9092
-    log4j.appender.kafka_appender.Topic=KSQL_LOG
-    log4j.logger.io.confluent.ksql=INFO,kafka_appender
+```
+log4j.appender.kafka_appender=org.apache.kafka.log4jappender.KafkaLog4jAppender
+log4j.appender.kafka_appender.layout=io.confluent.common.logging.log4j.StructuredJsonLayout
+log4j.appender.kafka_appender.BrokerList=localhost:9092
+log4j.appender.kafka_appender.Topic=KSQL_LOG
+log4j.logger.io.confluent.ksql=INFO,kafka_appender
+```
 
 KSQL Processing Log Settings
 ----------------------------
 
 The following configuration settings control the behavior of the
-[KSQL processing log \<ksql\_processing\_log\>]{role="ref"}.
+[KSQL processing log](ksql_processing_log){role="ref"}.
 
 ### ksql.logging.processing.topic.auto.create {#ksql-processing-log-topic-auto-create}
 
@@ -503,8 +520,8 @@ configuration port specified in the connect configuration file.
 
 ### ksql.connect.worker.config
 
-The connect worker configuration file, if spinning up {{ site.kconnect
-}} alongside the KSQL server. Don\'t set this property if you\'re using
+The connect worker configuration file, if spinning up {{ site.kconnect }}
+alongside the KSQL server. Don't set this property if you're using
 an external `ksql.connect.url`.
 
 ### ksql.connect.polling.enable
@@ -523,31 +540,33 @@ Recommended KSQL Production Settings {#ksql-production-settings}
 When deploying KSQL to production, the following settings are
 recommended in your `/etc/ksql/ksql-server.properties` file:
 
-    # Set the batch expiry to Integer.MAX_VALUE to ensure that queries will not
-    # terminate if the underlying Kafka cluster is unavailable for a period of
-    # time.
-    ksql.streams.producer.delivery.timeout.ms=2147483647
+```
+# Set the batch expiry to Integer.MAX_VALUE to ensure that queries will not
+# terminate if the underlying Kafka cluster is unavailable for a period of
+# time.
+ksql.streams.producer.delivery.timeout.ms=2147483647
 
-    # Set the maximum allowable time for the producer to block to
-    # Long.MAX_VALUE. This allows KSQL to pause processing if the underlying
-    # Kafka cluster is unavailable.
-    ksql.streams.producer.max.block.ms=9223372036854775807
+# Set the maximum allowable time for the producer to block to
+# Long.MAX_VALUE. This allows KSQL to pause processing if the underlying
+# Kafka cluster is unavailable.
+ksql.streams.producer.max.block.ms=9223372036854775807
 
-    # For better fault tolerance and durability, set the replication factor for the KSQL
-    # Server's internal topics. Note: the value 3 requires at least 3 brokers in your Kafka cluster.
-    ksql.internal.topic.replicas=3
+# For better fault tolerance and durability, set the replication factor for the KSQL
+# Server's internal topics. Note: the value 3 requires at least 3 brokers in your Kafka cluster.
+ksql.internal.topic.replicas=3
 
-    # For better fault tolerance and durability, set the replication factor for
-    # the internal topics that Kafka Streams creates for some queries.
-    # Note: the value 3 requires at least 3 brokers in your Kafka cluster.
-    ksql.streams.replication.factor=3
+# For better fault tolerance and durability, set the replication factor for
+# the internal topics that Kafka Streams creates for some queries.
+# Note: the value 3 requires at least 3 brokers in your Kafka cluster.
+ksql.streams.replication.factor=3
 
-    # Set the storage directory for stateful operations like aggregations and
-    # joins to be at a durable location. By default, they are stored in /tmp.
-    ksql.streams.state.dir=/some/non-temporary-storage-path/
+# Set the storage directory for stateful operations like aggregations and
+# joins to be at a durable location. By default, they are stored in /tmp.
+ksql.streams.state.dir=/some/non-temporary-storage-path/
 
-    # Bump the number of replicas for state storage for stateful operations
-    # like aggregations and joins. By having two replicas (one main and one
-    # standby) recovery from node failures is quicker since the state doesn't
-    # have to be rebuilt from scratch.
-    ksql.streams.num.standby.replicas=1
+# Bump the number of replicas for state storage for stateful operations
+# like aggregations and joins. By having two replicas (one main and one
+# standby) recovery from node failures is quicker since the state doesn't
+# have to be rebuilt from scratch.
+ksql.streams.num.standby.replicas=1
+```
