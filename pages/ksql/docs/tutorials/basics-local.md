@@ -127,7 +127,7 @@ KSQL enables inspecting Kafka topics and messages in real time.
 
 In the KSQL CLI, run the following statement:
 
-``` {.sourceCode .sql}
+```sql
 SHOW TOPICS;
 ```
 
@@ -152,12 +152,12 @@ PRINT 'users';
 Your output should resemble:
 
 ```json
-    Format:JSON
-    {"ROWTIME":1540254230041,"ROWKEY":"User_1","registertime":1516754966866,"userid":"User_1","regionid":"Region_9","gender":"MALE"}
-    {"ROWTIME":1540254230081,"ROWKEY":"User_3","registertime":1491558386780,"userid":"User_3","regionid":"Region_2","gender":"MALE"}
-    {"ROWTIME":1540254230091,"ROWKEY":"User_7","registertime":1514374073235,"userid":"User_7","regionid":"Region_2","gender":"OTHER"}
-    ^C{"ROWTIME":1540254232442,"ROWKEY":"User_4","registertime":1510034151376,"userid":"User_4","regionid":"Region_8","gender":"FEMALE"}
-    Topic printing ceased
+Format:JSON
+{"ROWTIME":1540254230041,"ROWKEY":"User_1","registertime":1516754966866,"userid":"User_1","regionid":"Region_9","gender":"MALE"}
+{"ROWTIME":1540254230081,"ROWKEY":"User_3","registertime":1491558386780,"userid":"User_3","regionid":"Region_2","gender":"MALE"}
+{"ROWTIME":1540254230091,"ROWKEY":"User_7","registertime":1514374073235,"userid":"User_7","regionid":"Region_2","gender":"OTHER"}
+^C{"ROWTIME":1540254232442,"ROWKEY":"User_4","registertime":1510034151376,"userid":"User_4","regionid":"Region_8","gender":"FEMALE"}
+Topic printing ceased
 ```
 
 Press Ctrl+C to stop printing messages.
@@ -171,13 +171,13 @@ PRINT 'pageviews';
 Your output should resemble:
 
 ```
-    Format:STRING
-    10/23/18 12:24:03 AM UTC , 9461 , 1540254243183,User_9,Page_20
-    10/23/18 12:24:03 AM UTC , 9471 , 1540254243617,User_7,Page_47
-    10/23/18 12:24:03 AM UTC , 9481 , 1540254243888,User_4,Page_27
-    ^C10/23/18 12:24:05 AM UTC , 9521 , 1540254245161,User_9,Page_62
-    Topic printing ceased
-    ksql>
+Format:STRING
+10/23/18 12:24:03 AM UTC , 9461 , 1540254243183,User_9,Page_20
+10/23/18 12:24:03 AM UTC , 9471 , 1540254243617,User_7,Page_47
+10/23/18 12:24:03 AM UTC , 9481 , 1540254243888,User_4,Page_27
+^C10/23/18 12:24:05 AM UTC , 9521 , 1540254245161,User_9,Page_62
+Topic printing ceased
+ksql>
 ```
 
 Press Ctrl+C to stop printing messages.
@@ -203,9 +203,9 @@ These examples query messages from Kafka topics called `pageviews` and
     Your output should resemble:
 
     ```
-    Message
+     Message
     ---------------
-    Stream created
+     Stream created
     ---------------
     ```
 
@@ -398,7 +398,7 @@ the latest offset.
     {{ site.sr }} when it writes the first message to the
     `PAGEVIEWS_REGIONS` topic.
 
-    ```sql {.sourceCode .sql}
+    ```sql
     CREATE TABLE pageviews_regions
       WITH (VALUE_FORMAT='avro') AS
     SELECT gender, regionid , COUNT(*) AS numusers
@@ -736,10 +736,10 @@ In a separate console window, populate the two topics by using the
 Your output should resemble:
 
 ```json
-    1:{"warehouse_id":1,"city":"Leeds","country":"UK"}
-    2:{"warehouse_id":2,"city":"Sheffield","country":"UK"}
-    3:{"warehouse_id":3,"city":"Berlin","country":"Germany"}
-    EOF
+1:{"warehouse_id":1,"city":"Leeds","country":"UK"}
+2:{"warehouse_id":2,"city":"Sheffield","country":"UK"}
+3:{"warehouse_id":3,"city":"Berlin","country":"Germany"}
+EOF
 ```
 
 ```bash
@@ -753,10 +753,10 @@ Your output should resemble:
 Your output should resemble:
 
 ```json
-    1:{"warehouse_id":1,"square_footage":16000}
-    2:{"warehouse_id":2,"square_footage":42000}
-    3:{"warehouse_id":3,"square_footage":94000}
-    EOF
+1:{"warehouse_id":1,"square_footage":16000}
+2:{"warehouse_id":2,"square_footage":42000}
+3:{"warehouse_id":3,"square_footage":94000}
+EOF
 ```
 
 In the KSQL CLI, register both topics as KSQL tables:
