@@ -1,26 +1,32 @@
 ---
+layout: page
+title: Install KSQL
+tagline: Install KSQL on-premises
+description: Learn how to install KSQL on-premises
+keywords: ksql, install
 ---
-Installing KSQL[]{#ksql_supported_versions} {#install_overview}
-===========================================
+
+Installing KSQL {#install_overview}
+===============
 
 KSQL is a component of {{ site.cp }} and the KSQL binaries are located
-at
-[<https://www.confluent.io/download/>](https://www.confluent.io/download/)
+at [Confluent Downloads](https://www.confluent.io/download/)
 as a part of the {{ site.cp }} bundle.
 
 KSQL must have access to a running {{ site.ak-tm }} cluster, which can
 be in your data center, in a public cloud, {{ site.ccloud }}, etc.
 
 Docker support
+--------------
 
-:   You can deploy KSQL by using
-    [Docker containers \<install-ksql-with-docker\>]{role="ref"}.
-    Starting with {{ site.cp }} 4.1.2, Confluent maintains images at
-    [Docker Hub](https://hub.docker.com/r/confluentinc/cp-ksql-server/).
-    To start KSQL containers in configurations like \"KSQL Headless
-    Server\" and \"Interactive Server with Interceptors\", see [Docker
-    Configuration
-    Parameters](https://docs.confluent.io/current/installation/docker/config-reference.html).
+You can deploy KSQL by using
+[Docker containers](#install-ksql-with-docker){role="ref"}.
+Starting with {{ site.cp }} 4.1.2, Confluent maintains images at
+[Docker Hub](https://hub.docker.com/r/confluentinc/cp-ksql-server/).
+To start KSQL containers in configurations like "KSQL Headless
+Server" and "Interactive Server with Interceptors", see [Docker
+Configuration
+Parameters](https://docs.confluent.io/current/installation/docker/config-reference.html).
 
 Watch the [screencast of Installing and Running
 KSQL](https://www.youtube.com/embed/icwHpPm-TCA) on YouTube.
@@ -31,13 +37,10 @@ Supported Versions and Interoperability
 You can use KSQL with compatible {{ site.cp }} and {{ site.ak-tm }}
 versions.
 
-+-----------------------+--------------------+
 | KSQL version          | {{ site.version }} |
-+=======================+====================+
+|------------------------|-------------------|
 | Apache Kafka version  | 0.11.0 and later   |
-+-----------------------+--------------------+
 | {{ site.cp }} version | > 3.3.0 and later  |
-+-----------------------+--------------------+
 
 Installation Instructions {#install_ksql-server}
 -------------------------
@@ -58,24 +61,24 @@ adding more servers (horizontally). Also, you can scale KSQL clusters
 during live operations without loss of data. For more information, see
 [ksql-capacity-planning-scaling]{role="ref"}.
 
-Starting the KSQL Server {#start_ksql-server}
-------------------------
+Start the KSQL Server {#start_ksql-server}
+---------------------
 
 The KSQL servers are run separately from the KSQL CLI client and Kafka
-brokers. You can deploy servers on remote machines, VMs, or containers
-and then the CLI connects to these remote servers.
+brokers. You can deploy servers on remote machines, VMs, or containers,
+and the CLI connects to these remote servers.
 
 You can add or remove servers from the same resource pool during live
-operations, to elastically scale query processing. You can use different
-resource pools to support workload isolation. For example, you could
-deploy separate pools for production and for testing.
+operations, to scale query processing. You can use different resource pools
+to support workload isolation. For example, you could deploy separate pools
+for production and for testing.
 
 You can only connect to one KSQL server at a time. The KSQL CLI does not
 support automatic failover to another KSQL server.
 
 ![image](../img/client-server.png){.align-center}
 
-Follow these instructions to start KSQL server using the
+Follow these instructions to start KSQL Server using the
 `ksql-server-start` script.
 
 ::: {.tip}
@@ -83,85 +86,89 @@ Follow these instructions to start KSQL server using the
 Tip
 :::
 
-These instructions assume you are installing {{ site.cp }} by using ZIP
+>These instructions assume you are installing {{ site.cp }} by using ZIP
 or TAR archives. For more information, see [On-Premises
 Deployments](https://docs.confluent.io/current/installation/installing_cp/index.html).
 :::
 
-1.  Specify your KSQL server configuration parameters. You can also set
-    any property for the Kafka Streams API, the Kafka producer, or the
-    Kafka consumer. The required parameters are `bootstrap.servers` and
-    `listeners`. You can specify the parameters in the KSQL properties
-    file or the `KSQL_OPTS` environment variable. Properties set with
-    `KSQL_OPTS` take precedence over those specified in the properties
-    file.
+### Specify your KSQL server configuration parameters
 
-    A recommended approach is to configure a common set of properties
-    using the KSQL configuration file and override specific properties
-    as needed, using the `KSQL_OPTS` environment variable.
+Specify the configuration parameters for your KSQL server. You can also set
+any property for the Kafka Streams API, the Kafka producer, or the Kafka
+consumer. The required parameters are `bootstrap.servers` and `listeners`.
+You can specify the parameters in the KSQL properties file or the `KSQL_OPTS`
+environment variable. Properties set with `KSQL_OPTS` take precedence over
+those specified in the properties file.
 
-    Here are the default settings:
+A recommended approach is to configure a common set of properties
+using the KSQL configuration file and override specific properties
+as needed, using the `KSQL_OPTS` environment variable.
 
-        bootstrap.servers=localhost:9092
-        listeners=http://0.0.0.0:8088
+Here are the default settings:
 
-    For more information, see [ksql-server-config]{role="ref"}.
+```
+    bootstrap.servers=localhost:9092
+    listeners=http://0.0.0.0:8088
+```
 
-2.  Start a server node with this command:
+For more information, see [ksql-server-config]{role="ref"}.
 
-    ``` {.sourceCode .bash}
-    $ <path-to-confluent>/bin/ksql-server-start <path-to-confluent>/etc/ksql/ksql-server.properties
-    ```
+### Start a KSQL server node
 
-    ::: {.tip}
-    ::: {.admonition-title}
-    Tip
-    :::
+Start a server node by using the following command:
 
-    You can view the KSQL server help text by running
-    `<path-to-confluent>/bin/ksql-server-start --help`.
+```bash
+<path-to-confluent>/bin/ksql-server-start <path-to-confluent>/etc/ksql/ksql-server.properties
+```
 
-        NAME
-                server - KSQL Cluster
+::: {.tip}
+::: {.admonition-title}
+Tip
+:::
 
-        SYNOPSIS
-                server [ {-h | --help} ] [ --queries-file <queriesFile> ] [--]
-                        <config-file>
+>You can view the KSQL server help text by running
+`<path-to-confluent>/bin/ksql-server-start --help`.
 
-        OPTIONS
-                -h, --help
-                    Display help information
+    NAME
+            server - KSQL Cluster
 
-                --queries-file <queriesFile>
-                    Path to the query file on the local machine.
+    SYNOPSIS
+            server [ {-h | --help} ] [ --queries-file <queriesFile> ] [--]
+                    <config-file>
 
-                --
-                    This option can be used to separate command-line options from the
-                    list of arguments (useful when arguments might be mistaken for
-                    command-line options)
+    OPTIONS
+            -h, --help
+                Display help information
 
-                <config-file>
-                    A file specifying configs for the KSQL Server, KSQL, and its
-                    underlying Kafka Streams instance(s). Refer to KSQL documentation
-                    for a list of available configs.
+            --queries-file <queriesFile>
+                Path to the query file on the local machine.
 
-                    This option may occur a maximum of 1 times
-    :::
+            --
+                This option can be used to separate command-line options from the
+                list of arguments (useful when arguments might be mistaken for
+                command-line options)
 
-3.  Have a look at [this page \<restrict-ksql-interactive\>]{role="ref"}
-    for instructions on running KSQL in non-interactive (aka headless)
-    mode.
+            <config-file>
+                A file specifying configs for the KSQL Server, KSQL, and its
+                underlying Kafka Streams instance(s). Refer to KSQL documentation
+                for a list of available configs.
 
-Starting the KSQL CLI {#install_ksql-cli}
----------------------
+                This option may occur a maximum of 1 times
+
+Have a look at [this page](restrict-ksql-interactive){role="ref"}
+for instructions on running KSQL in non-interactive (aka headless)
+mode.
+
+Start the KSQL CLI {#install_ksql-cli}
+------------------
 
 The KSQL CLI is a client that connects to the KSQL servers.
 
 You can start the KSQL CLI by providing the connection information to
 the KSQL server.
 
-``` {.sourceCode .bash}
-$ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql http://localhost:8088
+```bash
+LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql http://localhost:8088
 ```
 
 ::: {.important}
@@ -169,7 +176,7 @@ $ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql http://localhost:8088
 Important
 :::
 
-By default KSQL attempts to store its logs in a directory called `logs`
+>By default KSQL attempts to store its logs in a directory called `logs`
 that is relative to the location of the `ksql` executable. For example,
 if `ksql` is installed at `/usr/local/bin/ksql`, then it would attempt
 to store its logs in `/usr/local/logs`. If you are running `ksql` from
@@ -179,7 +186,7 @@ override this default behavior by using the `LOG_DIR` variable.
 
 After KSQL is started, your terminal should resemble this.
 
-``` {.sourceCode .text}
+```
 ===========================================
 =        _  __ _____  ____  _             =
 =       | |/ // ____|/ __ \| |            =
@@ -190,26 +197,27 @@ After KSQL is started, your terminal should resemble this.
 =                                         =
 =  Streaming SQL Engine for Apache Kafka® =
 ===========================================
-```
 
-> Copyright 2018 Confluent Inc.
+> Copyright 2019 Confluent Inc.
 >
 > CLI v{{ site.release }}, Server v{{ site.release }} located at
 > <http://localhost:8088>
 >
-> Having trouble? Type \'help\' (case-insensitive) for a rundown of how
+> Having trouble? Type 'help' (case-insensitive) for a rundown of how
 > things work!
 >
-> ksql\>
+> ksql>
+```
 
 ::: {.tip}
 ::: {.admonition-title}
 Tip
 :::
 
-You can view the KSQL CLI help text by running
+>You can view the KSQL CLI help text by running
 `<path-to-confluent>/bin/ksql --help`.
 
+```
     NAME
             ksql - KSQL CLI
 
@@ -254,12 +262,11 @@ You can view the KSQL CLI help text by running
                 http://confluent.io:9098)
 
                 This option may occur a maximum of 1 times
-:::
+```
 
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--Configuring
-KSQL for {{ site.ccloud }}
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+Configure KSQL for {{ site.ccloud }}
+------------------------------------
 
 You can use KSQL with a Kafka cluster in {{ site.ccloud }}. For more
-information, see [Connecting KSQL to Confluent
+information, see [Connect KSQL to Confluent
 Cloud](https://docs.confluent.io/current/cloud/connect/ksql-cloud-config.html).

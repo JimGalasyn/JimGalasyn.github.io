@@ -3,10 +3,10 @@ layout: page
 title: Install KSQL with Docker
 tagline: Run KSQL by using Docker containers
 description: Learn how to install KSQL in various configurations by using Docker containers
-keywords: ksql, docker
+keywords: ksql, docker, install
 ---
 
-Install KSQL with Docker
+Install KSQL with Docker {#install-ksql-with-docker}
 ========================
 
 You can deploy KSQL by using Docker containers. Starting with {{ site.cp }}
