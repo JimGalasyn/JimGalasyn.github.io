@@ -35,17 +35,19 @@ nav:
         - KSQL Syntax Reference: developer-guide/syntax-reference.md
         - Transform a Stream With KSQL: developer-guide/transform-a-stream-with-ksql.md
         - KSQL Custom Function Reference (UDF and UDAF): developer-guide/udf.md
-      - Install and Upgrade:
+    - Install and Upgrade:
         - Check the Health of a KSQL Server: installation/check-ksql-server-health.md
         - Configure KSQL CLI: installation/cli-config.md
         - Install KSQL with Docker: installation/install-ksql-with-docker.md
         - Install KSQL: installation/installing.md
         - Upgrade KSQL: installation/upgrading.md
         - Server Configuration:
-          - Configure Avro and Confluent Schema Registry for KSQL: installation/server-config/avro-schema.md
-          - KSQL Configuration Parameter Reference: installation/server-config/config-reference.md
-          - Integrate KSQL with confluent Control Center: installation/server-config/integrate-ksql-with-confluent-control-center.md
-          - Configure Security for KSQL: installation/server-config/security.md
+            - Configure Avro and Confluent Schema Registry for KSQL: installation/server-config/avro-schema.md
+            - KSQL Configuration Parameter Reference: installation/server-config/config-reference.md
+            - Integrate KSQL with Confluent Control Center: installation/server-config/integrate-ksql-with-confluent-control-center.md
+            - Configure Security for KSQL: installation/server-config/security.md
+    - Tutorials:
+        - Write Streaming Queries Against Apache Kafka® Using KSQL and Confluent Control Center: tutorials/basics-control-center.md 
     - KSQL Capacity Planning: capacity-planning.md
     - KSQL Changelog: changelog.md
     - Frequently Asked Questions: faq.md
