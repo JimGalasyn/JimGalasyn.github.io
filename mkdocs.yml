@@ -17,6 +17,8 @@ nav:
     - Home: index.md
     - Concepts:
         - KSQL Architecture: concepts/ksql-architecture.md
+        - KSQL and Kafka Streams: ksql-and-kafka-streams.md
+        - Time and Windows in KSQL: time-and-windows-in-ksql-queries.md
 #        - Styling Your Docs: user-guide/styling-your-docs.md
 #        - Configuration: user-guide/configuration.md
 #        - Deploying Your Docs: user-guide/deploying-your-docs.md
