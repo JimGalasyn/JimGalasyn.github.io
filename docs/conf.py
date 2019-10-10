@@ -25,16 +25,16 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.ifconfig', 'sphinxcontrib.httpdomain']
+# extensions = ['sphinx.ext.ifconfig', 'sphinxcontrib.httpdomain']
 
-def setup(app):
-    app.add_config_value('platform_docs', True, 'env')
+# def setup(app):
+#    app.add_config_value('platform_docs', True, 'env')
 
 # Even if it has a default, these options need to be specified
-platform_docs = False
+#platform_docs = False
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+#templates_path = ['_templates']
 
 # The suffix of source filenames.
 source_suffix = '.md'
