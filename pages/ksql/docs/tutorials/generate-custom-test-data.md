@@ -1,6 +1,12 @@
 ---
+layout: page
+title: Generate Custom Test Data by Using the ksql-datagen Tool
+tagline: Configure ksql-datagen with a custom schema
+description: Learn how to produce data according to a schema that you define
+keywords: ksql, confluent control center
 ---
-Generate Custom Test Data by Using the ksql-datagen tool {#ksql_generate-custom-test-data}
+
+Generate Custom Test Data by Using the ksql-datagen Tool {#ksql_generate-custom-test-data}
 ========================================================
 
 You can use the `ksql-datagen` command-line tool to generate test data
@@ -12,7 +18,7 @@ provide.
 
 Also, you can generate data from a few simple, predefined schemas.
 
-**Prerequisites:**
+Prerequisites:
 
 -   [Confluent
     Platform](https://docs.confluent.io/current/installation/installing_cp/index.html)
@@ -32,8 +38,8 @@ The `ksql-datagen` tool is installed with {{ site.cp }} by default.
 Note
 :::
 
-KSQL Server doesn\'t need to be running for `ksql-datagen` to generate
-records to a topic. The `ksql-datagen` tool isn\'t just for KSQL. You
+>KSQL Server doesn't need to be running for `ksql-datagen` to generate
+records to a topic. The `ksql-datagen` tool isn't just for KSQL. You
 can use it to produce data to any Kafka topic that you have write access
 to.
 :::
@@ -43,56 +49,53 @@ Usage
 
 Use the following command to generate records from an Avro schema:
 
-::: {.sourcecode}
-bash
-
-\<path-to-confluent\>/bin/ksql-datagen schema=\<path-to-avro-file\>
-format=\<record format\> topic=\<kafka topic name\> key=\<name of key
-column\> \[options \...\]
-:::
+```bash
+<path-to-confluent>/bin/ksql-datagen schema=<path-to-avro-file> format=<record format> topic=<kafka topic name> key=<name of key column> [options ...]
+```
 
 ### Required Arguments
 
-  Name                                                                                                                   Default   Description
-  ---------------------------------------------------------------------------------------------------------------------- --------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  `schema=<avro schema file>`                                                                                                      Path to an Avro schema file. Requires the `format`, `topic`, and `key` options.
-  `key-format=<key format>`                                                                                              Kafka     format of generated record keys: one of `avro`, `json`, `delimited`, `kafka`. Case-insensitive.
-  `value-format=<value format>` `topic=<kafka topic name>` `key=<name of key column>` `quickstart=<quickstart preset>`   JSON      format of generated record values: one of `avro`, `json`, `delimited`. Case-insensitive. Name of the topic that receives generated records. Field to use as the key for generated records. Generate records from a preset schema: `orders`, `users`, or `pageviews`. Case-insensitive. If `topic` isn\'t specified, creates a topic named `<preset>_kafka_topic_json`, for example, `users_kafka_topic_json`.
+|                Name                | Default |                                                         Description                                                         
+| ---------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- 
+| ``schema=<avro schema file>``      |         | Path to an Avro schema file. Requires the ``format``, ``topic``, and ``key`` options.                                       
+| ``key-format=<key format>``        | Kafka   | Format of generated record keys: one of ``avro``, ``json``, ``delimited``, ``kafka``. Case-insensitive.                     
+| ``value-format=<value format>``    | JSON    | Format of generated record values: one of ``avro``, ``json``, ``delimited``. Case-insensitive.                              
+| ``topic=<kafka topic name>``       |         | Name of the topic that receives generated records                                                                           
+| ``key=<name of key column>``       |         | Field to use as the key for generated records.                                                                              
+| ``quickstart=<quickstart preset>`` |         | Generate records from a preset schema: ``orders``, ``users``, or ``pageviews``. Case-insensitive.                           
+|                                    |         | If ``topic`` isn't specified, creates a topic named ``<preset>_kafka_topic_json``, for example, ``users_kafka_topic_json``. 
 
-Use the following command to generate records from one of the predefined
-schemas:
+Use the following command to generate records from one of the predefined schemas:
 
-::: {.sourcecode}
-bash
-
-\<path-to-confluent\>/bin/ksql-datagen quickstart=\<quickstart preset\>
-\[options \...\]
-:::
+```bash
+<path-to-confluent>/bin/ksql-datagen quickstart=<quickstart preset> [options ...]
+```
 
 ### Optional Arguments
 
-The following options apply to both the `schema` and `quickstart`
-options.
+The following options apply to both the `schema` and `quickstart` options.
 
-  Name                                                                                  Default                                             Description
-  ------------------------------------------------------------------------------------- --------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  `bootstrap-server=<kafka-server>:<port>`                                              localhost:9092                                      IP address and port for the Kafka server to connect to.
-  `key-format=<key format>`                                                             Kafka                                               format of generated record keys: `avro`, `json`, `delimited` or `kafka`. Case-insensitive. Required by the `schema` option.
-  `value-format=<value format>` `topic=<kafka topic name>` `key=<name of key column>`   JSON                                                format of generated record values: `avro`, `json`, or `delimited`. Case-insensitive. Required by the `schema` option. Name of the topic that receives generated records. Required by the `schema` option. Field to use as the key for generated records. Required by the `schema` option.
-  `iterations=<number of records>`                                                      1,000,000                                           The maximum number of records to generate.
-  `maxInterval=<max time between records>`                                              500                                                 Longest time to wait before generating a new record, in milliseconds.
-  `propertiesFile=<path-to-properties-file>`                                            `<path-to-confluent>/etc/ksql/datagen.properties`   Path to the `ksql-datagen` properties file.
-  `schemaRegistryUrl`                                                                   <http://localhost:8081>                             URL of {{ site.sr }} when `format` is `avro`.
+|                     Name                     |                       Default                       |                                                              Description                                                              |                                                      |                              |
+| -------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------- |
+| ``bootstrap-server=<kafka-server>:<port>``   | localhost:9092                                      | IP address and port for the Kafka server to connect to.                                                                               |                                                      |                              |
+| ``key-format=<key format>``                  | Kafka                                               | Format of generated record keys: ``avro``, ``json``, ``delimited`` or ``kafka``. Case-insensitive. Required by the ``schema`` option. |                                                      |                              |
+| ``value-format=<value format>``              | JSON                                                | Format of generated record values: ``avro``, ``json``, or ``delimited``.                                                              | Case-insensitive. Required by the ``schema`` option. |                              |
+| ``topic=<kafka topic name>``                 |                                                     | Name of the topic that receives generated records. Required by the ``schema`` option.                                                 |                                                      |                              |
+| ``key=<name of key column>``                 |                                                     | Field to use as the key for generated records. Required by the ``schema`` option.                                                     |                                                      |                              |
+| ``iterations=<number of records>``           | 1,000,000                                           | The maximum number of records to generate.                                                                                            |                                                      |                              |
+| ``maxInterval=<max time between records>``   | 500                                                 | Longest time to wait before generating a new record, in milliseconds.                                                                 |                                                      |                              |
+| ``propertiesFile=<path-to-properties-file>`` | ``<path-to-confluent>/etc/ksql/datagen.properties`` | Path to the ``ksql-datagen`` properties file.                                                                                         |                                                      |                              |
+| ``schemaRegistryUrl``                        | http://localhost:8081                               | URL of                                                                                                                                | sr                                                   | when ``format`` is ``avro``. |
 
-Records are generated at random intervals, with the longest interval
-specified by the `maxInterval` option.
+Records are generated at random intervals, with the longest interval specified
+by the `maxInterval` option.
 
 ::: {.tip}
 ::: {.admonition-title}
 Tip
 :::
 
-For usage information, enter `ksql-datagen help`.
+>For usage information, enter `ksql-datagen help`.
 :::
 
 Generate Records From a Predefined Schema
@@ -110,14 +113,13 @@ a STRUCT with `city`, `state`, and `zipcode` fields.
 The following command generates example order records to a Kafka topic
 named `orders_topic`:
 
-``` {.sourceCode .bash}
+```bash
 <path-to-confluent>/ksql-datagen quickstart=orders topic=orders_topic
 ```
 
-In the KSQL CLI or in {{ site.c3-short }}, register a stream on
-`orders_topic`:
+In the KSQL CLI or in {{ site.c3-short }}, register a stream on `orders_topic`:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM orders_raw (
     itemid VARCHAR,
     price DOUBLE,
@@ -134,22 +136,24 @@ CREATE STREAM orders_raw (
 Inspect the schema of the `orders_raw` stream by using the DESCRIBE
 statement:
 
-``` {.sourceCode .sql}
+```sql
 DESCRIBE orders_raw;
 ```
 
 Your output should resemble:
 
-    Name                 : ORDERS_RAW
-     Field     | Type                                                                 
-    ----------------------------------------------------------------------------------
-     ROWTIME   | BIGINT           (system)                                            
-     ROWKEY    | VARCHAR(STRING)  (system)                                            
-     ITEMID    | VARCHAR(STRING)                                                      
-     PRICE     | DOUBLE                                                               
-     LOCATION  | STRUCT<CITY VARCHAR(STRING), STATE VARCHAR(STRING), ZIPCODE INTEGER> 
-     TIMESTAMP | VARCHAR(STRING)                                                      
-    ----------------------------------------------------------------------------------
+```
+Name                 : ORDERS_RAW
+ Field     | Type                                                                 
+----------------------------------------------------------------------------------
+ ROWTIME   | BIGINT           (system)                                            
+ ROWKEY    | VARCHAR(STRING)  (system)                                            
+ ITEMID    | VARCHAR(STRING)                                                      
+ PRICE     | DOUBLE                                                               
+ LOCATION  | STRUCT<CITY VARCHAR(STRING), STATE VARCHAR(STRING), ZIPCODE INTEGER> 
+ TIMESTAMP | VARCHAR(STRING)                                                      
+----------------------------------------------------------------------------------
+```
 
 For more information, see [query-with-structured-data]{role="ref"}.
 
@@ -162,7 +166,7 @@ join `userid` values with the page view records generated by the
 
 The following command generates example user records:
 
-``` {.sourceCode .bash}
+```bash
 <path-to-confluent>/bin/ksql-datagen quickstart=users
 ```
 
@@ -172,7 +176,7 @@ topic named `users_kafka_topic_json`.
 In the KSQL CLI or in {{ site.c3-short }}, register a table on
 `users_kafka_topic_json`:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE users_original (
     registertime BIGINT,
     gender VARCHAR,
@@ -187,22 +191,24 @@ WITH (
 Inspect the schema of the `users_original` table by using the DESCRIBE
 statement:
 
-``` {.sourceCode .sql}
+```sql
 DESCRIBE users_original;
 ```
 
 Your output should resemble:
 
-    Name                 : USERS_ORIGINAL
-     Field        | Type                      
-    ------------------------------------------
-     ROWTIME      | BIGINT           (system) 
-     ROWKEY       | VARCHAR(STRING)  (system) 
-     REGISTERTIME | BIGINT                    
-     GENDER       | VARCHAR(STRING)           
-     REGIONID     | VARCHAR(STRING)           
-     USERID       | VARCHAR(STRING)           
-    ------------------------------------------
+```
+Name                 : USERS_ORIGINAL
+ Field        | Type                      
+------------------------------------------
+ ROWTIME      | BIGINT           (system) 
+ ROWKEY       | VARCHAR(STRING)  (system) 
+ REGISTERTIME | BIGINT                    
+ GENDER       | VARCHAR(STRING)           
+ REGIONID     | VARCHAR(STRING)           
+ USERID       | VARCHAR(STRING)           
+------------------------------------------
+```
 
 ### Generate Example User Records With Complex Data
 
@@ -217,14 +223,14 @@ You can join `userid` values with the page view records generated by the
 The following command generates example user records that have complex
 data:
 
-``` {.sourceCode .bash}
+```bash
 <path-to-confluent>/bin/ksql-datagen quickstart=users_ topic=users_extended
 ```
 
 In the KSQL CLI or in {{ site.c3-short }}, register a table on
 `users_extended`:
 
-``` {.sourceCode .sql}
+```sql
 CREATE TABLE users_extended (
     registertime BIGINT,
     gender VARCHAR,
@@ -241,24 +247,26 @@ WITH (
 Inspect the schema of the `users_extended` table by using the DESCRIBE
 statement:
 
-``` {.sourceCode .sql}
+```sql
 DESCRIBE users_extended;
 ```
 
 Your output should resemble:
 
-    Name                 : USERS_EXTENDED
-     Field        | Type                         
-    ---------------------------------------------
-     ROWTIME      | BIGINT           (system)    
-     ROWKEY       | VARCHAR(STRING)  (system)    
-     REGISTERTIME | BIGINT                       
-     GENDER       | VARCHAR(STRING)              
-     REGIONID     | VARCHAR(STRING)              
-     USERID       | VARCHAR(STRING)              
-     INTERESTS    | ARRAY<VARCHAR(STRING)>       
-     CONTACTINFO  | MAP<STRING, VARCHAR(STRING)> 
-    ---------------------------------------------
+```
+Name                 : USERS_EXTENDED
+ Field        | Type                         
+---------------------------------------------
+ ROWTIME      | BIGINT           (system)    
+ ROWKEY       | VARCHAR(STRING)  (system)    
+ REGISTERTIME | BIGINT                       
+ GENDER       | VARCHAR(STRING)              
+ REGIONID     | VARCHAR(STRING)              
+ USERID       | VARCHAR(STRING)              
+ INTERESTS    | ARRAY<VARCHAR(STRING)>       
+ CONTACTINFO  | MAP<STRING, VARCHAR(STRING)> 
+---------------------------------------------
+```
 
 For more information, see [query-with-arrays-and-maps]{role="ref"}.
 
@@ -272,14 +280,14 @@ quickstart option.
 The following command generates example pageview records to a Kafka
 topic named `pageviews`:
 
-``` {.sourceCode .bash}
+```bash
 <path-to-confluent>/bin/ksql-datagen quickstart=pageviews topic=pageviews
 ```
 
 In the KSQL CLI or in {{ site.c3-short }}, register a stream on
 `pageviews`:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM pageviews_original (
     viewtime bigint,
     userid varchar,
@@ -292,21 +300,23 @@ WITH (
 Inspect the schema of the `pageviews_original` stream by using the
 DESCRIBE statement:
 
-``` {.sourceCode .sql}
+```sql
 DESCRIBE pageviews_original;
 ```
 
 Your output should resemble:
 
-    Name                 : PAGEVIEWS_ORIGINAL
-     Field    | Type                      
-    --------------------------------------
-     ROWTIME  | BIGINT           (system) 
-     ROWKEY   | VARCHAR(STRING)  (system) 
-     VIEWTIME | BIGINT                    
-     USERID   | VARCHAR(STRING)           
-     PAGEID   | VARCHAR(STRING)           
-    --------------------------------------
+```
+Name                 : PAGEVIEWS_ORIGINAL
+ Field    | Type                      
+--------------------------------------
+ ROWTIME  | BIGINT           (system) 
+ ROWKEY   | VARCHAR(STRING)  (system) 
+ VIEWTIME | BIGINT                    
+ USERID   | VARCHAR(STRING)           
+ PAGEID   | VARCHAR(STRING)           
+--------------------------------------
+```
 
 Generate Records From an Avro Schema
 ------------------------------------
@@ -318,17 +328,17 @@ test data. The schema is named
 [impressions.avro](https://github.com/apurvam/streams-prototyping/blob/master/src/main/resources/impressions.avro),
 and it represents advertisements delivered to users.
 
-Download `impressions.avro` and copy it to your home directory. It\'s
+Download `impressions.avro` and copy it to your home directory. It's
 used by `ksql-datagen` when you start generating test data.
 
-``` {.sourceCode .bash}
+```bash
 curl https://raw.githubusercontent.com/apurvam/streams-prototyping/master/src/main/resources/impressions.avro > impressions.avro
 ```
 
 ### Generate Test Data
 
 When you have a custom schema registered, you can generate test data
-that\'s made up of random values that satisfy the schema requirements.
+that's made up of random values that satisfy the schema requirements.
 In the `impressions` schema, advertisement identifiers are two-digit
 random numbers between 10 and 99, as specified by the regular expression
 `ad_[1-9][0-9]`.
@@ -338,13 +348,13 @@ directory, start generating test values by using the `ksql-datagen`
 command. In this example, the schema file, `impressions.avro`, is in the
 root directory.
 
-``` {.sourceCode .bash}
+```bash
 <path-to-confluent>/bin/ksql-datagen schema=~/impressions.avro format=delimited topic=impressions key=impressionid
 ```
 
 After a few startup messages, your output should resemble:
 
-``` {.sourceCode .bash}
+```
 impression_796 --> ([ 1528756317023 | 'impression_796' | 'user_41' | 'ad_29' ])
 impression_341 --> ([ 1528756317446 | 'impression_341' | 'user_34' | 'ad_32' ])
 impression_419 --> ([ 1528756317869 | 'impression_419' | 'user_58' | 'ad_74' ])
@@ -356,12 +366,12 @@ impression_399 --> ([ 1528756318146 | 'impression_399' | 'user_32' | 'ad_78' ])
 In the KSQL CLI or in {{ site.c3-short }}, register the `impressions`
 stream:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM impressions (viewtime BIGINT, key VARCHAR, userid VARCHAR, adid VARCHAR) WITH (KAFKA_TOPIC='impressions', VALUE_FORMAT='DELIMITED');
 ```
 
 Create the `impressions2` persistent streaming query:
 
-``` {.sourceCode .sql}
+```sql
 CREATE STREAM impressions2 as select * from impressions;
 ```
