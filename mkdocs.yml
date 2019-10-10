@@ -15,8 +15,8 @@ theme:
 
 nav:
     - Home: index.md
-#    - User Guide:
-#        - Writing Your Docs: user-guide/writing-your-docs.md
+    - User Guide:
+        - KSQL Architecture: docs/concepts/ksql-architecture.md
 #        - Styling Your Docs: user-guide/styling-your-docs.md
 #        - Configuration: user-guide/configuration.md
 #        - Deploying Your Docs: user-guide/deploying-your-docs.md
