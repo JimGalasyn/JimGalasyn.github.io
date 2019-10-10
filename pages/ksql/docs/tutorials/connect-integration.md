@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Integrate With A PostgresDB
+title: Integrate with PostgresDB
 tagline: Integrate KSQL with Kafka Connect
 description: Learn how to use KSQL and Kafka Connect to integrate with PostgresDB
 keywords: ksql
