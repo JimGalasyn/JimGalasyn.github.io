@@ -19,15 +19,23 @@ nav:
         - KSQL Architecture: concepts/ksql-architecture.md
         - KSQL and Kafka Streams: concepts/ksql-and-kafka-streams.md
         - Time and Windows in KSQL: concepts/time-and-windows-in-ksql-queries.md
-#        - Styling Your Docs: user-guide/styling-your-docs.md
-#        - Configuration: user-guide/configuration.md
-#        - Deploying Your Docs: user-guide/deploying-your-docs.md
-    #     - Custom Themes: user-guide/custom-themes.md
-    #     - Plugins: user-guide/plugins.md
-    # - About:
-    #     - Release Notes: about/release-notes.md
-    #     - Contributing: about/contributing.md
-    #     - License: about/license.md
+    - Developer Guide:
+        - Aggregate Streaming Data With KSQL: developer-guide/aggregate-streaming-data.md
+        - KSQL REST API Reference: developer-guide/api.md
+        - Create a KSQL Stream: developer-guide/create-a-stream.md
+        - Create a KSQL Table: developer-guide/create-a-table.md
+        - Implement a User-defined Function (UDF and UDAF): developer-guide/implement-a-udf.md
+        - Join Event Streams with KSQL: developer-guide/join-streams-and-tables.md
+        - KSQL-Connect Integration: developer-guide/ksql-connect.md
+        - KSQL Testing Tool: developer-guide/ksql-testing-tool.md
+        - KSQL Processing Log: developer-guide/processing-log.md
+        - Query With Arrays and Maps: developer-guide/query-with-arrays-and-maps.md
+        - Query With Structured Data: developer-guide/query-with-structured-data.md
+        - KSQL Serialization: developer-guide/serialization.md
+        - KSQL Syntax Reference: developer-guide/syntax-reference.md
+        - Transform a Stream With KSQL: developer-guide/transform-a-stream-with-ksql.md
+        - KSQL Custom Function Reference (UDF and UDAF): developer-guide/udf.md
+
 
 # extra_css:
 #     - css/extra.css
